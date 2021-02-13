@@ -1,0 +1,30 @@
+import Vue from 'vue'
+import './registerServiceWorker'
+import '@/assets/css/index.css'
+
+import store from './store'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import './config';
+
+import App from './App.vue'
+ 
+Vue.config.productionTip = false
+
+document.addEventListener('scroll' , function (){
+  store.commit('everyScroll', window.scrollY)
+})
+
+firebase.auth().onAuthStateChanged((user) => {
+
+  if(user) store.dispatch('user/UserCommit', user) 
+  else console.log('user belum login')
+
+  new Vue({
+    store,
+    render: h => h(App),
+  }).$mount('#app')
+
+})
+

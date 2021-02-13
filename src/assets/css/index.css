@@ -1,0 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
+
+@import './tailwind.css';
+@import './transition.css';

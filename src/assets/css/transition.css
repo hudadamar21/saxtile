@@ -1,0 +1,15 @@
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: transfrom opacity .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(-500px);
+  opacity: 0;
+}
+
+.slide-down-fade-enter-active, .slide-down-fade-leave-active {
+  transition: transfrom opacity .3s ease;
+}
+.slide-down-fade-enter, .slide-down-fade-leave-to {
+  transform: translateY(-500px);
+  opacity: 0;
+}
