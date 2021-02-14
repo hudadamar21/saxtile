@@ -4,6 +4,7 @@
     <div class="flex flex-col lg:flex-row w-full">
       <Input
         class="mb-2 lg:mb-0 mr-2"
+        :class="{'bg-blue-50' : isUpdate}"
         name="Title"
         sizeClass="w-full lg:w-3/12"
         :valid="validation" 
@@ -11,6 +12,7 @@
         @getval="(val) => input.title = val"/>
       <Input
         class="mb-2 lg:mb-0 mr-2"
+        :class="{'bg-blue-50' : isUpdate}"
         name="paste your link or something text"
         sizeClass="w-full lg:w-9/12"
         :valid="validation" 

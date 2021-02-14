@@ -1,6 +1,6 @@
 // Inside vue.config.js
 module.exports = {
-  publicPath: '/saxtile',
+  publicPath: '/saxtile/',
   // ...other vue-cli plugin options...
   pwa: {
     name: 'Saxtile',

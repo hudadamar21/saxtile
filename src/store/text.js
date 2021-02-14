@@ -14,9 +14,6 @@ export default {
       updateTextId: null,
       isUpdate: false,
       validation: null,
-
-      collectionData: null,
-      openModal: false
     }
   },
   mutations: {
@@ -43,9 +40,6 @@ export default {
     SET_COLLECTION_DATA(state, value){
       state.collectionData = value
     },
-    SET_OPEN_MODAL(state, value){
-      state.openModal = value
-    }
   },
   actions: {
     List({state, rootGetters, dispatch, commit}){
@@ -62,6 +56,7 @@ export default {
             commit('SET_LOADING', false)
           })
       }, {root:true})
+
     },
     Save({rootGetters, dispatch}, newText){
       dispatch('user/ValidationUser', () => {

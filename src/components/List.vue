@@ -3,7 +3,7 @@
   
   <!-- shadow on left when list update -->
   <transition name="fade">
-    <div class="bg-gradient-to-r to-transparent opacity-50 absolute left-0 w-3 h-full z-50" 
+    <div class="bg-gradient-to-r to-transparent opacity-30 absolute left-0 w-3 h-full z-20" 
          :class="mode == 'light' ? 'from-gray-400' : 'from-gray-700'"
          v-if="showOption == data.id">
     </div>

@@ -36,7 +36,7 @@ import {
 } from "@/components"
 
 import TextForm from './TextForm';
-import TextList from './TextList/index';
+import TextList from './Textlist';
 import TextShowCollection from './TextShowCollection';
 import TextFormCollection from '../TextFormCollection';
 import { mapState } from 'vuex';
