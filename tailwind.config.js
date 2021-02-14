@@ -9,9 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blue: colors.lightBlue,
         orange: colors.orange,
-        gray: colors.coolGray
+        'primary-white': '#eeeeee',
+        'primary-blue': '#00adb5',
+        'primary-black': '#222831',
+        'primary-gray': '#393e46'
       },
       animation: {
         none: 'none',

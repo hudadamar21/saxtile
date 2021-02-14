@@ -58,9 +58,12 @@ export default {
     colorMode(property, size){
       return this.isRegister ? `${property}-green-${size}` : `${property}-blue-${size}`
     },
+    dispatchUser(ref, data){
+      this.$store.dispatch(ref, data, {root: true})
+    },
     submit(form) {
-      if(this.isRegister) this.$store.dispatch('user/Register', form, {root: true})
-      else this.$store.dispatch('user/Login', form, {root: true})
+      this.isRegister ? this.dispatchUser('user/Register', form)
+                      : this.dispatchUser('user/Login', form)
     }
   }
 };

@@ -7,6 +7,7 @@ import Modal from './Modal.vue';
 import ProgressUpload from './ProgressUpload.vue';
 import Skeleton from './Skeleton.vue';
 import SVGIcon from './SVGIcon.vue';
+import Layout from './Layout.vue';
 
 export {
   Button,
@@ -17,5 +18,6 @@ export {
   Modal,
   ProgressUpload,
   Skeleton,
-  SVGIcon
+  SVGIcon,
+  Layout
 }

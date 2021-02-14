@@ -64,10 +64,12 @@
 <script>
 
 import { mapState } from 'vuex'
+import storeText from '@/mixins/store_text'
 
 import { List, SVGIcon, Button, ButtonCircle } from "@/components"
 
 export default {
+  mixins: [storeText],
   components: {
     List,
     SVGIcon,
@@ -107,13 +109,6 @@ export default {
       return !!pattern.test(string);
     },
 
-    commitText(action, data){
-      this.$store.commit(`text/${action}`, data, {root: true})
-    },
-    commitTextCollection(action, data){
-      this.$store.commit(`textCollection/${action}`, data, {root: true})
-    },
-
     editText({title,content, id}) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       this.commitText('SET_IS_UPDATE', true)
@@ -124,7 +119,6 @@ export default {
     deleteText(id) {
       if (confirm("yakin ?")) {
         this.$store.dispatch('text/Delete', id, {root: true})
-        this.isUpdate = false
         this.commitText('SET_IS_UPDATE', false)
         this.commitText('SET_INPUT', {title : '', content: ''})
       }

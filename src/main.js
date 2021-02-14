@@ -9,7 +9,8 @@ import 'firebase/auth';
 import './config';
 
 import App from './App.vue'
- 
+import router from './router'
+
 Vue.config.productionTip = false
 
 document.addEventListener('scroll' , function (){
@@ -23,7 +24,8 @@ firebase.auth().onAuthStateChanged((user) => {
 
   new Vue({
     store,
-    render: h => h(App),
+    router,
+    render: h => h(App)
   }).$mount('#app')
 
 })

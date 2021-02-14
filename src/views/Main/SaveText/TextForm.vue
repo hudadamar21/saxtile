@@ -30,8 +30,10 @@ import {
   Button
 } from "@/components"
 import { mapState } from 'vuex'
+import storeText from '@/mixins/store_text'
 
 export default {
+  mixins: [storeText],
   components: {
     Input,
     Button
@@ -47,31 +49,26 @@ export default {
   },
   methods: {
     saveText() {
-      const { commit, dispatch } = this.$store
       const { title, content } = this.input
       console.log(title,content)
       if (title && content) {
-        if (this.isUpdate) {
-          const updateText = {
-            updateTextId: this.updateTextId,
-            title,
-            content
-          }
-          dispatch('text/Update', updateText, {root: true})
-          commit('text/SET_IS_UPDATE', false, {root: true})
-        } else {
-          const newText = {
-            title,
-            content,
-            date: new Date().getTime(),
-          }
-          dispatch('text/Save', newText, {root: true})
+        const Text = {
+          title,
+          content,
+          date: new Date().getTime(),
         }
-        commit('text/SET_IS_UPDATE', false, {root: true})
+
+        this.isUpdate
+          ? this.dispatchText('Update', Text)
+          : this.dispatchText('Save', Text)
+
+        this.commitText('SET_IS_UPDATE', false)
+        this.commitText('SET_INPUT', {title: '', content: ''})
+        this.commitText('SET_SHOW_OPTION', null)
       } else {
-        commit('text/SET_VALIDATION', 'text required..', {root: true})
+        this.$store.commit('SET_VALIDATION', 'this is required..')
         setTimeout(() => {
-          commit('text/SET_VALIDATION', '', {root: true})
+          this.$store.commit('SET_VALIDATION', '')
         }, 3000)
       }
     },

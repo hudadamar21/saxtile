@@ -7,7 +7,6 @@ export default {
   state: () => {
     return {
       all: [],
-      
 
       // File Form
       filename: '',

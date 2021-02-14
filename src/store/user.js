@@ -1,12 +1,13 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-
+import router from '../router'
 export default {
   namespaced: true,
   state: () => {
     return {
       uid: '',
+      username: '',
       email: '',
       displayName: ''
     }
@@ -29,7 +30,7 @@ export default {
 
     SET_USER(state, {uid, email, displayName}){
       state.uid = uid
-      state.email = email,
+      state.email = email
       state.displayName = displayName
     },
 
@@ -37,7 +38,6 @@ export default {
   actions: {
 
     UserCommit({commit},{uid,email,displayName}){
-      localStorage.setItem('user', JSON.stringify({uid,email,displayName}))
       commit('SET_USER', {uid,email,displayName})
     },
 
@@ -54,8 +54,9 @@ export default {
       commit('SET_LOADING', true, {root: true})
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((data) => {
+
           dispatch('UserCommit', data.user)
-          alert('Behasil login!')
+          router.push({ path: `/user/${data.user.uid}` })
           commit('SET_LOADING', false, {root: true})
         })
         .catch(err => {
@@ -73,8 +74,10 @@ export default {
           user.updateProfile({
             displayName: name
           }).then(() => dispatch('UserCommit', user))
+          let username = email.split('@')[0]
           firebase.firestore().collection('users').doc(user.uid).set({
             email,
+            username,
             displayName: name,
             createdAt: new Date().getTime()
           })

@@ -4,9 +4,6 @@
   <!-- Title -->
     <h1 class="stext-title text-2xl py-1 md:py-0 md:text-3xl">Save Text</h1>
 
-  <!-- Menu Toggle -->
-    <MenuToggle class="absolute top-0 left-0 m-4 p-1 z-50"/>
-
   <!--  Input New Text -->
     <div class="w-full px-5 mb-3">
       <TextForm />
@@ -16,39 +13,22 @@
     <Skeleton v-if="loadingList" mode="light" :count="3"/>
     <TextList v-else />
 
-  <transition name="slide-down-fade">
-    <TextFormCollection v-if="collectionData" :data="collectionData"/>
-  </transition>
-
-  <!-- Modal Open Collection -->
-  <transition name="slide-down-fade">
-    <TextShowCollection v-if="showCollection" />
-  </transition>
-
   </section>
 </template>
 
 <script>
 
-import {
-  MenuToggle,
-  Skeleton,
-} from "@/components"
+import { Skeleton } from "@/components"
 
 import TextForm from './TextForm';
 import TextList from './Textlist';
-import TextShowCollection from './TextShowCollection';
-import TextFormCollection from '../TextFormCollection';
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    MenuToggle,
     Skeleton,
     TextForm,
-    TextList,
-    TextShowCollection,
-    TextFormCollection
+    TextList
   },
   computed: {
     ...mapState({
@@ -64,8 +44,14 @@ export default {
       actionCompleteId: null
     }
   },
+  created(){
+    if(this.$route.params.userId != this.$store.state.user.uid){
+      this.$router.push({path: `/user/${this.$store.state.user.uid}`})
+    }
+  },
   mounted(){
     this.$store.dispatch('text/List', null, {root: true})
+
   },
   methods: {
     closeModal(){

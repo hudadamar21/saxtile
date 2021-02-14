@@ -59,20 +59,17 @@ export default {
 
     },
     Save({rootGetters, dispatch}, newText){
+      console.log(newText);
       dispatch('user/ValidationUser', () => {
         rootGetters['user/userRef'].collection('text').add(newText)
           .then(() => console.log('Text Berhasil di simpan'))
           .catch(err => console.log("Save Error Message: " + err))
       }, {root:true})
     },
-    Update({rootGetters, dispatch}, {updateTextId, title, text}){
+    Update({rootGetters, dispatch, state}, updateText){
       dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef'].collection('text').doc(updateTextId)
-          .update({
-            title: title,
-            content: text,
-            date: new Date().getTime(),
-          })
+        console.log(state.updateTextId);
+        rootGetters['user/userRef'].collection('text').doc(state.updateTextId).update(updateText)
           .then(() => console.log('Data berhasil diupdate!'))
           .catch(err => console.log('Data gagal diupdate! - ', err))
       }, {root:true})
