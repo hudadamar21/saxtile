@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import user from './user';
 import text from './text';
-import textCollection from './textCollection';
+import text_collection from './text_collection';
 import file from './file';
 
 Vue.use(Vuex)
@@ -29,7 +29,7 @@ export default new Vuex.Store({
   modules: {
     user,
     text,
-    textCollection,
+    text_collection,
     file
   }
 })

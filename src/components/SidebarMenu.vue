@@ -4,14 +4,15 @@
         <div class="flex justify-end w-full items-center">
           <small class="text-sm lg:text-base">Hallo, {{ user.displayName }}</small>
         </div>
-        <h3 class="text-blue-400 font-bold mt-3 mb-2">Menu</h3>
+        <h3 class="font-bold mt-3 mb-2 text-blue-500">Menu</h3>
         <ul class="w-full text-left mb-3 py-1 bg-white rounded shadow transition-max-height ">
           <li 
             v-for="menu of menuList" 
             :key="menu.name"
             class="overflow-hidden"
+            @click="$store.commit('TOGGLE_MENU')"
           >
-            <router-link 
+            <router-link
               class="text-base py-1 ml-2 text-gray-800 hover:text-blue-400 cursor-pointer" 
               :to="menu.url">
                {{ menu.name}}

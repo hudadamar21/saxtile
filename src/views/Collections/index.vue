@@ -1,21 +1,21 @@
 <template>
   <Layout>
-    <section class="stext-collection-main md:h-screen min-h-screen w-full md:w-1/2 bg-primary-white" id="savetext-collection">
-
-    </section>
-    <section class="sfile-collection-main md:h-screen min-h-screen w-full md:w-1/2 bg-primary-black" id="savefile-collection">
-
-    </section>
+    <SaveTextCollection />
+    <SaveFileCollection />
   </Layout>
 </template>
 
 <script>
 
 import {Layout} from '@/components'
+import SaveTextCollection from './SaveTextCollection'
+import SaveFileCollection from './SaveFileCollection'
 
 export default {
   components: {
-    Layout
+    Layout,
+    SaveTextCollection,
+    SaveFileCollection
   },
   methods: {
     setTextCollectionModal(){

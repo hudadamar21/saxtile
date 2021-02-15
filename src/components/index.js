@@ -1,13 +1,15 @@
-import Button from './Button.vue';
-import ButtonCircle from './ButtonCircle.vue';
-import Input from './Input.vue';
-import List from './List.vue';
-import MenuToggle from './MenuToggle.vue';
-import Modal from './Modal.vue';
-import ProgressUpload from './ProgressUpload.vue';
-import Skeleton from './Skeleton.vue';
-import SVGIcon from './SVGIcon.vue';
-import Layout from './Layout.vue';
+import Button from './Button';
+import ButtonCircle from './ButtonCircle';
+import Input from './Input';
+import List from './List';
+import MenuToggle from './MenuToggle';
+import Modal from './Modal';
+import ProgressUpload from './ProgressUpload';
+import Skeleton from './Skeleton';
+import SVGIcon from './SVGIcon';
+import Layout from './Layout';
+import SidebarMenu from './SidebarMenu';
+
 
 export {
   Button,
@@ -19,5 +21,6 @@ export {
   ProgressUpload,
   Skeleton,
   SVGIcon,
-  Layout
+  Layout,
+  SidebarMenu
 }

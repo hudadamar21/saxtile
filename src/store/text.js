@@ -56,10 +56,8 @@ export default {
             commit('SET_LOADING', false)
           })
       }, {root:true})
-
     },
     Save({rootGetters, dispatch}, newText){
-      console.log(newText);
       dispatch('user/ValidationUser', () => {
         rootGetters['user/userRef'].collection('text').add(newText)
           .then(() => console.log('Text Berhasil di simpan'))
@@ -68,7 +66,6 @@ export default {
     },
     Update({rootGetters, dispatch, state}, updateText){
       dispatch('user/ValidationUser', () => {
-        console.log(state.updateTextId);
         rootGetters['user/userRef'].collection('text').doc(state.updateTextId).update(updateText)
           .then(() => console.log('Data berhasil diupdate!'))
           .catch(err => console.log('Data gagal diupdate! - ', err))

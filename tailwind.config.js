@@ -10,10 +10,7 @@ module.exports = {
     extend: {
       colors: {
         orange: colors.orange,
-        'primary-white': '#eeeeee',
-        'primary-blue': '#00adb5',
-        'primary-black': '#222831',
-        'primary-gray': '#393e46'
+        blue : colors.lightBlue
       },
       animation: {
         none: 'none',

@@ -1,6 +1,8 @@
 <template>
   <button
-    :class="`focus:outline-none focus:border-blue-500 focus:border-3 rounded ${padding || 'px-3 py-1'} ${shadow || ''}
+    :class="`focus:outline-none focus:border-blue-500 focus:border-3 rounded
+      ${padding || 'px-3 py-1'}
+      ${shadow || ''}
       ${coloring}
       ${sizing} 
       ${className || ''} `"
@@ -24,7 +26,7 @@ export default {
     coloring(){
       return this.color == 'white' 
           ? 'bg-primary-white hover:bg-gray-200 text-gray-700'
-          : `bg-${this.color}-500 hover:bg-${this.color}-600 text-primary-white`
+          : `bg-${this.color}-500 hover:bg-${this.color}-600 text-white`
     },
     sizing(){
       return this.lg ? 'text-lg' 
@@ -35,6 +37,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

@@ -1,16 +1,16 @@
 <template>
   <div class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
     <transition name="slide-fade">
-      <Menu v-if="menu"/>
+      <SidebarMenu v-if="menu"/>
     </transition>
     <section class="flex flex-col md:flex-row w-full">
       <slot></slot>
     </section>
     <div class="indicator-container">
-      <a href="#savetext" class="indicator bg-blue-500">
+      <a :href="toSavetext" class="indicator bg-blue-500">
         <strong>Text</strong>
       </a>
-      <a href="#savefile" class="indicator bg-gray-700">
+      <a :href="toSavefile" class="indicator bg-gray-700">
         <strong>File</strong>
       </a>
     </div>
@@ -20,19 +20,27 @@
 
 <script>
 
-import Menu from '@/views/Main/Menu';
-import { MenuToggle } from '@/components';
+import { SidebarMenu, MenuToggle } from '@/components';
 
 export default {
   components: {
-    Menu,
+    SidebarMenu,
     MenuToggle
   },
   computed: {
     menu(){
       return this.$store.state.menu
+    },
+    toSavetext(){
+      return this.$route.name == 'collections' ? '#savetext-collection' : '#savetext'
+    },
+    toSavefile(){
+      return this.$route.name == 'collections' ? '#savefile-collection' : '#savefile'
     }
   },
+  mounted(){
+    console.log(this.$route.name);
+  }
 };
 </script>
 

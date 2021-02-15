@@ -15,7 +15,7 @@ const routes = [
   { path: '*', component: NotFound},
   {
     path: '/',
-    name: 'Auth',
+    name: 'auth',
     component: Auth,
     meta: {
       hideForAuth: true

@@ -21,12 +21,10 @@ export default {
   props: {
     count: {
       type: Number,
-      required: true,
       default: 1
     },
     mode : {
       type: String,
-      required: true,
       default: 'light'
     }
   },

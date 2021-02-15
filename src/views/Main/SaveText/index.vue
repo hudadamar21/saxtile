@@ -22,7 +22,6 @@ import { Skeleton } from "@/components"
 
 import TextForm from './TextForm';
 import TextList from './Textlist';
-import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -31,13 +30,9 @@ export default {
     TextList
   },
   computed: {
-    ...mapState({
-      loadingList: state => state.text.loadingList,
-      showCollection: state => state.textCollection.showCollection,
-      collectionData: state => state.textCollection.collectionData,
-      textCollectionIsUpdate: state => state.textCollection.isUpdate,
-      openForm: state => state.textCollection.openForm
-    })
+    loadingList(){
+      return this.$store.state.text.loadingList
+    }
   },
   data() {
     return {
@@ -45,18 +40,14 @@ export default {
     }
   },
   created(){
-    if(this.$route.params.userId != this.$store.state.user.uid){
-      this.$router.push({path: `/user/${this.$store.state.user.uid}`})
+    const user_uid = this.$store.state.user.uid
+    if(this.$route.params.userId != user_uid){
+      this.$router.push({path: `/user/${user_uid}`})
     }
   },
   mounted(){
     this.$store.dispatch('text/List', null, {root: true})
 
-  },
-  methods: {
-    closeModal(){
-      this.$store.commit('textCollection/SET_OPEN_MODAL', false, {root: true})
-    }
   }
 }
 </script>

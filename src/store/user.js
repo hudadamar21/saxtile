@@ -93,8 +93,8 @@ export default {
 
     Logout({commit}){
       firebase.auth().signOut()
-      localStorage.removeItem('user')
       commit('SET_USER', {uid: '', email: '', displayName: null})
+      router.push({name: 'auth'})
     }
 
   }

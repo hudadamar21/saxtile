@@ -13,3 +13,14 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+firebase.firestore().settings({
+  cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+});
+
+firebase.firestore().enablePersistence()
+	.catch(function(err) {
+		if (err.code == 'unimplemented') {
+			alert('Brower not support offline Webapp')
+	}
+});
