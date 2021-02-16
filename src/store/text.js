@@ -35,17 +35,17 @@ export default {
     SET_VALIDATION(state, value){
       state.validation = value
     },
-
-    // OPEN Collection
-    SET_COLLECTION_DATA(state, value){
-      state.collectionData = value
-    },
   },
   actions: {
-    List({state, rootGetters, dispatch, commit}){
+    List({state, rootGetters, rootState, dispatch, commit}){
       dispatch('user/ValidationUser', () => {
+
         commit('SET_LOADING', true)
-        rootGetters['user/userRef'].collection('text').orderBy("date", "desc")
+        const {property, type} = rootState.setting.orderBy
+
+        rootGetters['user/userRef']
+          .collection('text')
+          .orderBy(property, type)
           .onSnapshot(snaps => {
             state.all = []
             snaps.forEach(snap => {
@@ -55,27 +55,42 @@ export default {
             })
             commit('SET_LOADING', false)
           })
+
       }, {root:true})
     },
     Save({rootGetters, dispatch}, newText){
       dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef'].collection('text').add(newText)
-          .then(() => console.log('Text Berhasil di simpan'))
-          .catch(err => console.log("Save Error Message: " + err))
+
+        rootGetters['user/userRef']
+          .collection('text')
+          .add(newText)
+            .then(() => console.log('Text Berhasil di simpan'))
+            .catch(err => console.log("Save Error Message: " + err))
+
       }, {root:true})
     },
     Update({rootGetters, dispatch, state}, updateText){
       dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef'].collection('text').doc(state.updateTextId).update(updateText)
-          .then(() => console.log('Data berhasil diupdate!'))
-          .catch(err => console.log('Data gagal diupdate! - ', err))
+
+        rootGetters['user/userRef']
+          .collection('text')
+          .doc(state.updateTextId)
+          .update(updateText)
+            .then(() => console.log('Data berhasil diupdate!'))
+            .catch(err => console.log('Data gagal diupdate! - ', err))
+
       }, {root:true})
     },
     Delete({rootGetters, dispatch}, id){
       dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef'].collection('text').doc(id).delete()
-          .then(() => console.log("Data berhasil dihapus!"))
-          .catch(err => console.log("Data gagal dihapus! - ",err))
+
+        rootGetters['user/userRef']
+          .collection('text')
+          .doc(id)
+          .delete()
+            .then(() => console.log("Data berhasil dihapus!"))
+            .catch(err => console.log("Data gagal dihapus! - ",err))
+
       }, {root:true})
     }
 

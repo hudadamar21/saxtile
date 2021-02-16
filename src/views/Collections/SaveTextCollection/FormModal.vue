@@ -1,6 +1,5 @@
 <template>
   <Modal
-    class="z-infinite"
     :title="`${collection_data ? 'Edit' : ''} Text Collection`" 
     @closemodal="closeModal"
   >
@@ -115,7 +114,7 @@
           lg 
           class="justify-self mx-3"
           @click.native="saveCollection">
-          {{ collection_data ? 'Update' : 'Save'}} Collection
+          {{ is_collection_update ? 'Update' : 'Save'}} Collection
         </Button>
       </div>
       <!-- END save text collection -->
@@ -135,7 +134,7 @@ import {
   SVGIcon
 } from "@/components"
 
-import { mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   props: {
@@ -160,12 +159,13 @@ export default {
     }
   },
   computed: {
-    collection_data(){
-      return this.$store.state.text_collection.collection_data
-    }
+    ...mapState('text_collection', [
+      'collection_data',
+      'is_collection_update'
+    ])
   },
   created(){
-    if(this.collection_data){
+    if(this.collection_data.id){
       const {title, prefix, content, date} = this.collection_data
       this.textCollection = {
         title,
@@ -200,13 +200,12 @@ export default {
       let validateInput = title && content.filter(text => text).length > 0 ? true : false
       if(validateInput){
         this.textCollection.date = new Date().getTime()
-        console.log(this.textCollection)
-        if(this.collection_data){
+        if(this.is_collection_update && this.collection_data.id){
           this.textCollection.date = new Date().getTime()
           const updatedCollection = {
             id: this.collection_data.id,
             data: this.textCollection
-          }
+          } 
           this.Update(updatedCollection)
           this.setCollectionData({})
           this.setOpenCollection(false)
@@ -219,8 +218,10 @@ export default {
       }
     },
     closeModal(){
+      console.log(this.textCollection);
       let {title,prefix,content} = this.textCollection
       if(!title && !prefix && content.filter(text => text).length < 1){
+
         this.$emit('close', false)
       } else {
         let message = 'Close akan menghapus collection yang telah di tulis, Apakah anda Yakin ?'
@@ -232,9 +233,6 @@ export default {
 </script>
 
 <style>
-  .z-infinite {
-    z-index: 999999;
-  }
   .-bottom-5{
     bottom: -2.25rem;
   }

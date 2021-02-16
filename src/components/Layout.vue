@@ -6,7 +6,7 @@
     <section class="flex flex-col md:flex-row w-full">
       <slot></slot>
     </section>
-    <div class="indicator-container">
+    <div v-if="!noIndicator" class="indicator-container">
       <a :href="toSavetext" class="indicator bg-blue-500">
         <strong>Text</strong>
       </a>
@@ -23,6 +23,9 @@
 import { SidebarMenu, MenuToggle } from '@/components';
 
 export default {
+  props: {
+    noIndicator: Boolean
+  },
   components: {
     SidebarMenu,
     MenuToggle
@@ -37,9 +40,6 @@ export default {
     toSavefile(){
       return this.$route.name == 'collections' ? '#savefile-collection' : '#savefile'
     }
-  },
-  mounted(){
-    console.log(this.$route.name);
   }
 };
 </script>

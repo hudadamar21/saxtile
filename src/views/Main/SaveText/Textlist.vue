@@ -30,9 +30,9 @@
       <div class="flex items-center">
         <Button
           color="green" 
-          @click.stop.native="copyText(list.content)"
+          @click.stop.native="copyText(list.content, list.id)"
           sm>
-          <p>{{ textCopied ? 'copied' : 'copy'}}</p>
+          <p>{{ textCopied == list.id ? 'copied' : 'copy'}}</p>
         </Button>
         <a v-if="isUrl(list.content)"
           @click.stop
@@ -41,7 +41,7 @@
           target="_blank" title="go to link"
         >
           <SVGIcon icon="goto" size="w-5 h-5" />
-          </a>
+        </a>
       </div>
     </template>
 
@@ -63,13 +63,13 @@
 
 <script>
 
-import { mapState } from 'vuex'
-import storeText from '@/mixins/store_text'
+import { mapState, mapMutations } from 'vuex'
+import action_text from '@/mixins/action_text'
 
 import { List, SVGIcon, Button, ButtonCircle } from "@/components"
 
 export default {
-  mixins: [storeText],
+  mixins: [action_text],
   components: {
     List,
     SVGIcon,
@@ -78,7 +78,7 @@ export default {
   },
   data(){
     return {
-      textCopied: false
+      textCopied: null
     }
   },
   computed: {
@@ -89,51 +89,46 @@ export default {
     })
   },
   methods: {
-    
-    copyText(content) {
-      this.$copyText(content).then(() => {
-        this.textCopied = true
-        setTimeout(() => {
-        this.textCopied = false
-        }, 1000);
-      }).catch(() => alert('not copied'))
-    },
-
-    isUrl(string){
-      var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-      return !!pattern.test(string);
-    },
-
+    ...mapMutations('text', {
+      setIsUpdate: 'SET_IS_UPDATE',
+      setInput: 'SET_INPUT',
+      setUpdateTextId: 'SET_UPDATE_TEXT_ID',
+      setShowOption: 'SET_SHOW_OPTION'
+    }),
     editText({title,content, id}) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
-      this.commitText('SET_IS_UPDATE', true)
-      this.commitText('SET_INPUT', {title, content})
-      this.commitText('SET_UPDATE_TEXT_ID', id)
+      // this.commitText('SET_IS_UPDATE', true)
+      // this.commitText('SET_INPUT', {title, content})
+      // this.commitText('SET_UPDATE_TEXT_ID', id)
+      this.setIsUpdate(true)
+      this.setInput({title, content})
+      this.setUpdateTextId(id)
     },
     
     deleteText(id) {
       if (confirm("yakin ?")) {
         this.$store.dispatch('text/Delete', id, {root: true})
-        this.commitText('SET_IS_UPDATE', false)
-        this.commitText('SET_INPUT', {title : '', content: ''})
+        // this.commitText('SET_IS_UPDATE', false)
+        // this.commitText('SET_INPUT', {title : '', content: ''})
+        this.setIsUpdate(false)
+        this.setInput({title : '', content: ''})
       }
     },
     
     toggle(id){
       console.log(this.showOption, id)
       if (!this.isUpdate && this.showOption == id) {
-        this.commitText('SET_SHOW_OPTION', null)
+        // this.commitText('SET_SHOW_OPTION', null)
+        this.setShowOption(null)
       } else {
         if(this.isUpdate) {
-          this.commitText('SET_IS_UPDATE', false)
-          this.commitText('SET_SHOW_OPTION', null)
-          this.commitText('SET_INPUT', {title: '',content: ''})
-        } else this.commitText('SET_SHOW_OPTION', id)
+          // this.commitText('SET_IS_UPDATE', false)
+          // this.commitText('SET_SHOW_OPTION', null)
+          // this.commitText('SET_INPUT', {title: '',content: ''})
+          this.setIsUpdate(false)
+          this.setShowOption(null)
+          this.setInput({title: '',content: ''})
+        } else this.setShowOption(id) //this.commitText('SET_SHOW_OPTION', id)
       }
     }
   }

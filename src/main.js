@@ -13,9 +13,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-document.addEventListener('scroll' , function (){
-  store.commit('everyScroll', window.scrollY)
-})
+// store.commit('SET_SETTING', JSON.parse())
 
 firebase.auth().onAuthStateChanged((user) => {
 

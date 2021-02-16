@@ -6,6 +6,7 @@ import Main from '@/views/Main/index.vue'
 import Auth from '@/views/Auth/index.vue'
 
 import Collections from '@/views/Collections/index.vue'
+import Setting from '@/views/Setting'
 
 import NotFound from '@/views/NotFound.vue'
 
@@ -13,6 +14,7 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '*', component: NotFound},
+  { path: '/user', redirect: '/' },
   {
     path: '/',
     name: 'auth',
@@ -21,7 +23,6 @@ const routes = [
       hideForAuth: true
     }
   },
-  { path: '/user', redirect: '/' },
   {
     path: '/user/:userId',
     name: 'main',
@@ -38,6 +39,15 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/user/:userId/setting',
+    name: 'setting',
+    component: Setting,
+    meta: {
+      requiresAuth: true
+    }
+  }
+  
 ]
 
 
