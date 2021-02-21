@@ -13,22 +13,39 @@ export default new Vuex.Store({
     menu: false,
     loading: false,
     setting: {
-      orderBy: ['date','desc']
+      orderBy: {
+        property: 'date',
+        type: 'desc'
+      }
+    },
+    alert: {
+      message: '',
+      mode: ''
     }
   },
   mutations: {
-    TOGGLE_MENU(state){
+    TOGGLE_MENU(state) {
       state.menu = !state.menu
     },
-    SET_LOADING(state, value){
+    SET_LOADING(state, value) {
       state.loading = value
     },
-    SET_SETTING(state, value){
+    SET_SETTING(state, value) {
       state.setting = value
     },
-    SET_ORDER_BY(state, value){
+    SET_ORDER_BY(state, value) {
       state.setting.orderBy = value
-      window.localStorage.setItem('setting',state.setting)
+    },
+    SET_SHOW_ALERT(state, value) {
+      state.alert = value
+    }
+  },
+  actions: {
+    showAlert({ commit }, { message, mode = 'info', duration = 3000 }) {
+      commit('SET_SHOW_ALERT', { message, mode })
+      setTimeout(() => {
+        commit('SET_SHOW_ALERT', { message: '', mode: '' })
+      }, duration);
     }
   },
   modules: {

@@ -14,9 +14,9 @@ export default {
   },
   getters: {
 
-    userRef(state){
+    userRef(state) {
       const firebase_uid = firebase.auth().currentUser.uid
-      if(firebase_uid === state.uid){
+      if (firebase_uid === state.uid) {
         return firebase.firestore().collection('users').doc(state.uid)
       } else {
         return false
@@ -28,7 +28,7 @@ export default {
   },
   mutations: {
 
-    SET_USER(state, {uid, email, displayName}){
+    SET_USER(state, { uid, email, displayName }) {
       state.uid = uid
       state.email = email
       state.displayName = displayName
@@ -37,64 +37,73 @@ export default {
   },
   actions: {
 
-    UserCommit({commit},{uid,email,displayName}){
-      commit('SET_USER', {uid,email,displayName})
-    },
-
-    ValidationUser({getters, dispatch}, action){
-      if(getters.userRef){
+    ValidationUser({ getters, dispatch }, action) {
+      if (getters.userRef) {
         action()
       } else {
-        alert('Terjadi kesalahan, silahkan login kembali')
-        dispatch('user/Logout', null, {root:true})
+        dispatch('showAlert', { message: 'Terjadi kesalahan, silahkan login kembali', info: 'danger' }, { root: true })
+        dispatch('user/Logout', null, { root: true })
       }
     },
 
-    Login({dispatch, commit}, {email, password}){
-      commit('SET_LOADING', true, {root: true})
+    Login({ dispatch, commit }, { email, password }) {
+      commit('SET_LOADING', true, { root: true })
+
+      // login with email and password
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((data) => {
-
-          dispatch('UserCommit', data.user)
+          commit('SET_USER', data.user)
           router.push({ path: `/user/${data.user.uid}` })
-          commit('SET_LOADING', false, {root: true})
+          commit('SET_LOADING', false, { root: true })
+          dispatch('showAlert', { message: "You're login to Saxtile" }, { root: true })
         })
         .catch(err => {
-          commit('SET_LOADING', false, {root: true})
-          console.log('Login Gagal - ', err)
+          commit('SET_LOADING', false, { root: true })
+          dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
         })
-      
     },
 
-    Register({dispatch, commit}, {name, email, password}) {
-      commit('SET_LOADING', true, {root: true})
+    Register({ dispatch, commit }, { name, email, password }) {
+      commit('SET_LOADING', true, { root: true })
+
+      // register with email and password
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
           const user = firebase.auth().currentUser
+
+          // set dispayName with registration name
           user.updateProfile({
             displayName: name
-          }).then(() => dispatch('UserCommit', user))
+          }).then(() => commit('SET_USER', user))
+
+          // create username
           let username = email.split('@')[0]
+
+          // store user data to database
           firebase.firestore().collection('users').doc(user.uid).set({
             email,
             username,
             displayName: name,
             createdAt: new Date().getTime()
           })
-          alert('Register Success')
-          commit('SET_LOADING', false, {root: true})
+          dispatch('showAlert', { message: "Register success, Welcome to Saxtile" }, { root: true })
+          commit('SET_LOADING', false, { root: true })
         })
         .catch(err => {
-          console.log('Register Gagal - ', err)
-          commit('SET_LOADING', false, {root: true})
+          dispatch('showAlert', { message: "Error: " + err.message, mode: 'danger' }, { root: true })
+          commit('SET_LOADING', false, { root: true })
         })
-      
+
     },
 
-    Logout({commit}){
+    Logout({ commit, dispatch }) {
+
+      // logout user
       firebase.auth().signOut()
-      commit('SET_USER', {uid: '', email: '', displayName: null})
-      router.push({name: 'auth'})
+
+      commit('SET_USER', { uid: '', email: '', displayName: null })
+      dispatch('showAlert', { message: "You're logout, goodbye" }, { root: true })
+      router.push({ name: 'auth' })
     }
 
   }

@@ -11,13 +11,17 @@ import './config';
 import App from './App.vue'
 import router from './router'
 
+import setTitle from "@/mixins/set_title";
+
 Vue.config.productionTip = false
+
+Vue.mixin(setTitle)
 
 // store.commit('SET_SETTING', JSON.parse())
 
 firebase.auth().onAuthStateChanged((user) => {
 
-  if(user) store.dispatch('user/UserCommit', user) 
+  if (user) store.commit('user/SET_USER', user)
   else console.log('user belum login')
 
   new Vue({

@@ -20,24 +20,31 @@ export default {
     }
   },
   mutations: {
-    SET_LOADING(state, value){
+    SET_LOADING(state, value) {
       state.loadingList = value
     },
-    SET_FILENAME(state, value){
+    SET_FILENAME(state, value) {
       state.filename = value
     },
-    SET_FILE_UPLOAD(state, value){
+    SET_FILE_UPLOAD(state, value) {
       state.fileUpload = value
     },
-    SET_SHOW_OPTION(state, value){
+    SET_SHOW_OPTION(state, value) {
       state.showOption = value
     }
   },
   actions: {
-    List({state, rootGetters, dispatch, commit}){
+    List({ state, rootGetters, rootState, dispatch, commit }) {
+
+      // check user is valid
       dispatch('user/ValidationUser', () => {
         commit('SET_LOADING', true)
-        rootGetters['user/userRef'].collection('file')
+        const { property, type } = rootState.setting.orderBy
+
+        // get user reference
+        rootGetters['user/userRef']
+          .collection('file')
+          .orderBy(property, type)
           .onSnapshot(snaps => {
             state.all = []
             snaps.forEach(snap => {
@@ -47,45 +54,62 @@ export default {
             })
             commit('SET_LOADING', false)
           })
-      }, {root: true})
+      }, { root: true })
     },
-    Upload({state, rootGetters}, {filename, file}){
+    Upload({ state, rootGetters, dispatch }, { filename, file }) {
       const uid = firebase.auth().currentUser.uid
       const storage = firebase.storage().ref(uid)
       const uploadTask = storage.child(filename).put(file)
 
+      // get percentase progress
       uploadTask.on('state_changed', (snapshot) => {
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         state.progressUpload = parseInt(progress)
-      }, (error) => console.log("Uploading Error", error), () => { 
+      }, (error) => {
+        dispatch('showAlert', { message: error.message, mode: 'danger' }, { root: true })
+      }, () => {
+
+        // get link download file 
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           state.progressUpload = 0
           const newFile = {
             title: filename,
-            content: downloadURL,
+            content: downloadURL, // link file
             date: new Date().getTime()
           }
+
+          // add new file to database
           rootGetters['user/userRef'].collection('file').add(newFile)
-            .then(() => console.log("File Berhasil di Upload"))
-            .catch(err => console.log("Upload Error Message: " + err))
+            .then(() => {
+              dispatch('showAlert', { message: "File berhasil di Upload" }, { root: true })
+            })
+            .catch(err => {
+              dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+            })
 
         });
       });
       return true
     },
 
-    Delete({dispatch, rootGetters}, {title, id}){
+    Delete({ dispatch, rootGetters }, { title, id }) {
+
+      // check user is valid
       dispatch('user/ValidationUser', () => {
+
+        // delete file on storage
         firebase.storage().ref(rootGetters['user/userId']).child(title).delete()
           .then(() => {
-            console.log('File removed on Storage')
+
+            // delete dokumen file on database
             rootGetters['user/userRef'].collection('file').doc(id).delete()
-              .then(() => console.log('File Removed on database'))
-              .catch(() => console.log('Error during removed file on database'))
+              .then(() => dispatch('showAlert', { message: "File berhasil dihapus" }, { root: true }))
+              .catch(err => dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true }))
+
           })
-          .catch(() => console.log('Error during removed file on Storage'))
-      }, {root:true})
-      
+          .catch(err => dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true }))
+      }, { root: true })
+
     }
 
   }

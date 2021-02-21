@@ -6,6 +6,6 @@
 
 <script>
 export default {
-
+  title: 'Saxtile Not Found',
 }
 </script>

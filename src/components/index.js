@@ -9,6 +9,7 @@ import Skeleton from './Skeleton';
 import SVGIcon from './SVGIcon';
 import Layout from './Layout';
 import SidebarMenu from './SidebarMenu';
+import Alert from './Alert';
 
 
 export {
@@ -22,5 +23,6 @@ export {
   Skeleton,
   SVGIcon,
   Layout,
-  SidebarMenu
+  SidebarMenu,
+  Alert
 }

@@ -1,8 +1,22 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div v-if="$store.state.alert.message" class="absolute top-0 right-0 z-50 m-5">
+      <Alert
+        :mode="$store.state.alert.mode"
+        :message="$store.state.alert.message"
+        animation="opacity"
+      />
+    </div>
+    <router-view />
   </div>
 </template>
+
+<script>
+import { Alert } from '@/components'
+export default {
+  components: { Alert },
+}
+</script>
 
 <style>
 </style>

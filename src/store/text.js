@@ -17,31 +17,31 @@ export default {
     }
   },
   mutations: {
-    SET_LOADING(state, value){
+    SET_LOADING(state, value) {
       state.loadingList = value
     },
-    SET_INPUT(state, value){
-      state.input =  value
+    SET_INPUT(state, value) {
+      state.input = value
     },
-    SET_IS_UPDATE(state, value){
+    SET_IS_UPDATE(state, value) {
       state.isUpdate = value
     },
-    SET_SHOW_OPTION(state, value){
+    SET_SHOW_OPTION(state, value) {
       state.showOption = value
     },
-    SET_UPDATE_TEXT_ID(state, value){
+    SET_UPDATE_TEXT_ID(state, value) {
       state.updateTextId = value
     },
-    SET_VALIDATION(state, value){
+    SET_VALIDATION(state, value) {
       state.validation = value
     },
   },
   actions: {
-    List({state, rootGetters, rootState, dispatch, commit}){
+    List({ state, rootGetters, rootState, dispatch, commit }) {
       dispatch('user/ValidationUser', () => {
 
         commit('SET_LOADING', true)
-        const {property, type} = rootState.setting.orderBy
+        const { property, type } = rootState.setting.orderBy
 
         rootGetters['user/userRef']
           .collection('text')
@@ -56,42 +56,48 @@ export default {
             commit('SET_LOADING', false)
           })
 
-      }, {root:true})
+      }, { root: true })
     },
-    Save({rootGetters, dispatch}, newText){
+    Save({ rootGetters, dispatch }, newText) {
       dispatch('user/ValidationUser', () => {
 
         rootGetters['user/userRef']
           .collection('text')
           .add(newText)
-            .then(() => console.log('Text Berhasil di simpan'))
-            .catch(err => console.log("Save Error Message: " + err))
+          .then(() => dispatch('showAlert', { message: 'Text berhasil disimpan' }, { root: true }))
+          .catch(err => {
+            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+          })
 
-      }, {root:true})
+      }, { root: true })
     },
-    Update({rootGetters, dispatch, state}, updateText){
+    Update({ rootGetters, dispatch, state }, updateText) {
       dispatch('user/ValidationUser', () => {
 
         rootGetters['user/userRef']
           .collection('text')
           .doc(state.updateTextId)
           .update(updateText)
-            .then(() => console.log('Data berhasil diupdate!'))
-            .catch(err => console.log('Data gagal diupdate! - ', err))
+          .then(() => dispatch('showAlert', { message: 'Data berhasil diupdate' }, { root: true }))
+          .catch(err => {
+            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+          })
 
-      }, {root:true})
+      }, { root: true })
     },
-    Delete({rootGetters, dispatch}, id){
+    Delete({ rootGetters, dispatch, }, id) {
       dispatch('user/ValidationUser', () => {
 
         rootGetters['user/userRef']
           .collection('text')
           .doc(id)
           .delete()
-            .then(() => console.log("Data berhasil dihapus!"))
-            .catch(err => console.log("Data gagal dihapus! - ",err))
+          .then(() => dispatch('showAlert', { message: 'Data berhasil dihapus' }, { root: true }))
+          .catch(err => {
+            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+          })
 
-      }, {root:true})
+      }, { root: true })
     }
 
   }
