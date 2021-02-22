@@ -107,9 +107,6 @@
         <Button color="green" lg class="justify-self mx-3" @click.native="submitCollection">
           {{ is_update ? 'Update' : 'Save' }} Collection
         </Button>
-        <Button color="green" lg class="justify-self mx-3" @click.native="showCollectionData">
-          {{ is_update ? 'Update' : 'Save' }} Collection
-        </Button>
       </div>
       <!-- END save text collection -->
     </template>
@@ -117,8 +114,6 @@
 </template>
 
 <script>
-import { Button, ButtonCircle, Input, Modal, SVGIcon } from '@/components'
-
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -126,11 +121,11 @@ export default {
     data: Object,
   },
   components: {
-    Modal,
-    Button,
-    Input,
-    ButtonCircle,
-    SVGIcon,
+    Modal: () => import('@/components/Modal'),
+    Button: () => import('@/components/Button'),
+    Input: () => import('@/components/Input'),
+    ButtonCircle: () => import('@/components/ButtonCircle'),
+    SVGIcon: () => import('@/components/SVGIcon'),
   },
   data() {
     return {
@@ -165,10 +160,6 @@ export default {
     ...mapActions('text_collection', ['Save', 'Update']),
     changeValueOfIndex(value, index) {
       this.textCollection.content[index] = value
-    },
-    showCollectionData() {
-      console.log(this.collection_data)
-      console.log(this.$store.state.text_collection.lists[0])
     },
     addNewText(callback) {
       this.textCollection.content.push('')

@@ -53,16 +53,14 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 
-import { Button, Modal, SVGIcon } from '@/components'
-
 import action_text from '@/mixins/action_text'
 
 export default {
   mixins: [action_text],
   components: {
-    Button,
-    Modal,
-    SVGIcon,
+    Button: () => import('@/components/Button'),
+    Modal: () => import('@/components/Modal'),
+    SVGIcon: () => import('@/components/SVGIcon'),
   },
   data() {
     return {

@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import { SVGIcon } from '@/components'
 export default {
-  components: { SVGIcon },
+  components: {
+    SVGIcon: () => import('@/components/SVGIcon'),
+  },
   props: {
     message: {
       type: String,

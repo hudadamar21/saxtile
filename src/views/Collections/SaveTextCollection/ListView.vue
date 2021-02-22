@@ -19,11 +19,10 @@
 </template>
 
 <script>
-import { Button } from '@/components'
 import { mapMutations } from 'vuex'
 export default {
   components: {
-    Button,
+    Button: () => import('@/components/Button'),
   },
   computed: {
     lists() {

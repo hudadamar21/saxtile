@@ -6,16 +6,12 @@
 </template>
 
 <script>
-import Layout from '@/components/Layout'
-import SaveText from '@/views/Main/SaveText/index.vue'
-import SaveFile from '@/views/Main/SaveFile/index.vue'
-
 export default {
   title: 'Saxtile',
   components: {
-    Layout,
-    SaveText,
-    SaveFile,
+    Layout: () => import('@/components/Layout'),
+    SaveText: () => import('./SaveText/index.vue'),
+    SaveFile: () => import('./SaveFile/index.vue'),
   },
 }
 </script>

@@ -45,15 +45,13 @@
 </template>
 
 <script>
-import FormInput from './FormInput'
-import bg1 from '@/assets/images/bg1.jpg'
-import bg2 from '@/assets/images/bg2.jpg'
-import { SVGIcon } from '@/components'
+import bg1 from '@/assets/images/bg1.webp'
+import bg2 from '@/assets/images/bg2.webp'
 export default {
   title: 'Saxtile',
   components: {
-    FormInput,
-    SVGIcon,
+    FormInput: () => import('./FormInput'),
+    SVGIcon: () => import('@/components/SVGIcon'),
   },
   data() {
     return {

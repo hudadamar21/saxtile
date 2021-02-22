@@ -6,16 +6,12 @@
 </template>
 
 <script>
-import { Layout } from '@/components'
-import SaveTextCollection from './SaveTextCollection'
-import SaveFileCollection from './SaveFileCollection'
-
 export default {
   title: 'Saxtile Collection',
   components: {
-    Layout,
-    SaveTextCollection,
-    SaveFileCollection,
+    Layout: () => import('@/components/Layout'),
+    SaveTextCollection: () => import('./SaveTextCollection'),
+    SaveFileCollection: () => import('./SaveFileCollection'),
   },
 }
 </script>

@@ -6,20 +6,19 @@
 </template>
 
 <script>
-import SVGIcon from "@/components/SVGIcon.vue";
 export default {
   components: {
-    SVGIcon,
+    SVGIcon: () => import('@/components/SVGIcon'),
   },
   computed: {
     menu() {
-      return this.$store.state.menu;
+      return this.$store.state.menu
     },
   },
   mounted() {
-    console.log();
+    console.log()
   },
-};
+}
 </script>
 
 <style scoped lang="postcss">

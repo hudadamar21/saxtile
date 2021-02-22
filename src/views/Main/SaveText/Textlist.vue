@@ -1,10 +1,7 @@
 <template>
   <ul class="text-list md:overflow-auto">
     <!-- jika list kosong -->
-    <li
-      v-if="!lists.length"
-      class="text-center font-semibold text-gray-700 mt-5"
-    >
+    <li v-if="!lists.length" class="text-center font-semibold text-gray-700 mt-5">
       Tidak ada text yang tersimpan.
     </li>
 
@@ -28,10 +25,7 @@
               {{ new Date().formatDate(list.date) }}
             </p>
           </div>
-          <p
-            class="overflow-hidden"
-            :class="{ 'text-blue-500': isUrl(list.content) }"
-          >
+          <p class="overflow-hidden" :class="{ 'text-blue-500': isUrl(list.content) }">
             {{ list.content }}
           </p>
         </div>
@@ -40,12 +34,8 @@
       <!-- action (copy and goto) -->
       <template #action>
         <div class="flex items-center">
-          <Button
-            color="green"
-            @click.stop.native="copyText(list.content, list.id)"
-            sm
-          >
-            <p>{{ textCopied == list.id ? "copied" : "copy" }}</p>
+          <Button color="green" @click.stop.native="copyText(list.content, list.id)" sm>
+            <p>{{ textCopied == list.id ? 'copied' : 'copy' }}</p>
           </Button>
           <a
             v-if="isUrl(list.content)"
@@ -77,23 +67,21 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-import action_text from "@/mixins/action_text";
-
-import { List, SVGIcon, Button, ButtonCircle } from "@/components";
+import { mapState, mapMutations } from 'vuex'
+import action_text from '@/mixins/action_text'
 
 export default {
   mixins: [action_text],
   components: {
-    List,
-    SVGIcon,
-    Button,
-    ButtonCircle,
+    List: () => import('@/components/List'),
+    SVGIcon: () => import('@/components/SVGIcon'),
+    Button: () => import('@/components/Button'),
+    ButtonCircle: () => import('@/components/ButtonCircle'),
   },
   data() {
     return {
       textCopied: null,
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -103,41 +91,40 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations("text", {
-      setIsUpdate: "SET_IS_UPDATE",
-      setInput: "SET_INPUT",
-      setUpdateTextId: "SET_UPDATE_TEXT_ID",
-      setShowOption: "SET_SHOW_OPTION",
+    ...mapMutations('text', {
+      setIsUpdate: 'SET_IS_UPDATE',
+      setInput: 'SET_INPUT',
+      setUpdateTextId: 'SET_UPDATE_TEXT_ID',
+      setShowOption: 'SET_SHOW_OPTION',
     }),
     editText({ title, content, id }) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      this.setIsUpdate(true);
-      this.setInput({ title, content });
-      this.setUpdateTextId(id);
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      this.setIsUpdate(true)
+      this.setInput({ title, content })
+      this.setUpdateTextId(id)
     },
 
     deleteText(id) {
-      if (confirm("yakin ?")) {
-        this.$store.dispatch("text/Delete", id, { root: true });
-        this.setIsUpdate(false);
-        this.setInput({ title: "", content: "" });
+      if (confirm('yakin ?')) {
+        this.$store.dispatch('text/Delete', id, { root: true })
+        this.setIsUpdate(false)
+        this.setInput({ title: '', content: '' })
       }
     },
 
     toggle(id) {
-      console.log(this.showOption, id);
       if (!this.isUpdate && this.showOption == id) {
-        this.setShowOption(null);
+        this.setShowOption(null)
       } else {
         if (this.isUpdate) {
-          this.setIsUpdate(false);
-          this.setShowOption(null);
-          this.setInput({ title: "", content: "" });
-        } else this.setShowOption(id);
+          this.setIsUpdate(false)
+          this.setShowOption(null)
+          this.setInput({ title: '', content: '' })
+        } else this.setShowOption(id)
       }
     },
   },
-};
+}
 </script>
 
 <style>

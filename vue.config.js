@@ -1,12 +1,12 @@
 // Inside vue.config.js
 module.exports = {
-	publicPath: '/saxtile/',
+  publicPath: '/saxtile/',
   // ...other vue-cli plugin options...
   pwa: {
     name: 'Saxtile',
-    themeColor: '#00adb5',
+    themeColor: '#1d5ed6',
     msTileColor: '#eeeeee',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black'
+    appleMobileWebAppStatusBarStyle: 'blue'
   }
 }

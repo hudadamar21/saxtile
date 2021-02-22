@@ -1,9 +1,5 @@
 <template>
-  <section
-    ref="stext"
-    class="stext-main md:h-screen min-h-screen w-full md:w-1/2"
-    id="savetext"
-  >
+  <section ref="stext" class="stext-main md:h-screen min-h-screen w-full md:w-1/2" id="savetext">
     <!-- Title -->
     <h1 class="stext-title text-2xl py-1 md:py-0 md:text-3xl">Save Text</h1>
 
@@ -19,37 +15,32 @@
 </template>
 
 <script>
-import { Skeleton } from "@/components";
-
-import TextForm from "./TextForm";
-import TextList from "./Textlist";
-
 export default {
   components: {
-    Skeleton,
-    TextForm,
-    TextList,
+    Skeleton: () => import('@/components/Skeleton'),
+    TextForm: () => import('./TextForm'),
+    TextList: () => import('./Textlist'),
   },
   computed: {
     loadingList() {
-      return this.$store.state.text.loadingList;
+      return this.$store.state.text.loadingList
     },
   },
   data() {
     return {
       actionCompleteId: null,
-    };
+    }
   },
   created() {
-    const user_uid = this.$store.state.user.uid;
+    const user_uid = this.$store.state.user.uid
     if (this.$route.params.userId != user_uid) {
-      this.$router.push({ path: `/user/${user_uid}` });
+      this.$router.push({ path: `/user/${user_uid}` })
     }
   },
   mounted() {
-    this.$store.dispatch("text/List", null, { root: true });
+    this.$store.dispatch('text/List', null, { root: true })
   },
-};
+}
 </script>
 
 <style scoped lang="postcss">

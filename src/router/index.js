@@ -1,24 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store/'
-
-import Main from '@/views/Main/index.vue'
-import Auth from '@/views/Auth/index.vue'
-
-import Collections from '@/views/Collections/index.vue'
-import Setting from '@/views/Setting'
-
-import NotFound from '@/views/NotFound.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '*', component: NotFound},
+  { path: '*', component: () => import('@/views/NotFound.vue') },
   { path: '/user', redirect: '/' },
   {
     path: '/',
     name: 'auth',
-    component: Auth,
+    component: () => import('@/views/Auth/index.vue'),
     meta: {
       hideForAuth: true
     }
@@ -26,7 +18,7 @@ const routes = [
   {
     path: '/user/:userId',
     name: 'main',
-    component: Main,
+    component: () => import('@/views/Main/index.vue'),
     meta: {
       requiresAuth: true
     }
@@ -34,7 +26,7 @@ const routes = [
   {
     path: '/user/:userId/collections',
     name: 'collections',
-    component: Collections,
+    component: () => import('@/views/Collections/index.vue'),
     meta: {
       requiresAuth: true
     }
@@ -42,15 +34,12 @@ const routes = [
   {
     path: '/user/:userId/setting',
     name: 'setting',
-    component: Setting,
+    component: () => import('@/views/Setting'),
     meta: {
       requiresAuth: true
     }
   }
-  
 ]
-
-
 
 const router = new VueRouter({
   mode: 'history',
@@ -58,23 +47,24 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+// _ = from
+router.beforeEach((to, _, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
+
     // if not, redirect to auth page.
     if (!store.state.user.uid) {
       next({ name: 'Auth' })
     } else {
-      next() // go to wherever I'm going
+      next()
     }
   } else {
-    next() // does not require auth, make sure to always call next()!
+    next()
   }
 
   if (to.matched.some(record => record.meta.hideForAuth)) {
-    store.state.user.uid 
-        ? next({ path: `user/${store.state.user.uid}` })
-        : next()
+    store.state.user.uid
+      ? next({ path: `user/${store.state.user.uid}` })
+      : next()
   } else next()
 
 })

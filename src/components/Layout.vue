@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="text-xl w-full flex flex-col md:flex-row justify-between items-center"
-  >
+  <div class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
     <transition name="slide-fade">
       <SidebarMenu v-if="menu" />
     </transition>
@@ -21,32 +19,26 @@
 </template>
 
 <script>
-import { SidebarMenu, MenuToggle } from "@/components";
-
 export default {
   props: {
     noIndicator: Boolean,
   },
   components: {
-    SidebarMenu,
-    MenuToggle,
+    SidebarMenu: () => import('@/components/SidebarMenu'),
+    MenuToggle: () => import('@/components/MenuToggle'),
   },
   computed: {
     menu() {
-      return this.$store.state.menu;
+      return this.$store.state.menu
     },
     toSavetext() {
-      return this.$route.name == "collections"
-        ? "#savetext-collection"
-        : "#savetext";
+      return this.$route.name == 'collections' ? '#savetext-collection' : '#savetext'
     },
     toSavefile() {
-      return this.$route.name == "collections"
-        ? "#savefile-collection"
-        : "#savefile";
+      return this.$route.name == 'collections' ? '#savefile-collection' : '#savefile'
     },
   },
-};
+}
 </script>
 
 <style lang="postcss" scoped>

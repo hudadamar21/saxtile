@@ -12,9 +12,8 @@
 </template>
 
 <script>
-import { Alert } from '@/components'
 export default {
-  components: { Alert },
+  components: { Alert: () => import('@/components/Alert') },
 }
 </script>
 

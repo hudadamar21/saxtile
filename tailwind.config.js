@@ -2,15 +2,15 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: [
-    './src/**/*.html',
-    './src/**/*.js',
+    './public/**/*.html',
+    './src/**/*.vue',
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
         orange: colors.orange,
-        blue : colors.lightBlue
+        blue: colors.lightBlue
       },
       animation: {
         none: 'none',

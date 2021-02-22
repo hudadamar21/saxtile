@@ -54,10 +54,8 @@
 </template>
 
 <script>
-import defaultFile from '@/assets/images/default-file.png'
+import defaultFile from '@/assets/images/default-file.webp'
 import { mapState, mapMutations, mapActions } from 'vuex'
-
-import { Input, SVGIcon, ProgressUpload } from '@/components'
 
 export default {
   props: {
@@ -67,9 +65,9 @@ export default {
     },
   },
   components: {
-    Input,
-    SVGIcon,
-    ProgressUpload,
+    Input: () => import('@/components/Input'),
+    SVGIcon: () => import('@/components/SVGIcon'),
+    ProgressUpload: () => import('@/components/ProgressUpload'),
   },
   data() {
     return {
@@ -145,7 +143,6 @@ export default {
       return file.split('.').pop()
     },
     uploadFile() {
-      console.log(this.$refs.file)
       if (this.$refs.file.files[0]) {
         const file = this.$refs.file.files[0]
 

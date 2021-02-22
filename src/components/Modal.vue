@@ -43,11 +43,9 @@
 </template>
 
 <script>
-import { Button } from "@/components";
-
 export default {
   components: {
-    Button,
+    Button: () => import('@/components/Button'),
   },
   props: {
     title: {
@@ -57,20 +55,20 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.$refs.modal.classList.remove("bg-opacity-0");
-      this.$refs.modal.classList.add("bg-opacity-50");
-    }, 200);
+      this.$refs.modal.classList.remove('bg-opacity-0')
+      this.$refs.modal.classList.add('bg-opacity-50')
+    }, 200)
   },
   methods: {
     closeModal() {
-      this.$refs.modal.classList.remove("bg-opacity-50");
-      this.$refs.modal.classList.add("bg-opacity-0");
+      this.$refs.modal.classList.remove('bg-opacity-50')
+      this.$refs.modal.classList.add('bg-opacity-0')
       setTimeout(() => {
-        this.$emit("closemodal");
-      }, 50);
+        this.$emit('closemodal')
+      }, 50)
     },
   },
-};
+}
 </script>
 
 <style>

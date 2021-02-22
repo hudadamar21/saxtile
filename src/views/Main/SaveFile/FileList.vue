@@ -1,97 +1,92 @@
 <template>
   <ul class="file-list md:overflow-auto">
-
     <!-- jika list kosong -->
-    <li v-if="!lists.length" class="text-center font-semibold text-gray-200 mt-5">Tidak ada file yang tersimpan.</li>
+    <li v-if="!lists.length" class="text-center font-semibold text-gray-200 mt-5">
+      Tidak ada file yang tersimpan.
+    </li>
 
     <!-- list views -->
-    <List v-else
+    <List
+      v-else
       mode="dark"
-      v-for="list of lists" :key="list.id"
+      v-for="list of lists"
+      :key="list.id"
       :data="list"
       :showOption="showOption"
       @toggle="(id) => toggle(id)"
     >
-
-    <!-- Content (title and date) -->
-    <template #content>
-      <div class="flex flex-row items-center w-full text-white">
-        <img :src="list.content" 
-            @error="setReferenceImage" 
-            class="w-24 h-24 object-cover mr-3">
-        <div>
-          <h3 class="font-bold break-all">{{ list.title }}</h3>
-          <p class="text-gray-400 text-xs">{{ new Date().formatDate(list.date) }}</p>
+      <!-- Content (title and date) -->
+      <template #content>
+        <div class="flex flex-row items-center w-full text-white">
+          <img :src="list.content" @error="setReferenceImage" class="w-24 h-24 object-cover mr-3" />
+          <div>
+            <h3 class="font-bold break-all">{{ list.title }}</h3>
+            <p class="text-gray-400 text-xs">{{ new Date().formatDate(list.date) }}</p>
+          </div>
         </div>
-      </div>
-    </template>
+      </template>
 
-    <!-- Action (download) -->
-    <template #action>
-      <a :href="list.content" 
+      <!-- Action (download) -->
+      <template #action>
+        <a
+          :href="list.content"
           :download="list.title"
           @click.stop
           class="bg-white hover:bg-gray-200 text-gray-700 rounded px-2 py-1 mt-2 lg:mt-0"
-          target="_blank">
-            download
-      </a>
-    </template>
+          target="_blank"
+        >
+          download
+        </a>
+      </template>
 
-    <!-- Option (delete) -->
-    <template #option>
-      <ButtonCircle mode="danger" @klik="deleteFile(list)">
-        <SVGIcon icon="trash" size="w-5 h-5" />
-      </ButtonCircle>
-    </template>
+      <!-- Option (delete) -->
+      <template #option>
+        <ButtonCircle mode="danger" @klik="deleteFile(list)">
+          <SVGIcon icon="trash" size="w-5 h-5" />
+        </ButtonCircle>
+      </template>
     </List>
   </ul>
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
 
-import { 
-  List,
-  ButtonCircle,
-  SVGIcon
-} from "@/components"
-
-import defaultFile from '@/assets/images/default-file.png';
+import defaultFile from '@/assets/images/default-file.webp'
 
 export default {
   components: {
-    List,
-    ButtonCircle,
-    SVGIcon
+    List: () => import('@/components/List'),
+    ButtonCircle: () => import('@/components/ButtonCircle'),
+    SVGIcon: () => import('@/components/SVGIcon'),
   },
   computed: {
     ...mapState({
-      lists: state => state.file.all,
-      showOption: state => state.file.showOption
-    })
+      lists: (state) => state.file.all,
+      showOption: (state) => state.file.showOption,
+    }),
   },
   methods: {
-    setReferenceImage(e){
+    setReferenceImage(e) {
       e.target.src = defaultFile
     },
-    toggle(id){
-      const {commit} = this.$store
-      if(this.showOption == id){
+    toggle(id) {
+      const { commit } = this.$store
+      if (this.showOption == id) {
         commit('file/SET_SHOW_OPTION', null)
       } else commit('file/SET_SHOW_OPTION', id)
     },
-    deleteFile(data){
-      if(confirm('yakin ?')){
-        this.$store.dispatch('file/Delete', data, {root:true})
+    deleteFile(data) {
+      if (confirm('yakin ?')) {
+        this.$store.dispatch('file/Delete', data, { root: true })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="postcss">
-  .file-list{
-    @apply py-2 px-5 text-base tracking-wide text-left w-full
-  }
+.file-list {
+  @apply py-2 px-5 text-base tracking-wide text-left w-full;
+}
 </style>

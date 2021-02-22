@@ -47,7 +47,6 @@ export default {
       }, { root: true })
     },
     Save({ rootGetters, dispatch }, newData) {
-      console.log(newData);
       dispatch('user/ValidationUser', () => {
         rootGetters['user/userRef']
           .collection('text_collection')

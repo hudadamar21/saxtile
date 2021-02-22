@@ -23,13 +23,12 @@
 </template>
 
 <script>
-import { Layout } from '@/components'
 import { mapMutations } from 'vuex'
 
 export default {
   title: 'Saxtile Setting',
   components: {
-    Layout,
+    Layout: () => import('@/components/Layout'),
   },
   data() {
     return {

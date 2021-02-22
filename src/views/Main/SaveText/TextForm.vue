@@ -1,9 +1,6 @@
 <template>
   <!-- Form Input -->
-  <form
-    @submit.prevent="saveText"
-    class="flex flex-col lg:flex-row lg:items-center w-full"
-  >
+  <form @submit.prevent="saveText" class="flex flex-col lg:flex-row lg:items-center w-full">
     <div class="flex flex-col lg:flex-row w-full">
       <Input
         class="mb-2 lg:mb-0 mr-2"
@@ -25,19 +22,18 @@
       />
     </div>
     <Button type="submit" color="blue" md className="text-base">{{
-      isUpdate ? "Update" : "Save"
+      isUpdate ? 'Update' : 'Save'
     }}</Button>
   </form>
 </template>
 
 <script>
-import { Input, Button } from "@/components";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   components: {
-    Input,
-    Button,
+    Input: () => import('@/components/Input'),
+    Button: () => import('@/components/Button'),
   },
   computed: {
     ...mapState({
@@ -49,37 +45,36 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations("text", {
-      setIsUpdate: "SET_IS_UPDATE",
-      setInput: "SET_INPUT",
-      setShowOption: "SET_SHOW_OPTION",
-      setValidation: "SET_VALIDATION",
+    ...mapMutations('text', {
+      setIsUpdate: 'SET_IS_UPDATE',
+      setInput: 'SET_INPUT',
+      setShowOption: 'SET_SHOW_OPTION',
+      setValidation: 'SET_VALIDATION',
     }),
-    ...mapActions("text", ["Save", "Update"]),
+    ...mapActions('text', ['Save', 'Update']),
     saveText() {
-      const { title, content } = this.input;
-      console.log(title, content);
+      const { title, content } = this.input
       if (title && content) {
         const Text = {
           title,
           content,
           date: new Date().getTime(),
-        };
+        }
 
-        this.isUpdate ? this.Update(Text) : this.Save(Text);
+        this.isUpdate ? this.Update(Text) : this.Save(Text)
 
-        this.setIsUpdate(false);
-        this.setInput({ title: "", content: "" });
-        this.setShowOption(null);
+        this.setIsUpdate(false)
+        this.setInput({ title: '', content: '' })
+        this.setShowOption(null)
       } else {
-        this.setValidation("this is required..");
+        this.setValidation('this is required..')
         setTimeout(() => {
-          this.setValidation("");
-        }, 3000);
+          this.setValidation('')
+        }, 3000)
       }
     },
   },
-};
+}
 </script>
 
 <style>

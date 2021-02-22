@@ -3,15 +3,9 @@
     class="stext-collection-main md:h-screen min-h-screen w-full md:w-1/2 bg-gray-100"
     id="savetext-collection"
   >
-    <h3 class="my-3 w-full text-center font-bold text-2xl text-blue-500">
-      Save Text Collection
-    </h3>
+    <h3 class="my-3 w-full text-center font-bold text-2xl text-blue-500">Save Text Collection</h3>
     <div class="w-full text-center mb-5">
-      <Button
-        color="blue"
-        lg
-        shadow="shadow-md"
-        @click.native="setShowFormModal(true)"
+      <Button color="blue" lg shadow="shadow-md" @click.native="setShowFormModal(true)"
         >Create New Collection</Button
       >
     </div>
@@ -30,20 +24,15 @@
 </template>
 
 <script>
-import { Button, Skeleton } from '@/components'
-import FormModal from './FormModal'
-import ListView from './ListView'
-import OpenCollectionModal from './OpenCollectionModal'
-
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
-    Button,
-    Skeleton,
-    FormModal,
-    ListView,
-    OpenCollectionModal,
+    Button: () => import('@/components/Button'),
+    Skeleton: () => import('@/components/Skeleton'),
+    FormModal: () => import('./FormModal'),
+    ListView: () => import('./ListView'),
+    OpenCollectionModal: () => import('./OpenCollectionModal'),
   },
   mounted() {
     this.$store.dispatch('text_collection/List', null, { root: true })
