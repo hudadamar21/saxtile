@@ -58,9 +58,9 @@ import action_text from '@/mixins/action_text'
 export default {
   mixins: [action_text],
   components: {
-    Button: () => import('@/components/Button'),
-    Modal: () => import('@/components/Modal'),
-    SVGIcon: () => import('@/components/SVGIcon'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {

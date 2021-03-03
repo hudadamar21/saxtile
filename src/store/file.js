@@ -6,31 +6,30 @@ export default {
   namespaced: true,
   state: () => {
     return {
-      all: [],
+      lists: [],
 
       // File Form
       filename: '',
-      fileUpload: '',
-      progressUpload: 0,
-      loadingList: null,
-      validationUpload: '',
+      file_upload: '',
+      progress_upload: 0,
+      loading_list: null,
 
       // FileList
-      showOption: null
+      show_option: null
     }
   },
   mutations: {
-    SET_LOADING(state, value) {
-      state.loadingList = value
+    setLoading(state, value) {
+      state.loading_list = value
     },
-    SET_FILENAME(state, value) {
+    setFilename(state, value) {
       state.filename = value
     },
-    SET_FILE_UPLOAD(state, value) {
-      state.fileUpload = value
+    setFileUpload(state, value) {
+      state.file_upload = value
     },
-    SET_SHOW_OPTION(state, value) {
-      state.showOption = value
+    setShowOption(state, value) {
+      state.show_option = value
     }
   },
   actions: {
@@ -38,7 +37,7 @@ export default {
 
       // check user is valid
       dispatch('user/ValidationUser', () => {
-        commit('SET_LOADING', true)
+        commit('setLoading', true)
         const { property, type } = rootState.setting.orderBy
 
         // get user reference
@@ -46,13 +45,13 @@ export default {
           .collection('file')
           .orderBy(property, type)
           .onSnapshot(snaps => {
-            state.all = []
+            state.lists = []
             snaps.forEach(snap => {
               let data = snap.data()
               data['id'] = snap.id
-              state.all.push(data)
+              state.lists.push(data)
             })
-            commit('SET_LOADING', false)
+            commit('setLoading', false)
           })
       }, { root: true })
     },
@@ -64,14 +63,17 @@ export default {
       // get percentase progress
       uploadTask.on('state_changed', (snapshot) => {
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        state.progressUpload = parseInt(progress)
+        state.progress_upload = parseInt(progress)
       }, (error) => {
-        dispatch('showAlert', { message: error.message, mode: 'danger' }, { root: true })
+        dispatch('showAlert', {
+          message: error.message, 
+          mode: 'danger'
+        }, { root: true })
       }, () => {
 
         // get link download file 
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          state.progressUpload = 0
+          state.progress_upload = 0
           const newFile = {
             title: filename,
             content: downloadURL, // link file
@@ -81,10 +83,15 @@ export default {
           // add new file to database
           rootGetters['user/userRef'].collection('file').add(newFile)
             .then(() => {
-              dispatch('showAlert', { message: "File berhasil di Upload" }, { root: true })
+              dispatch('showAlert', {
+                message: "File berhasil di Upload"
+              }, { root: true })
             })
             .catch(err => {
-              dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+              dispatch('showAlert', {
+                message: err.message, 
+                mode: 'danger'
+              }, { root: true })
             })
 
         });
@@ -102,16 +109,29 @@ export default {
           .then(() => {
 
             // delete dokumen file on database
-            rootGetters['user/userRef'].collection('file').doc(id).delete()
-              .then(() => dispatch('showAlert', { message: "File berhasil dihapus" }, { root: true }))
-              .catch(err => dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true }))
-
+            rootGetters['user/userRef']
+              .collection('file')
+              .doc(id).delete()
+                .then(() => {
+                  dispatch('showAlert', {
+                    message: "File berhasil dihapus"
+                  }, { root: true })
+                })
+                .catch(err => {
+                  dispatch('showAlert', {
+                    message: err.message, 
+                    mode: 'danger'
+                  }, { root: true })
+                })
           })
-          .catch(err => dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true }))
+          .catch(err => {
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
+          })
       }, { root: true })
-
     }
 
   }
-
 }

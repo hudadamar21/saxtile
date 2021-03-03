@@ -12,7 +12,7 @@
       v-for="list of lists"
       :key="list.id"
       :data="list"
-      :showOption="showOption"
+      :showOption="show_option"
       @toggle="(id) => toggle(id)"
     >
       <!-- Content (title and date) -->
@@ -52,33 +52,33 @@
 <script>
 import { mapState } from 'vuex'
 
-import defaultFile from '@/assets/images/default-file.webp'
+import default_file from '@/assets/images/default-file.webp'
 
 export default {
   components: {
-    List: () => import('@/components/List'),
-    ButtonCircle: () => import('@/components/ButtonCircle'),
-    SVGIcon: () => import('@/components/SVGIcon'),
+    List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
+    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   computed: {
-    ...mapState({
-      lists: (state) => state.file.all,
-      showOption: (state) => state.file.showOption,
-    }),
+    ...mapState('file', [
+        'lists',
+        'show_option'
+    ]),
   },
   methods: {
     setReferenceImage(e) {
-      e.target.src = defaultFile
+      e.target.src = default_file
     },
     toggle(id) {
       const { commit } = this.$store
-      if (this.showOption == id) {
-        commit('file/SET_SHOW_OPTION', null)
-      } else commit('file/SET_SHOW_OPTION', id)
+      if (this.show_option == id) {
+        commit('file/setShowOption', null)
+      } else commit('file/setShowOption', id)
     },
     deleteFile(data) {
       if (confirm('yakin ?')) {
-        this.$store.dispatch('file/Delete', data, { root: true })
+        this.$store.dispatch('file/Delete', data)
       }
     },
   },

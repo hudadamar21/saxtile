@@ -73,10 +73,10 @@ import action_text from '@/mixins/action_text'
 export default {
   mixins: [action_text],
   components: {
-    List: () => import('@/components/List'),
-    SVGIcon: () => import('@/components/SVGIcon'),
-    Button: () => import('@/components/Button'),
-    ButtonCircle: () => import('@/components/ButtonCircle'),
+    List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
   },
   data() {
     return {

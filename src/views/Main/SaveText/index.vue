@@ -17,9 +17,9 @@
 <script>
 export default {
   components: {
-    Skeleton: () => import('@/components/Skeleton'),
-    TextForm: () => import('./TextForm'),
-    TextList: () => import('./Textlist'),
+    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
+    TextForm: () => import(/* webpackChunkName: "main" */ './TextForm'),
+    TextList: () => import(/* webpackChunkName: "main" */ './Textlist'),
   },
   computed: {
     loadingList() {
@@ -29,12 +29,6 @@ export default {
   data() {
     return {
       actionCompleteId: null,
-    }
-  },
-  created() {
-    const user_uid = this.$store.state.user.uid
-    if (this.$route.params.userId != user_uid) {
-      this.$router.push({ path: `/user/${user_uid}` })
     }
   },
   mounted() {

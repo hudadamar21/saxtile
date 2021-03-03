@@ -32,8 +32,8 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   components: {
-    Input: () => import('@/components/Input'),
-    Button: () => import('@/components/Button'),
+    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
   },
   computed: {
     ...mapState({

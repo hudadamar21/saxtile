@@ -50,8 +50,8 @@ import bg2 from '@/assets/images/bg2.webp'
 export default {
   title: 'Saxtile',
   components: {
-    FormInput: () => import('./FormInput'),
-    SVGIcon: () => import('@/components/SVGIcon'),
+    FormInput: () => import(/* webpackChunkName: "auth" */ './FormInput'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {

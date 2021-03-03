@@ -58,19 +58,28 @@ export default {
 
       }, { root: true })
     },
+
     Save({ rootGetters, dispatch }, newText) {
       dispatch('user/ValidationUser', () => {
 
         rootGetters['user/userRef']
           .collection('text')
           .add(newText)
-          .then(() => dispatch('showAlert', { message: 'Text berhasil disimpan' }, { root: true }))
+          .then(() => {
+            dispatch('showAlert', {
+              message: 'Text berhasil disimpan'
+            }, { root: true })
+          })
           .catch(err => {
-            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
           })
 
       }, { root: true })
     },
+
     Update({ rootGetters, dispatch, state }, updateText) {
       dispatch('user/ValidationUser', () => {
 
@@ -78,13 +87,21 @@ export default {
           .collection('text')
           .doc(state.updateTextId)
           .update(updateText)
-          .then(() => dispatch('showAlert', { message: 'Data berhasil diupdate' }, { root: true }))
+          .then(() => {
+            dispatch('showAlert', {
+              message: 'Data berhasil diupdate'
+            }, { root: true })
+          })
           .catch(err => {
-            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
           })
 
       }, { root: true })
     },
+
     Delete({ rootGetters, dispatch, }, id) {
       dispatch('user/ValidationUser', () => {
 
@@ -92,9 +109,14 @@ export default {
           .collection('text')
           .doc(id)
           .delete()
-          .then(() => dispatch('showAlert', { message: 'Data berhasil dihapus' }, { root: true }))
+          .then(() => dispatch('showAlert', {
+            message: 'Data berhasil dihapus'
+          }, { root: true }))
           .catch(err => {
-            dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
           })
 
       }, { root: true })

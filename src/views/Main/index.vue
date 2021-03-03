@@ -9,9 +9,15 @@
 export default {
   title: 'Saxtile',
   components: {
-    Layout: () => import('@/components/Layout'),
-    SaveText: () => import('./SaveText/index.vue'),
-    SaveFile: () => import('./SaveFile/index.vue'),
+    Layout: () => import(/* webpackChunkName: "components" */ '@/components/Layout'),
+    SaveText: () => import(/* webpackChunkName: "main" */ './SaveText/index.vue'),
+    SaveFile: () => import(/* webpackChunkName: "main" */ './SaveFile/index.vue'),
+  },
+  created() {
+    const user_uid = this.$store.state.user.uid
+    if (this.$route.params.userId != user_uid) {
+      this.$router.push({ name: 'main', params: { userId: user_uid } })
+    }
   },
 }
 </script>

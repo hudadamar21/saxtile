@@ -121,11 +121,11 @@ export default {
     data: Object,
   },
   components: {
-    Modal: () => import('@/components/Modal'),
-    Button: () => import('@/components/Button'),
-    Input: () => import('@/components/Input'),
-    ButtonCircle: () => import('@/components/ButtonCircle'),
-    SVGIcon: () => import('@/components/SVGIcon'),
+    Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
+    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {

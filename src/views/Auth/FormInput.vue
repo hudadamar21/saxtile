@@ -76,8 +76,8 @@ export default {
     isRegister: Boolean,
   },
   components: {
-    Button: () => import('@/components/Button'),
-    SVGIcon: () => import('@/components/SVGIcon'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {

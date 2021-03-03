@@ -41,7 +41,10 @@ export default {
       if (getters.userRef) {
         action()
       } else {
-        dispatch('showAlert', { message: 'Terjadi kesalahan, silahkan login kembali', info: 'danger' }, { root: true })
+        dispatch('showAlert', {
+          message: 'Terjadi kesalahan, silahkan login kembali', 
+          mode: 'danger'
+        }, { root: true })
         dispatch('user/Logout', null, { root: true })
       }
     },
@@ -53,13 +56,18 @@ export default {
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((data) => {
           commit('SET_USER', data.user)
-          router.push({ path: `/user/${data.user.uid}` })
+          router.push({ name: 'main', params: data.user.uid })
           commit('SET_LOADING', false, { root: true })
-          dispatch('showAlert', { message: "You're login to Saxtile" }, { root: true })
+          dispatch('showAlert', {
+            message: "You're login to Saxtile"
+          }, { root: true })
         })
         .catch(err => {
           commit('SET_LOADING', false, { root: true })
-          dispatch('showAlert', { message: err.message, mode: 'danger' }, { root: true })
+          dispatch('showAlert', {
+            message: err.message, 
+            mode: 'danger'
+          }, { root: true })
         })
     },
 
@@ -86,11 +94,16 @@ export default {
             displayName: name,
             createdAt: new Date().getTime()
           })
-          dispatch('showAlert', { message: "Register success, Welcome to Saxtile" }, { root: true })
+          dispatch('showAlert', {
+            message: "Register success, Welcome to Saxtile"
+          }, { root: true })
           commit('SET_LOADING', false, { root: true })
         })
         .catch(err => {
-          dispatch('showAlert', { message: "Error: " + err.message, mode: 'danger' }, { root: true })
+          dispatch('showAlert', {
+            message: "Error: " + err.message, 
+            mode: 'danger'
+          }, { root: true })
           commit('SET_LOADING', false, { root: true })
         })
 

@@ -4,15 +4,7 @@
     <h1 class="sfile-title text-2xl md:text-3xl">Save File</h1>
 
     <!-- File Form -->
-    <FileForm :setReferenceImage="setReferenceImage" />
-
-    <!-- Notif Validation -->
-    <span v-if="validationUpload" class="notif">
-      <p class="mr-2 text-sm">{{ validationUpload }}</p>
-      <button class="absloute right-0 top-0 close-notif bg" @click="validationUpload = null">
-        x
-      </button>
-    </span>
+    <FileForm />
 
     <!-- File List -->
     <Skeleton v-if="loadingList" mode="dark" :count="3" />
@@ -23,22 +15,17 @@
 <script>
 export default {
   components: {
-    Skeleton: () => import('@/components/Skeleton'),
-    FileForm: () => import('./FileForm'),
-    FileList: () => import('./FileList'),
-  },
-  data() {
-    return {
-      validationUpload: null,
-    }
+    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
+    FileForm: () => import(/* webpackChunkName: "main" */ './FileForm'),
+    FileList: () => import(/* webpackChunkName: "main" */ './FileList'),
   },
   computed: {
     loadingList() {
-      return this.$store.state.file.loadingList
+      return this.$store.state.file.loading_list
     },
   },
   mounted() {
-    this.$store.dispatch('file/List', null, { root: true })
+    this.$store.dispatch('file/List')
   },
 }
 </script>

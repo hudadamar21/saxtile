@@ -24,8 +24,8 @@ export default {
     noIndicator: Boolean,
   },
   components: {
-    SidebarMenu: () => import('@/components/SidebarMenu'),
-    MenuToggle: () => import('@/components/MenuToggle'),
+    SidebarMenu: () => import(/* webpackChunkName: "components" */ '@/components/SidebarMenu'),
+    MenuToggle: () => import(/* webpackChunkName: "components" */ '@/components/MenuToggle'),
   },
   computed: {
     menu() {

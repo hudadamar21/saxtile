@@ -17,7 +17,7 @@
         class="upload-button bg-white hover:bg-gray-200 text-sm md:text-base"
         @click="uploadFile"
       >
-        <ProgressUpload :progress="progressUpload" />
+        <ProgressUpload :progress="progress_upload" />
         <button class="flex items-center focus:outline-none">
           <SVGIcon icon="upload" size="w-5 md:w-6 h-5 md:h-6" />
           <h1>Upload</h1>
@@ -28,20 +28,20 @@
     <!-- Open Folder Button -->
     <label
       for="file"
-      class="relative open-folder-button bg-white hover:bg-gray-200 h-16 md:h-full"
       v-cloak
-      ref="uploadFile"
+      ref="upload_file"
       @drop.prevent="changeFile($event, 'drop')"
       @dragover.prevent.stop="draggingFile('over')"
       @dragleave.prevent.stop="draggingFile('leave')"
+      class="relative open-folder-button bg-white hover:bg-gray-200 h-16 md:h-full"
     >
       <div class="m-1">
         <img
-          v-if="fileUpload"
+          v-if="file_upload"
           @error="setDefaultImage"
           class="w-16 h-16 object-cover object-center"
-          :class="isDefaultImage ? 'invert' : ''"
-          :src="fileUpload"
+          :class="is_default_image ? 'invert' : ''"
+          :src="file_upload"
         />
         <div v-else class="flex flex-col justify-center items-center">
           <SVGIcon icon="folder" size="w-6 h-6" />
@@ -54,32 +54,26 @@
 </template>
 
 <script>
-import defaultFile from '@/assets/images/default-file.webp'
+import default_file from '@/assets/images/default-file.webp'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-  props: {
-    setReferenceImage: {
-      type: Function,
-      required: true,
-    },
-  },
   components: {
-    Input: () => import('@/components/Input'),
-    SVGIcon: () => import('@/components/SVGIcon'),
-    ProgressUpload: () => import('@/components/ProgressUpload'),
+    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
+    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
+    ProgressUpload: () => import(/* webpackChunkName: "components" */ '@/components/ProgressUpload'),
   },
   data() {
     return {
-      isDefaultImage: false,
+      is_default_image: false,
     }
   },
   computed: {
-    ...mapState({
-      progressUpload: (state) => state.file.progressUpload,
-      filename: (state) => state.file.filename,
-      fileUpload: (state) => state.file.fileUpload,
-    }),
+    ...mapState('file',[
+        'progress_upload', 
+        'filename', 
+        'file_upload'
+    ]),
     dragSupport() {
       let div = document.createElement('div')
       return (
@@ -90,28 +84,26 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('file', {
-      setFilename: 'SET_FILENAME',
-      setValidationUpload: 'SET_VALIDATION_UPLOAD',
-      setFileUpload: 'SET_FILE_UPLOAD',
-    }),
-    ...mapActions({
-      showAlert: 'showAlert',
-    }),
+    ...mapMutations('file', [
+        'setFilename',
+        'setFileUpload'
+    ]),
+    ...mapActions([
+      'showAlert'
+    ]),
     draggingFile(event) {
       event == 'over'
-        ? this.$refs.uploadFile.classList.add('dragging-file')
+        ? this.$refs.upload_file.classList.add('dragging-file')
         : event == 'leave'
-        ? this.$refs.uploadFile.classList.remove('dragging-file')
+        ? this.$refs.upload_file.classList.remove('dragging-file')
         : false
     },
-
     filenameChange(val) {
       if (this.filename.length > 30) return
       this.setFilename(val)
     },
     changeFile(e, mode) {
-      this.isDefaultImage = false
+      this.is_default_image = false
 
       let file
       if (mode === 'drop') {
@@ -120,24 +112,23 @@ export default {
           this.$refs.file.files = file
           file = file[0]
         } else {
-          this.setValidationUpload('Browser anda tidak support drag & drop file')
-          this.showAlert({ message: 'Browser anda tidak support drag & drop file' })
+          this.showAlert({ message: 'Browser anda tidak support drag & drop file', mode: 'danger'})
         }
       } else file = e.target.files[0]
       if (file.size > 3145728) {
-        this.setValidationUpload('Ukuran file tidak boleh lebih besar dari 3mb')
-        this.showAlert({ message: 'Ukuran file tidak boleh lebih besar dari 3mb' })
+        this.showAlert({ message: 'Ukuran file tidak boleh lebih besar dari 3mb', mode: 'danger'})
+        this.$refs.upload_file.classList.remove('dragging-file')
         e.target.value = ''
         return
       }
       const reader = new FileReader()
       reader.addEventListener('load', () => this.setFileUpload(reader.result), false)
       if (file) reader.readAsDataURL(file)
-      this.$refs.uploadFile.classList.remove('dragging-file')
+      this.$refs.upload_file.classList.remove('dragging-file')
     },
     setDefaultImage() {
-      this.fileUpload = defaultFile
-      this.isDefaultImage = true
+      this.file_upload = default_file
+      this.is_default_image = true
     },
     extenstionFile(file) {
       return file.split('.').pop()

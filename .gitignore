@@ -1,5 +1,8 @@
 .DS_Store
+.gitignore
 node_modules
+dist
+tailwindcss-full.js
 
 src/config/firebase-config.js
 

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  components: { Alert: () => import('@/components/Alert') },
+  components: { Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert') },
 }
 </script>
 

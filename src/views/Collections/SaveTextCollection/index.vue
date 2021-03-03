@@ -28,11 +28,11 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
-    Button: () => import('@/components/Button'),
-    Skeleton: () => import('@/components/Skeleton'),
-    FormModal: () => import('./FormModal'),
-    ListView: () => import('./ListView'),
-    OpenCollectionModal: () => import('./OpenCollectionModal'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
+    FormModal: () => import(/* webpackChunkName: "collections" */ './FormModal'),
+    ListView: () => import(/* webpackChunkName: "collections" */ './ListView'),
+    OpenCollectionModal: () => import(/* webpackChunkName: "collections" */ './OpenCollectionModal'),
   },
   mounted() {
     this.$store.dispatch('text_collection/List', null, { root: true })

@@ -45,7 +45,7 @@
 <script>
 export default {
   components: {
-    Button: () => import('@/components/Button'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
   },
   props: {
     title: {

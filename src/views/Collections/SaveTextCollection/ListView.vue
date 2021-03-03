@@ -22,7 +22,7 @@
 import { mapMutations } from 'vuex'
 export default {
   components: {
-    Button: () => import('@/components/Button'),
+    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
   },
   computed: {
     lists() {
