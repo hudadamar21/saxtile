@@ -6,19 +6,22 @@
       </h3>
       <ul>
         <li
-          class="w-full bg-white m-2 px-3 py-2 shadow rounded flex items-center justify-between"
-          v-for="(text, index) of collection.content"
+          class="w-full bg-white m-2 px-3 py-2 shadow rounded flex flex-col md:flex-row md:items-center justify-between overflow-hidden"
+          v-for="({subtitle, text}, index) of collection.contents"
           :key="index"
         >
-          <p
-            class="text-base"
+          <div>
+            <h3 v-if="subtitle" class="text-lg font-bold text-gray-700">{{ subtitle }}</h3>
+            <p
+            class="text-sm md:text-base break-all"
             :class="{
               'text-blue-500': isUrl(collection.prefix + text),
             }"
           >
             {{ collection.prefix }}<span class="font-semibold">{{ text }}</span>
           </p>
-          <div class="flex items-center">
+          </div>
+          <div class="flex items-center mt-2 md:mt-0">
             <Button color="green" @click.stop.native="copyText(collection.prefix + text, index)" sm>
               {{ textCopied === index ? 'copied' : 'copy' }}
             </Button>
@@ -38,12 +41,12 @@
     </template>
 
     <template #footer>
-      <div class="flex items-center justify-end h-full">
+      <div class="flex items-center justify-end h-full text-base">
         <Button color="blue" lg class="justify-self" @click.native="editCollection">
-          EDIT COLLECTION
+          EDIT <span class="hidden md:inline-block">COLLECTION</span>
         </Button>
         <Button color="red" lg class="justify-self mx-3" @click.native="deleteCollection">
-          DELETE COLLECTION
+          DELETE <span class="hidden md:inline-block">COLLECTION</span>
         </Button>
       </div>
     </template>
@@ -86,9 +89,7 @@ export default {
     },
     deleteCollection() {
       if (window.confirm(`yakin mau hapus Collection '${this.collection.title}' ? `)) {
-        this.$store.dispatch('text_collection/Delete', this.collection.id, {
-          root: true,
-        })
+        this.$store.dispatch('text_collection/Delete', this.collection.id)
       }
     },
     closeModal() {

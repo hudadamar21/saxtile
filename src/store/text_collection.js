@@ -1,7 +1,7 @@
 import 'firebase/firestore';
 
 export default {
-  
+
   namespaced: true,
 
   state: () => ({
@@ -63,7 +63,8 @@ export default {
           })
           .catch(err => {
             dispatch('showAlert', {
-              message: err.message, mode: 'danger'
+              message: err.message, 
+              mode: 'danger'
             }, { root: true })
           })
       }, { root: true })
@@ -82,7 +83,8 @@ export default {
           })
           .catch(err => {
             dispatch('showAlert', {
-              message: err.message, mode: 'danger'
+              message: err.message, 
+              mode: 'danger'
             }, { root: true })
           })
       }, { root: true })
@@ -98,14 +100,15 @@ export default {
             dispatch('showAlert', {
               message: 'Data berhasil dihapus'
             }, { root: true })
-            commit('SET_OPEN_COLLECTION', false)
-            commit('SET_COLLECTION_DATA', null)
           })
           .catch(err => {
             dispatch('showAlert', {
-              message: err.message, mode: 'danger'
+              message: err.message, 
+              mode: 'danger'
             }, { root: true })
           })
+          commit('SET_OPEN_COLLECTION', false)
+          commit('SET_COLLECTION_DATA', null)
       }, { root: true })
     }
 

@@ -23,6 +23,6 @@ export default {
 
 <style scoped lang="postcss">
 .menu-toggle {
-  @apply fixed top-0 left-0 ml-4 mt-3 md:mt-2 p-1 shadow border-2 z-40 cursor-pointer bg-white rounded-md border-blue-500 text-blue-500;
+  @apply fixed top-0 left-0 ml-4 mt-3 md:mt-2 p-1 shadow border-2 z-40 cursor-pointer bg-white rounded-md border-blue-500 dark:border-gray-600 text-blue-500 dark:text-gray-600;
 }
 </style>

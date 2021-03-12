@@ -25,7 +25,7 @@ export default {
   computed: {
     coloring(){
       return this.color == 'white' 
-          ? 'bg-primary-white hover:bg-gray-200 text-gray-700'
+          ? 'bg-white hover:bg-gray-200 text-gray-700'
           : `bg-${this.color}-500 hover:bg-${this.color}-600 text-white`
     },
     sizing(){

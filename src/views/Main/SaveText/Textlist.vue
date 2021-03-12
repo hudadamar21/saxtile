@@ -2,13 +2,13 @@
   <ul class="text-list md:overflow-auto">
     <!-- jika list kosong -->
     <li v-if="!lists.length" class="text-center font-semibold text-gray-700 mt-5">
-      Tidak ada text yang tersimpan.
+      Tidak ada {{ isArchive ? 'archive' : '' }} text yang tersimpan.
     </li>
 
     <!-- list views -->
     <List
       v-else
-      mode="light"
+      :mode="checkDarkmode ? 'dark' : 'light'"
       v-for="list of lists"
       :key="list.id"
       :data="list"
@@ -21,11 +21,11 @@
         <div class="flex flex-col mb-2 lg:mb-0 w-full overflow-hidden">
           <div class="mb-1">
             <h3 class="font-bold">{{ list.title }}</h3>
-            <p class="text-gray-500 text-xs">
+            <p class="text-gray-500 dark:text-gray-400 text-xs">
               {{ new Date().formatDate(list.date) }}
             </p>
           </div>
-          <p class="overflow-hidden" :class="{ 'text-blue-500': isUrl(list.content) }">
+          <p class="overflow-hidden" :class="{ 'text-blue-500 dark:text-blue-300': isUrl(list.content) }">
             {{ list.content }}
           </p>
         </div>
@@ -34,13 +34,13 @@
       <!-- action (copy and goto) -->
       <template #action>
         <div class="flex items-center">
-          <Button color="green" @click.stop.native="copyText(list.content, list.id)" sm>
+          <Button :color="checkDarkmode ? 'white' : 'green'" @click.stop.native="copyText(list.content, list.id)" sm>
             <p>{{ textCopied == list.id ? 'copied' : 'copy' }}</p>
           </Button>
           <a
             v-if="isUrl(list.content)"
             @click.stop
-            class="bg-blue-500 hover:bg-blue-600 rounded p-1 text-white ml-2"
+            class="bg-blue-500 dark:bg-white dark:hover:bg-gray-200 hover:bg-blue-600 rounded p-1 text-white dark:text-gray-700 ml-2"
             :href="list.content"
             target="_blank"
             title="go to link"
@@ -53,7 +53,7 @@
       <!-- options (edit, delete) -->
       <template #option>
         <div>
-          <ButtonCircle mode="warning" @klik="editText(list)">
+          <ButtonCircle :mode="checkDarkmode ? '' : 'warning'" @klik="editText(list)">
             <SVGIcon icon="pancil" size="w-5 h-5" />
           </ButtonCircle>
           <ButtonCircle mode="danger" @klik="deleteText(list.id)">
@@ -69,9 +69,18 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import action_text from '@/mixins/action_text'
+import check_darkmode from '@/mixins/check_darkmode'
+
 
 export default {
-  mixins: [action_text],
+  props: {
+    lists: {
+      type: Array,
+      required: true
+    },
+    isArchive: Boolean
+  },
+  mixins: [action_text, check_darkmode],
   components: {
     List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
     SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
@@ -87,7 +96,6 @@ export default {
     ...mapState({
       isUpdate: (state) => state.text.isUpdate,
       showOption: (state) => state.text.showOption,
-      lists: (state) => state.text.all,
     }),
   },
   methods: {

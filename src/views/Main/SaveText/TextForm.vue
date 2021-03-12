@@ -21,7 +21,7 @@
         @getval="(val) => (input.content = val)"
       />
     </div>
-    <Button type="submit" color="blue" md className="text-base">{{
+    <Button type="submit" :color="checkDarkmode ? 'white' : 'blue'" md className="text-base">{{
       isUpdate ? 'Update' : 'Save'
     }}</Button>
   </form>
@@ -29,8 +29,10 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import check_darkmode from '@/mixins/check_darkmode'
 
 export default {
+  mixins: [check_darkmode],
   components: {
     Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
     Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),

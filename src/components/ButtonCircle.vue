@@ -1,9 +1,10 @@
 <template>
   <div
     class="btn-circle mb-1 cursor-pointer"
-    :class="`${mode} ${
-      size == 'lg' ? 'p-3 h-10 w-10' : size == 'sm' ? 'p-1 h-6 w-6' : 'p-2 h-8 w-8'
-    }`"
+    :class="`${mode || 'default'} ${
+      size == 'lg' ? 'p-3 h-10 w-10' 
+      : size == 'sm' ? 'p-1 h-6 w-6' 
+      : 'p-2 h-8 w-8' }`"
     @click="$emit('klik')"
   >
     <slot></slot>
@@ -31,23 +32,19 @@ export default {
 }
 
 .success {
-  @apply bg-green-400;
-}
-.success:hover {
-  @apply bg-green-500;
+  @apply bg-green-400 hover:bg-green-500;
 }
 
 .warning {
-  @apply bg-orange-400;
-}
-.warning:hover {
-  @apply bg-orange-500;
+  @apply bg-orange-400 hover:bg-orange-500;
 }
 
 .danger {
-  @apply bg-red-500;
+  @apply bg-red-500 hover:bg-red-600;
 }
-.danger:hover {
-  @apply bg-red-600;
+
+.default {
+  @apply bg-white hover:bg-gray-200 text-gray-600;
 }
+
 </style>

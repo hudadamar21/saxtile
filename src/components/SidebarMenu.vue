@@ -1,29 +1,27 @@
 <template>
-  <div
-    class="fixed top-0 left-0 flex flex-col w-full md:w-1/4 self-start items-start p-5 bg-gray-100 h-screen z-40 shadow-lg border border-gray-200 transition duration-300 cursor-default"
-  >
+  <div class="sidebar-menu">
     <div class="flex flex-col w-full items-start">
       <div class="flex justify-end w-full items-center">
-        <small class="text-sm lg:text-base">Hallo, {{ user.displayName }}</small>
+        <small class="text-sm lg:text-base dark:text-gray-100">Hallo, {{ user.displayName }}</small>
       </div>
-      <h3 class="font-bold mt-3 mb-2 text-blue-500">Menu</h3>
-      <ul class="w-full text-left bg-white rounded shadow transition-max-height">
+      <h3 class="font-bold mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
+      <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height">
         <li
           v-for="menu of menuList"
           :key="menu.name"
-          class="overflow-hidden"
-          :class="{ 'bg-blue-50': menu.url_name == $route.name }"
+          class="overflow-hidden text-gray-800 dark:text-gray-100"
+          :class="{'selected-menu': menu.url_name == $route.name }"
           @click="$store.commit('TOGGLE_MENU')"
         >
           <router-link
-            class="text-base py-2 pl-3 w-full h-full inline-block text-gray-800 hover:text-blue-400 cursor-pointer"
+            class="text-base py-2 pl-3 w-full h-full inline-block  hover:text-blue-400 dark:hover:text-white cursor-pointer"
             :to="menu.url"
           >
             {{ menu.name }}
           </router-link>
-          <hr class="mx-2" />
+          <div class="h-px mx-2 bg-gray-200 dark:bg-gray-400" />
         </li>
-        <li class="overflow-hidden pb-1 text-gray-800 hover:text-blue-400 cursor-pointer">
+        <li class="overflow-hidden pb-1 text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-white cursor-pointer">
           <p class="text-base py-1 ml-3" @click="logout">Logout</p>
         </li>
       </ul>
@@ -50,6 +48,11 @@ export default {
           url: { name: 'collections', params: this.params },
         },
         {
+          name: 'Archives',
+          url_name: 'archives',
+          url: {name: 'archives', params: this.params}
+        },
+        {
           name: 'Setting',
           url_name: 'setting',
           url: { name: 'setting', params: this.params },
@@ -73,9 +76,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 .transition-max-height {
   max-height: 500px;
   transition: max-height 2s ease;
+}
+.sidebar-menu {
+  @apply fixed top-0 left-0 flex flex-col w-full md:w-1/4 self-start items-start p-5 bg-gray-100 dark:bg-gray-600 h-screen z-40 shadow-lg border border-gray-200 dark:border-gray-700 transition duration-300 cursor-default
+}
+.selected-menu {
+  @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-600 border border-blue-500 dark:border-gray-400
 }
 </style>

@@ -10,7 +10,7 @@
 
     <!-- List Text -->
     <Skeleton v-if="loadingList" mode="light" :count="3" />
-    <TextList v-else />
+    <Textlist v-else :lists="lists" />
   </section>
 </template>
 
@@ -19,12 +19,15 @@ export default {
   components: {
     Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     TextForm: () => import(/* webpackChunkName: "main" */ './TextForm'),
-    TextList: () => import(/* webpackChunkName: "main" */ './Textlist'),
+    Textlist: () => import(/* webpackChunkName: "main" */ './Textlist'),
   },
   computed: {
     loadingList() {
       return this.$store.state.text.loadingList
     },
+    lists(){
+      return this.$store.state.text.all
+    }
   },
   data() {
     return {
@@ -36,15 +39,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="postcss">
-.stext-main {
-  @apply bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center;
-}
-.stext-title {
-  @apply my-2 font-bold text-blue-500;
-}
-.text-list {
-  @apply py-2 px-5 text-base tracking-wide text-left w-full;
-}
-</style>

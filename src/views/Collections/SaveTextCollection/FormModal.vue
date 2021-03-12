@@ -6,27 +6,36 @@
   >
     <template #body>
       <!-- input title and prefix -->
-      <div class="flex flex-col mb-3">
-        <div class="flex items-center w-full sm:w-10/12 mb-3">
-          <h3 class="text-base w-1/12">Title</h3>
-          <Input
-            name="Title"
-            :value="textCollection.title"
-            class="w-full"
-            @getval="(val) => (textCollection.title = val)"
-          />
+      <div class="flex flex-col md:flex-row w-full mb-3">
+        <div class="w-full md:w-2/3">
+          <div class="flex flex-col md:flex-row items-start md:items-center w-full mb-1 md:mb-3">
+            <h3 class="text-base mr-2 w-1/12">Title</h3>
+            <Input
+              name="type your title"
+              :value="textCollection.title"
+              class="w-full"
+              @getval="(val) => (textCollection.title = val)"
+            />
+          </div>
+          <div class="flex flex-col md:flex-row items-start md:items-center w-full">
+            <h3 class="mr-1 text-base mr-2 w-1/12">Prefix</h3>
+            <Input
+              name="add prefix for same base link. (https://example.com/)"
+              :value="textCollection.prefix"
+              @getval="(val) => (textCollection.prefix = val)"
+              class="w-full"
+            />
+          </div>
         </div>
-        <div class="flex items-center w-full sm:w-10/12">
-          <h3 class="mr-1 text-base w-1/12">Prefix</h3>
-          <Input
-            name="add prefix for same base link. (https://example.com/)"
-            :value="textCollection.prefix"
-            @getval="(val) => (textCollection.prefix = val)"
-            class="w-full mr-1"
-          />
-          <Button @click.native="hidePrefix = !hidePrefix" :color="hidePrefix ? 'blue' : 'gray'" md>
-            {{ hidePrefix ? 'show' : 'hide' }}
-          </Button>
+        <div class="mt-2 md:mt-0 ml-2 md:ml-4 flex flex-col justify-start items-start gap-2">
+          <div class="flex justify-center items-center">
+            <SwitchButton 
+              :state="withSubtitle"  
+              @switch="(value) => withSubtitle = value" 
+            >
+            </SwitchButton>
+            <p class="ml-3 text-base text-gray-800">with subtitle</p>
+          </div>
         </div>
       </div>
       <!-- END input title and prefix -->
@@ -35,40 +44,34 @@
       <div class="overflow-auto overflow-x-hidden height-textCollection w-full">
         <div
           class="flex items-center justify-center w-full"
-          v-for="(text, index) of textCollection.content"
+          v-for="({subtitle, text}, index) of textCollection.contents"
           :key="index"
         >
           <div class="mr-1 font-semibold text-sm w-5">{{ index + 1 }}.</div>
           <div class="relative my-1 w-11/12">
             <!-- wrapper input text -->
-            <div class="w-full flex justify-center items-center">
-              <!-- prefix text -->
-              <div
-                v-if="textCollection.prefix && !hidePrefix"
-                class="text-base text-gray-700 mr-1 max-w-xs"
-                :class="{ truncate: textCollection.prefix.length >= 40 }"
-              >
-                {{ textCollection.prefix }}
+            <div class="w-full flex">
+              <div v-if="withSubtitle" class="w-1/3 flex justify-center items-center mr-1">
+                <Input
+                  @keyup.enter.native="focusedToNewText(index)"
+                  name="subtitle"
+                  :value="subtitle || ''"
+                  :ref="'text' + index"
+                  @getval="(value) => changeSubtitleOfIndex(value, index)"
+                  class="w-full"
+                />
               </div>
-
+              <div class="w-full flex justify-center items-center">
               <!-- input text -->
               <Input
-                v-if="textCollection.content.length - 1 == index"
-                @keyup.enter.native="addNewText(() => $refs[`text${index + 1}`][0].$el.focus())"
+                @keyup.enter.native="focusedToNewText(index)"
                 name="input your text or link"
                 :value="text"
                 :ref="'text' + index"
-                @getval="(value) => changeValueOfIndex(value, index)"
+                @getval="(value) => changeTextOfIndex(value, index)"
                 class="w-full"
               />
-              <Input
-                v-else
-                name="input your text or link"
-                :value="text"
-                :ref="'text' + index"
-                @getval="(value) => changeValueOfIndex(value, index)"
-                class="w-full"
-              />
+              </div>
             </div>
             <!-- END input text -->
 
@@ -86,7 +89,7 @@
 
             <!-- add new text -->
             <Button
-              v-if="textCollection.content.length - 1 == index"
+              v-if="textCollection.contents.length - 1 == index"
               color="blue"
               sm
               class="mt-1 text-right absolute -bottom-5 right-0"
@@ -123,17 +126,23 @@ export default {
   components: {
     Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
     Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
+    SwitchButton: () => import(/* webpackChunkName: "components" */ '@/components/SwitchButton'),
     Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
     ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
     SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {
-      hidePrefix: false,
+      withSubtitle: false,
       textCollection: {
         title: '',
         prefix: '',
-        content: [''],
+        contents: [
+          {
+            subtitle: '',
+            text: ''
+          }
+        ],
         date: '',
       },
     }
@@ -141,9 +150,10 @@ export default {
   computed: {
     ...mapState('text_collection', ['collection_data', 'is_update']),
     validateInput() {
-      let { title, content } = this.textCollection
-      return title && content.filter((text) => text).length > 0 ? true : false
+      let { title, contents } = this.textCollection
+      return title && contents.filter(content => content).length > 0 ? true : false
     },
+    
   },
   created() {
     if (this.is_update) {
@@ -151,26 +161,57 @@ export default {
     }
   },
   methods: {
+
     ...mapMutations('text_collection', {
       setCollectionData: 'SET_COLLECTION_DATA',
       setOpenCollection: 'SET_OPEN_COLLECTION',
       setShowFormModal: 'SET_SHOW_FORM_MODAL',
       setIsUpdate: 'SET_IS_UPDATE',
     }),
-    ...mapActions('text_collection', ['Save', 'Update']),
-    changeValueOfIndex(value, index) {
-      this.textCollection.content[index] = value
+
+    ...mapActions('text_collection', [
+      'Save', 
+      'Update'
+      ]),
+
+    changeSubtitleOfIndex(value, index){
+      this.textCollection.contents[index].subtitle = value
+    },  
+
+    changeTextOfIndex(value, index) {
+      this.textCollection.contents[index].text = value
     },
+
     addNewText(callback) {
-      this.textCollection.content.push('')
+      const newText = this.withSubtitle 
+        ? {subtitle: '',text: ''} 
+        : {text: ''}
+      this.textCollection.contents.push(newText)
       setTimeout(() => callback(), 1)
     },
-    deleteListOfIndex(index) {
-      this.textCollection.content = this.textCollection.content.filter((_, i) => i != index)
+
+    focusedToNewText(index){
+      return this.textCollection.contents.length - 1 == index 
+        ? this.addNewText(() => this.$refs[`text${index + 1}`][0].$el.focus()) 
+        : false
     },
+
+    deleteListOfIndex(index) {
+      this.textCollection.contents = this.textCollection.contents.filter((_, i) => i != index)
+    },
+
     submitCollection() {
+      
       if (this.validateInput) {
         this.textCollection.date = new Date().getTime()
+
+        // check if not withsubtitle, delete subtitle on object of array
+        if(!this.withSubtitle){
+          this.textCollection.contents.forEach(content => {
+            delete content.subtitle
+          })
+        }
+        
         if (this.is_update && this.collection_data.id) {
           const updatedCollection = {
             id: this.collection_data.id,
@@ -179,24 +220,28 @@ export default {
           this.Update(updatedCollection)
           this.setCollectionData(null)
           this.setOpenCollection(false)
+
         } else {
           this.Save(this.textCollection)
         }
+
         this.setShowFormModal(false)
       } else {
         alert('input is required')
       }
     },
+
     closeModal() {
       this.setCollectionData(this.collection_data)
-      let { title, prefix, content } = this.textCollection
-      if (!title && !prefix && content.filter((text) => text).length < 1) {
+      let { title, prefix, contents } = this.textCollection
+      if (!title && !prefix && contents.filter(content => content).length <= 1) {
         this.$emit('closemodal', false)
       } else {
         let message = 'Close akan menghapus collection yang telah di tulis, Apakah anda Yakin ?'
         window.confirm(message) ? this.$emit('closemodal', false) : false
       }
     },
+
   },
 }
 </script>

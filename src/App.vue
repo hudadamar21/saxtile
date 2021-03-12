@@ -13,7 +13,18 @@
 
 <script>
 export default {
-  components: { Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert') },
+  components: { 
+    Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert') 
+  },
+  mounted(){
+    const localDarkmode = JSON.parse(localStorage.getItem('darkmode'))
+    if(localDarkmode){
+        document.querySelector('body').classList.add('dark')
+      } else {
+        document.querySelector('body').classList.remove('dark')
+
+      }
+  }
 }
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <section ref="sfile" class="sfile-main md:h-screen min-h-screen w-full md:w-1/2" id="savefile">
+  <section 
+    ref="sfile" id="savefile"
+    class="sfile-main md:h-screen min-h-screen w-full md:w-1/2 pb-12 md:pb-0" >
     <!-- Header -->
     <h1 class="sfile-title text-2xl md:text-3xl">Save File</h1>
 

@@ -1,9 +1,9 @@
 <template>
   <div
     class="flex items-center py-2 px-3 shadow-md mb-2 border-l-4"
-    :class="`${bgColor} ${animation}`"
+    :class="`${bgColor} dark:bg-gray-600 ${animation}`"
   >
-    <div class="rounded-full bg-white mr-3" :class="textColor">
+    <div class="rounded-full bg-white mr-3 dark:text-white" :class="textColor">
       <SVGIcon :icon="`alert-${mode}`" size="w-6 h-6" />
     </div>
     <div class="text-white max-w-xs">{{ message || 'without message' }}</div>
