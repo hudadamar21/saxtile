@@ -14,23 +14,30 @@
           @click="$store.commit('TOGGLE_MENU')"
         >
           <router-link
-            class="text-base py-2 pl-3 w-full h-full inline-block  hover:text-blue-400 dark:hover:text-white cursor-pointer"
+            class="text-base py-2 pl-3 w-full h-full inline-block hover:text-blue-400 dark:hover:text-white cursor-pointer"
             :to="menu.url"
           >
             {{ menu.name }}
           </router-link>
-          <div class="h-px mx-2 bg-gray-200 dark:bg-gray-400" />
+          <div class="h-px mx-2 bg-gray-200 dark:bg-gray-600" />
         </li>
         <li class="overflow-hidden pb-1 text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-white cursor-pointer">
           <p class="text-base py-1 ml-3" @click="logout">Logout</p>
         </li>
       </ul>
     </div>
+
+    <!-- Support me -->
+    <SupportMe/>
   </div>
 </template>
 
 <script>
+
 export default {
+  components: {
+    SupportMe: () => import(/* webpackChunkName: "components" */ '@/components/SupportMe'),
+  },
   data() {
     return {
       params: {
@@ -85,6 +92,6 @@ export default {
   @apply fixed top-0 left-0 flex flex-col w-full md:w-1/4 self-start items-start p-5 bg-gray-100 dark:bg-gray-600 h-screen z-40 shadow-lg border border-gray-200 dark:border-gray-700 transition duration-300 cursor-default
 }
 .selected-menu {
-  @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-600 border border-blue-500 dark:border-gray-400
+  @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-600
 }
 </style>

@@ -13,23 +13,37 @@
     class="card lg:items-center flex-col lg:flex-row -translate-x-12 h-auto"
     :class="{
         'border-blue-400 border' : data.type === 'collection',
-        'transition-transform transform scale-105 bg-teal-100': showOption == data.id && isUpdate,
+        'transition-transform transform scale-105 bg-blue-100': showOption == data.id && isUpdate,
         'transition-transform transform' : showOption == data.id,
         'bg-white': mode == 'light',
         'bg-gray-600 text-white' : mode == 'dark'
     }"
     @click="$emit('toggle', data.id)"
   >
+  <div
+    @click="archiveAction" 
+    class="absolute top-1/2 transform -translate-y-1/2 bg-red-500 w-32 flex items-center justify-end rounded p-3 text-white transition duration-200 shadow-md"
+    :class="{
+      '-translate-x-full opacity-0' : showOption !== data.id,
+      'w-36' : data.archived
+    }"
+  >
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+    <p class="text-sm">
+      {{ data.archived ? 'UnArchive' : 'Archive' }}
+    </p>
+  </div>
 
     <!-- Content Slot -->
     <slot name="content"></slot>
 
     <!-- Action Slot -->
     <div 
-      class="flex items-center lg:justify-end w-2/12 lg:mx-2"
+      class="flex items-center lg:justify-end w-3/12 lg:mx-2"
       :class="{
-        'lg:bg-white' : mode == 'light',
-        'lg:bg-gray-600' : mode == 'dark'
+        'bg-white' : mode == 'light',
+        'bg-gray-600' : mode == 'dark',
+        'bg-blue-100' : showOption === data.id && isUpdate
       }">
         <slot name="action"></slot>
     </div>
@@ -57,6 +71,11 @@ export default {
     },
     showOption: String,
     isUpdate: Boolean,
+  },
+  methods: {
+    archiveAction(){
+      this.$emit('archive', this.data.id)
+    }
   }
 }
 </script>

@@ -25,7 +25,12 @@
       <li class="border-b dark:border-gray-700 py-3">
         <label class="text-gray-700 dark:text-white">Darkmode</label>
         <div class="px-3 py-2">
-          <SwitchButton :state="darkmode" @switch="(value) => darkmode = value"/>
+          <SwitchButton 
+            activeColor="bg-gray-500" 
+            nonActiveColor="bg-blue-500" 
+            :state="darkmode" 
+            @switch="(value) => darkmode = value"
+          />
         </div>
       </li>
     </ul>

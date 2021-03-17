@@ -10,7 +10,7 @@
 
     <!-- List Text -->
     <Skeleton v-if="loadingList" mode="light" :count="3" />
-    <Textlist v-else :lists="lists" />
+    <TextList v-else :lists="unArchiveLists" />
   </section>
 </template>
 
@@ -19,14 +19,17 @@ export default {
   components: {
     Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     TextForm: () => import(/* webpackChunkName: "main" */ './TextForm'),
-    Textlist: () => import(/* webpackChunkName: "main" */ './Textlist'),
+    TextList: () => import(/* webpackChunkName: "main" */ './TextList'),
   },
   computed: {
     loadingList() {
       return this.$store.state.text.loadingList
     },
     lists(){
-      return this.$store.state.text.all
+      return this.$store.state.text.lists
+    },
+    unArchiveLists(){
+      return this.lists.filter(list => !list.archived)
     }
   },
   data() {

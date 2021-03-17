@@ -8,13 +8,14 @@
     <!-- list views -->
     <List
       v-else
-      :mode="checkDarkmode ? 'dark' : 'light'"
       v-for="list of lists"
+      :mode="checkDarkmode ? 'dark' : 'light'"
       :key="list.id"
       :data="list"
       :showOption="showOption"
       :isUpdate="isUpdate"
-      @toggle="(id) => toggle(id)"
+      @archive="(id) => archiveText(id, !list.archived)"
+      @toggle="toggle"
     >
       <!-- Content (title and date) -->
       <template #content>
@@ -34,13 +35,21 @@
       <!-- action (copy and goto) -->
       <template #action>
         <div class="flex items-center">
-          <Button :color="checkDarkmode ? 'white' : 'green'" @click.stop.native="copyText(list.content, list.id)" sm>
-            <p>{{ textCopied == list.id ? 'copied' : 'copy' }}</p>
+          <Button
+            padding="px-2 py-1"
+            class="flex gap-1"
+            :color="checkDarkmode ? 'white' : 'green'" 
+            @click.stop.native="copyText(list.content, list.id)" sm
+            title="copy"
+            >
+            <svg v-if="textCopied == list.id" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            {{ textCopied == list.id ? 'copied' : 'copy' }}
           </Button>
           <a
             v-if="isUrl(list.content)"
             @click.stop
-            class="bg-blue-500 dark:bg-white dark:hover:bg-gray-200 hover:bg-blue-600 rounded p-1 text-white dark:text-gray-700 ml-2"
+            class="bg-blue-500 dark:bg-white dark:hover:bg-gray-200 hover:bg-blue-600 rounded p-1 text-white dark:text-gray-700 ml-2 flex items-center text-sm"
             :href="list.content"
             target="_blank"
             title="go to link"
@@ -105,6 +114,7 @@ export default {
       setUpdateTextId: 'SET_UPDATE_TEXT_ID',
       setShowOption: 'SET_SHOW_OPTION',
     }),
+    
     editText({ title, content, id }) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       this.setIsUpdate(true)
@@ -114,7 +124,7 @@ export default {
 
     deleteText(id) {
       if (confirm('yakin ?')) {
-        this.$store.dispatch('text/Delete', id, { root: true })
+        this.$store.dispatch('text/Delete', id)
         this.setIsUpdate(false)
         this.setInput({ title: '', content: '' })
       }
@@ -131,6 +141,11 @@ export default {
         } else this.setShowOption(id)
       }
     },
+
+    archiveText(id, status){
+      this.$store.dispatch('text/Archive', {id, status})
+      this.setShowOption(id)
+    }
   },
 }
 </script>

@@ -1,15 +1,21 @@
-.slide-fade-enter-active, .slide-fade-leave-active {
-  transition: transfrom opacity .3s ease;
-}
-.slide-fade-enter, .slide-fade-leave-to {
+
+/* Sidebar Transition */
+.sidebar-enter, .sidebar-leave-to {
   transform: translateX(-500px);
   opacity: 0;
 }
 
-.slide-down-fade-enter-active, .slide-down-fade-leave-active {
-  transition: transfrom opacity .3s ease;
+.sidebar-enter-active, .sidebar-leave-active {
+  transition-property: transform, opacity;
+  transition: all .3s ease-in-out;
 }
-.slide-down-fade-enter, .slide-down-fade-leave-to {
+
+/* Modal Transition */
+.modal-enter, .modal-leave-to {
   transform: translateY(-500px);
   opacity: 0;
+}
+
+.modal-enter-active, .modal-leave-active {
+  transition: transfrom opacity .3s ease;
 }

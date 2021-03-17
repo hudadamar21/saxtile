@@ -13,11 +13,11 @@
     <Skeleton v-if="loading" :count="3" />
     <ListView v-else />
 
-    <transition name="slide-down-fade">
+    <transition name="modal">
       <OpenCollectionModal v-if="open_collection"></OpenCollectionModal>
     </transition>
 
-    <transition name="slide-down-fade">
+    <transition name="modal">
       <FormModal v-if="show_form_modal" @closemodal="closeFormModal" />
     </transition>
   </section>

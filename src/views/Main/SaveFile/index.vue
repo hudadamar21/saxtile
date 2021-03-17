@@ -10,7 +10,7 @@
 
     <!-- File List -->
     <Skeleton v-if="loadingList" mode="dark" :count="3" />
-    <FileList v-else />
+    <FileList v-else :lists="unArchiveLists" />
   </section>
 </template>
 
@@ -22,9 +22,15 @@ export default {
     FileList: () => import(/* webpackChunkName: "main" */ './FileList'),
   },
   computed: {
+    lists(){
+      return this.$store.state.file.lists
+    },
     loadingList() {
       return this.$store.state.file.loading_list
     },
+    unArchiveLists(){
+      return this.lists.filter(list => !list.archived)
+    }
   },
   mounted() {
     this.$store.dispatch('file/List')

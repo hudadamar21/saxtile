@@ -143,6 +143,7 @@ export default {
             text: ''
           }
         ],
+        archived: false,
         date: '',
       },
     }
@@ -212,6 +213,7 @@ export default {
           })
         }
         
+        // save updated text collection
         if (this.is_update && this.collection_data.id) {
           const updatedCollection = {
             id: this.collection_data.id,
@@ -221,6 +223,7 @@ export default {
           this.setCollectionData(null)
           this.setOpenCollection(false)
 
+        // save new text collection
         } else {
           this.Save(this.textCollection)
         }

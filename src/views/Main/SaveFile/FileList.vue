@@ -1,19 +1,22 @@
 <template>
   <ul class="file-list md:overflow-auto">
     <!-- jika list kosong -->
-    <li v-if="!lists.length" class="text-center font-semibold text-gray-200 mt-5">
-      Tidak ada file yang tersimpan.
+    <li v-if="!lists.length" class="text-center font-semibold mt-5"
+        :class="isArchive ? 'text-gray-600' : 'text-gray-200'"
+    >
+      Tidak ada {{ isArchive ? 'archive' : '' }} file yang tersimpan.
     </li>
 
     <!-- list views -->
     <List
       v-else
-      mode="dark"
       v-for="list of lists"
+      mode="dark"
       :key="list.id"
       :data="list"
       :showOption="show_option"
       @toggle="(id) => toggle(id)"
+      @archive="(id) => archiveFile(id, !list.archived)"
     >
       <!-- Content (title and date) -->
       <template #content>
@@ -32,9 +35,11 @@
           :href="list.content"
           :download="list.title"
           @click.stop
-          class="bg-white hover:bg-gray-200 text-gray-700 rounded px-2 py-1 mt-2 lg:mt-0"
+          class="bg-white hover:bg-gray-200 text-gray-700 rounded px-2 py-1 mt-2 lg:mt-0 flex items-center text-sm"
           target="_blank"
+          title="download"
         >
+          <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           download
         </a>
       </template>
@@ -55,6 +60,12 @@ import { mapState } from 'vuex'
 import default_file from '@/assets/images/default-file.webp'
 
 export default {
+  props: {
+    lists: {
+      type: Array,
+      required: true
+    }
+  },
   components: {
     List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
     ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
@@ -62,7 +73,6 @@ export default {
   },
   computed: {
     ...mapState('file', [
-        'lists',
         'show_option'
     ]),
   },
@@ -81,6 +91,10 @@ export default {
         this.$store.dispatch('file/Delete', data)
       }
     },
+    archiveFile(id, status){
+      this.$store.dispatch('file/Archive', {id, status})
+      this.$store.commit('file/setShowOption', id)
+    }
   },
 }
 </script>

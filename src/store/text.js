@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: () => {
     return {
-      all: [],
+      lists: [],
       input: {
         title: '',
         content: ''
@@ -47,11 +47,11 @@ export default {
           .collection('text')
           .orderBy(property, type)
           .onSnapshot(snaps => {
-            state.all = []
+            state.lists = []
             snaps.forEach(snap => {
               let data = snap.data()
               data['id'] = snap.id
-              state.all.push(data)
+              state.lists.push(data)
             })
             commit('SET_LOADING', false)
           })
@@ -112,6 +112,30 @@ export default {
           .then(() => dispatch('showAlert', {
             message: 'Data berhasil dihapus'
           }, { root: true }))
+          .catch(err => {
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
+          })
+
+      }, { root: true })
+    },
+
+    Archive({rootGetters, dispatch}, {id, status}){
+      dispatch('user/ValidationUser', () => {
+
+        rootGetters['user/userRef']
+          .collection('text')
+          .doc(id)
+          .update({
+            archived: status
+          })
+          .then(() => {
+            dispatch('showAlert', {
+              message: `Data berhasil ${status ? 'dimasukan kedalam' : 'dikeluarkan dari'} Archive`
+            }, { root: true })
+          })
           .catch(err => {
             dispatch('showAlert', {
               message: err.message, 

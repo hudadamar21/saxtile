@@ -1,6 +1,6 @@
 <template>
   <div class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
-    <transition name="slide-fade">
+    <transition name="sidebar">
       <SidebarMenu v-if="menu" />
     </transition>
     <MenuToggle />
@@ -37,7 +37,7 @@ export default {
     toSavefile() {
       return this.$route.name == 'collections' ? '#savefile-collection' : '#savefile'
     },
-  },
+  }
 }
 </script>
 
@@ -51,4 +51,6 @@ export default {
 .indicator {
   @apply flex justify-center items-center w-1/2 h-12 text-white;
 }
+
+
 </style>

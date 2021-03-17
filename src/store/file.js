@@ -77,6 +77,7 @@ export default {
           const newFile = {
             title: filename,
             content: downloadURL, // link file
+            archived: false,
             date: new Date().getTime()
           }
 
@@ -106,7 +107,8 @@ export default {
 
         // delete file on storage
         firebase.storage().ref(rootGetters['user/userId']).child(title).delete()
-          .then(() => {
+          .then((e) => {
+            console.log('delete file e',e)
 
             // delete dokumen file on database
             rootGetters['user/userRef']
@@ -130,6 +132,30 @@ export default {
               mode: 'danger'
             }, { root: true })
           })
+      }, { root: true })
+    },
+
+    Archive({rootGetters, dispatch}, {id, status}){
+      dispatch('user/ValidationUser', () => {
+
+        rootGetters['user/userRef']
+          .collection('file')
+          .doc(id)
+          .update({
+            archived: status
+          })
+          .then(() => {
+            dispatch('showAlert', {
+              message: 'Data berhasil dimasukan kedalam Archive'
+            }, { root: true })
+          })
+          .catch(err => {
+            dispatch('showAlert', {
+              message: err.message, 
+              mode: 'danger'
+            }, { root: true })
+          })
+
       }, { root: true })
     }
 

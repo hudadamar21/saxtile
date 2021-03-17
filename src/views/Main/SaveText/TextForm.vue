@@ -60,7 +60,8 @@ export default {
         const Text = {
           title,
           content,
-          date: new Date().getTime(),
+          archived: false,
+          date: new Date().getTime()
         }
 
         this.isUpdate ? this.Update(Text) : this.Save(Text)
