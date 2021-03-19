@@ -69,7 +69,7 @@ export default {
       type: String,
       required: true
     },
-    showOption: String,
+    showOption: Number,
     isUpdate: Boolean,
   },
   methods: {

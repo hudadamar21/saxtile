@@ -1,7 +1,3 @@
-import firebase from 'firebase/app';
-import 'firebase/storage';
-import 'firebase/auth';
-
 export default {
   namespaced: true,
   state: () => {
@@ -19,143 +15,56 @@ export default {
     }
   },
   mutations: {
-    setLoading(state, value) {
+    SET_LISTS(state, lists){
+      state.lists = lists.map(list => Object.freeze(list))
+    },
+    SET_LOADING(state, value) {
       state.loading_list = value
     },
-    setFilename(state, value) {
+    SET_FILENAME(state, value) {
       state.filename = value
     },
-    setFileUpload(state, value) {
+    SET_FILE_UPLOAD(state, value) {
       state.file_upload = value
     },
-    setShowOption(state, value) {
+    SET_SHOW_OPTION(state, value) {
       state.show_option = value
+    },
+    SET_PROGRESS_UPLOAD(state, value){
+      state.progress_upload = value
     }
   },
   actions: {
-    List({ state, rootGetters, rootState, dispatch, commit }) {
-
-      // check user is valid
-      dispatch('user/ValidationUser', () => {
-        commit('setLoading', true)
-        const { property, type } = rootState.setting.orderBy
-
-        // get user reference
-        rootGetters['user/userRef']
-          .collection('file')
-          .orderBy(property, type)
-          .onSnapshot(snaps => {
-            state.lists = []
-            snaps.forEach(snap => {
-              let data = snap.data()
-              data['id'] = snap.id
-              state.lists.push(data)
-            })
-            commit('setLoading', false)
-          })
-      }, { root: true })
+    List({ commit, dispatch }) {
+      dispatch('firebase_actions/GetDocument', {
+        collection_name: 'file', 
+        callback: lists => commit('SET_LISTS', lists),
+      }, {root: true})
     },
-    Upload({ state, rootGetters, dispatch }, { filename, file }) {
-      const uid = firebase.auth().currentUser.uid
-      const storage = firebase.storage().ref(uid)
-      const uploadTask = storage.child(filename).put(file)
-
-      // get percentase progress
-      uploadTask.on('state_changed', (snapshot) => {
-        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        state.progress_upload = parseInt(progress)
-      }, (error) => {
-        dispatch('showAlert', {
-          message: error.message, 
-          mode: 'danger'
-        }, { root: true })
-      }, () => {
-
-        // get link download file 
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          state.progress_upload = 0
-          const newFile = {
-            title: filename,
-            content: downloadURL, // link file
-            archived: false,
-            date: new Date().getTime()
-          }
-
-          // add new file to database
-          rootGetters['user/userRef'].collection('file').add(newFile)
-            .then(() => {
-              dispatch('showAlert', {
-                message: "File berhasil di Upload"
-              }, { root: true })
-            })
-            .catch(err => {
-              dispatch('showAlert', {
-                message: err.message, 
-                mode: 'danger'
-              }, { root: true })
-            })
-
-        });
-      });
-      return true
+    
+    Upload({ dispatch }, { filename, file }) {
+      dispatch('firebase_actions/UploadFile', {
+        collection_name: 'file', 
+        filename, 
+        file 
+      }, {root: true})
     },
 
-    Delete({ dispatch, rootGetters }, { title, id }) {
-
-      // check user is valid
-      dispatch('user/ValidationUser', () => {
-
-        // delete file on storage
-        firebase.storage().ref(rootGetters['user/userId']).child(title).delete()
-          .then((e) => {
-            console.log('delete file e',e)
-
-            // delete dokumen file on database
-            rootGetters['user/userRef']
-              .collection('file')
-              .doc(id).delete()
-                .then(() => {
-                  dispatch('showAlert', {
-                    message: "File berhasil dihapus"
-                  }, { root: true })
-                })
-                .catch(err => {
-                  dispatch('showAlert', {
-                    message: err.message, 
-                    mode: 'danger'
-                  }, { root: true })
-                })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-      }, { root: true })
+    Delete({ dispatch }, { title, id }) {
+      dispatch('firebase_actions/DeleteFile', {
+        collection_name: 'file', 
+        title, 
+        id, 
+        messageOnComplete: 'File Berhasil di Hapus'
+      }, {root: true})
     },
 
-    Archive({rootGetters, dispatch}, {id, status}){
-      dispatch('user/ValidationUser', () => {
-
-        rootGetters['user/userRef']
-          .collection('file')
-          .doc(id)
-          .update({
-            archived: status
-          })
-          .then(() => {
-            dispatch('showAlert', {
-              message: 'Data berhasil dimasukan kedalam Archive'
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-
+    Archive({ dispatch }, {id, status}){
+      dispatch('firebase_actions/UpdateDocument', {
+        collection_name: 'file',
+        id,
+        updateText: {archived: status},
+        messageOnComplete: 'File Berhasil dimasukan kedalam Archive'
       }, { root: true })
     }
 

@@ -1,8 +1,5 @@
 <template>
   <div class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
-    <transition name="sidebar">
-      <SidebarMenu v-if="menu" />
-    </transition>
     <MenuToggle />
     <section class="flex flex-col md:flex-row w-full">
       <slot></slot>
@@ -24,13 +21,9 @@ export default {
     noIndicator: Boolean,
   },
   components: {
-    SidebarMenu: () => import(/* webpackChunkName: "components" */ '@/components/SidebarMenu'),
     MenuToggle: () => import(/* webpackChunkName: "components" */ '@/components/MenuToggle'),
   },
   computed: {
-    menu() {
-      return this.$store.state.menu
-    },
     toSavetext() {
       return this.$route.name == 'collections' ? '#savetext-collection' : '#savetext'
     },

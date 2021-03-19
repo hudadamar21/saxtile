@@ -5,6 +5,7 @@ import user from './user';
 import text from './text';
 import text_collection from './text_collection';
 import file from './file';
+import firebase_actions from "./firebase_actions";
 
 Vue.use(Vuex)
 
@@ -26,6 +27,9 @@ export default new Vuex.Store({
   mutations: {
     TOGGLE_MENU(state) {
       state.menu = !state.menu
+    },
+    SET_MENU(state, value) {
+      state.menu = value
     },
     SET_LOADING(state, value) {
       state.loading = value
@@ -49,6 +53,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
+    firebase_actions,
     user,
     text,
     text_collection,

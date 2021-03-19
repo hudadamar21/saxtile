@@ -17,6 +17,9 @@ export default {
     }
   },
   mutations: {
+    SET_LISTS(state, lists){
+      state.lists = lists.map(list => Object.freeze(list))
+    },
     SET_LOADING(state, value) {
       state.loadingList = value
     },
@@ -37,112 +40,44 @@ export default {
     },
   },
   actions: {
-    List({ state, rootGetters, rootState, dispatch, commit }) {
-      dispatch('user/ValidationUser', () => {
+    List({ commit, dispatch }) {
+      dispatch('firebase_actions/GetDocument', {
+        collection_name: 'text', 
+        callback: lists => commit('SET_LISTS', lists)
+      }, {root: true})
+    },
 
-        commit('SET_LOADING', true)
-        const { property, type } = rootState.setting.orderBy
+    Save({ dispatch }, newText) {
+      dispatch('firebase_actions/SaveDocument', {
+        collection_name: 'text',
+        data: newText,
+        messageOnComplete: 'Text Berhasil di Simpan'
+      }, {root: true})
+    },
 
-        rootGetters['user/userRef']
-          .collection('text')
-          .orderBy(property, type)
-          .onSnapshot(snaps => {
-            state.lists = []
-            snaps.forEach(snap => {
-              let data = snap.data()
-              data['id'] = snap.id
-              state.lists.push(data)
-            })
-            commit('SET_LOADING', false)
-          })
-
+    Update({ dispatch, state }, updateText) {
+      dispatch('firebase_actions/UpdateDocument', {
+        collection_name: 'text',
+        updateText,
+        id: state.updateTextId,
+        messageOnComplete: 'Text Berhasil di Update'
       }, { root: true })
     },
 
-    Save({ rootGetters, dispatch }, newText) {
-      dispatch('user/ValidationUser', () => {
-
-        rootGetters['user/userRef']
-          .collection('text')
-          .add(newText)
-          .then(() => {
-            dispatch('showAlert', {
-              message: 'Text berhasil disimpan'
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-
+    Delete({ dispatch, }, id) {
+      dispatch('firebase_actions/DeleteDocument', {
+        collection_name: 'text',
+        id,
+        messageOnComplete: 'Text Berhasil di Hapus'
       }, { root: true })
     },
 
-    Update({ rootGetters, dispatch, state }, updateText) {
-      dispatch('user/ValidationUser', () => {
-
-        rootGetters['user/userRef']
-          .collection('text')
-          .doc(state.updateTextId)
-          .update(updateText)
-          .then(() => {
-            dispatch('showAlert', {
-              message: 'Data berhasil diupdate'
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-
-      }, { root: true })
-    },
-
-    Delete({ rootGetters, dispatch, }, id) {
-      dispatch('user/ValidationUser', () => {
-
-        rootGetters['user/userRef']
-          .collection('text')
-          .doc(id)
-          .delete()
-          .then(() => dispatch('showAlert', {
-            message: 'Data berhasil dihapus'
-          }, { root: true }))
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-
-      }, { root: true })
-    },
-
-    Archive({rootGetters, dispatch}, {id, status}){
-      dispatch('user/ValidationUser', () => {
-
-        rootGetters['user/userRef']
-          .collection('text')
-          .doc(id)
-          .update({
-            archived: status
-          })
-          .then(() => {
-            dispatch('showAlert', {
-              message: `Data berhasil ${status ? 'dimasukan kedalam' : 'dikeluarkan dari'} Archive`
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-
+    Archive({dispatch}, {id, status}){
+      dispatch('firebase_actions/UpdateDocument', {
+        collection_name: 'text',
+        id,
+        updateText: {archived: status},
+        messageOnComplete: 'Text Berhasil dimasukan kedalam Archive'
       }, { root: true })
     }
 

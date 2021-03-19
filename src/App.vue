@@ -7,14 +7,18 @@
         animation="opacity"
       />
     </div>
-    <router-view />
+    <transition name="sidebar">
+      <SidebarMenu v-if="$store.state.menu" />
+    </transition>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
   components: { 
-    Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert') 
+    Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert'),
+    SidebarMenu: () => import(/* webpackChunkName: "components" */ '@/components/SidebarMenu') 
   },
   mounted(){
     const localDarkmode = JSON.parse(localStorage.getItem('darkmode'))
@@ -22,7 +26,6 @@ export default {
         document.querySelector('body').classList.add('dark')
       } else {
         document.querySelector('body').classList.remove('dark')
-
       }
   }
 }

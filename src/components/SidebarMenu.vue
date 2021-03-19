@@ -1,34 +1,35 @@
 <template>
-  <div class="sidebar-menu">
-    <div class="flex flex-col w-full items-start">
-      <div class="flex justify-end w-full items-center">
-        <small class="text-sm lg:text-base dark:text-gray-100">Hallo, {{ user.displayName }}</small>
-      </div>
-      <h3 class="font-bold mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
-      <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height">
-        <li
-          v-for="menu of menuList"
-          :key="menu.name"
-          class="overflow-hidden text-gray-800 dark:text-gray-100"
-          :class="{'selected-menu': menu.url_name == $route.name }"
-          @click="$store.commit('TOGGLE_MENU')"
-        >
-          <router-link
-            class="text-base py-2 pl-3 w-full h-full inline-block hover:text-blue-400 dark:hover:text-white cursor-pointer"
-            :to="menu.url"
+  <div ref="overlay-menu" class="fixed inset-0 bg-black bg-opacity-0 z-40 transition duration-300">
+    <div class="sidebar-menu">
+      <div class="flex flex-col w-full items-start">
+        <div class="flex justify-end w-full items-center">
+          <small class="text-sm lg:text-base dark:text-gray-100">Hallo, {{ user.displayName }}</small>
+        </div>
+        <h3 class="font-bold mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
+        <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height">
+          <li
+            v-for="menu of menuList"
+            :key="menu.name"
+            class="overflow-hidden text-gray-800 dark:text-gray-100"
+            :class="{'selected-menu': menu.url_name == $route.name }"
+            @click="$store.commit('TOGGLE_MENU')"
           >
-            {{ menu.name }}
-          </router-link>
-          <div class="h-px mx-2 bg-gray-200 dark:bg-gray-600" />
-        </li>
-        <li class="overflow-hidden pb-1 text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-white cursor-pointer">
-          <p class="text-base py-1 ml-3" @click="logout">Logout</p>
-        </li>
-      </ul>
+            <router-link
+              class="text-base py-2 pl-3 w-full h-full inline-block hover:text-blue-400 dark:hover:text-white cursor-pointer"
+              :to="menu.url"
+            >
+              {{ menu.name }}
+            </router-link>
+            <div class="h-px mx-2 bg-gray-200 dark:bg-gray-600" />
+          </li>
+          <li class="overflow-hidden pb-1 text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-white cursor-pointer">
+            <p class="text-base py-1 ml-3" @click="logout">Logout</p>
+          </li>
+        </ul>
+      </div>
+      <!-- Support me -->
+      <SupportMe/>
     </div>
-
-    <!-- Support me -->
-    <SupportMe/>
   </div>
 </template>
 
@@ -67,6 +68,12 @@ export default {
       ],
     }
   },
+  mounted(){
+    setTimeout(() => {
+      this.$refs['overlay-menu'].classList.remove('bg-opacity-0')
+      this.$refs['overlay-menu'].classList.add('bg-opacity-30')
+    }, 300);
+  },
   computed: {
     user() {
       return this.$store.state.user
@@ -89,7 +96,7 @@ export default {
   transition: max-height 2s ease;
 }
 .sidebar-menu {
-  @apply fixed top-0 left-0 flex flex-col w-full md:w-1/4 self-start items-start p-5 bg-gray-100 dark:bg-gray-600 h-screen z-40 shadow-lg border border-gray-200 dark:border-gray-700 transition duration-300 cursor-default
+  @apply fixed top-0 left-0 flex flex-col w-full md:w-1/3 lg:w-1/4 self-start items-start p-5 bg-gray-100 dark:bg-gray-600 h-screen shadow-lg border border-gray-200 dark:border-gray-700 transition duration-300 cursor-default
 }
 .selected-menu {
   @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-600

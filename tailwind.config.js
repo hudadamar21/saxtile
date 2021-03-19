@@ -44,6 +44,9 @@ module.exports = {
   },
   variants: {
     extend: {
+      backgroundColor: ['disabled'],
+      cursor: ['disabled'],
+      opacity: ['disabled'],
       display: ['group-hover', 'responsive']
     },
   },

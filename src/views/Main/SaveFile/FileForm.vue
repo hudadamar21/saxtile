@@ -13,16 +13,17 @@
       />
 
       <!-- Upload Button -->
-      <div
-        class="upload-button bg-white hover:bg-gray-200 text-sm md:text-base"
+      <button
+        class="upload-button bg-white hover:bg-gray-200 disabled:bg-gray-200 text-sm md:text-base focus:outline-none disabled:cursor-not-allowed"
+        :disabled="disabledUploadButton || !file_upload"
         @click="uploadFile"
       >
         <ProgressUpload :progress="progress_upload" />
-        <button class="flex items-center focus:outline-none">
+        <div class="flex items-center focus:outline-none">
           <SVGIcon icon="upload" size="w-5 md:w-6 h-5 md:h-6" />
           <h1>Upload</h1>
-        </button>
-      </div>
+        </div>
+      </button>
     </div>
 
     <!-- Open Folder Button -->
@@ -66,6 +67,7 @@ export default {
   data() {
     return {
       is_default_image: false,
+      disabledUploadButton: false
     }
   },
   computed: {
@@ -84,10 +86,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('file', [
-        'setFilename',
-        'setFileUpload'
-    ]),
+    ...mapMutations('file', {
+      setFilename: 'SET_FILENAME',
+      setFileUpload: 'SET_FILE_UPLOAD'
+    }),
     ...mapActions([
       'showAlert'
     ]),
@@ -104,7 +106,6 @@ export default {
     },
     changeFile(e, mode) {
       this.is_default_image = false
-
       let file
       if (mode === 'drop') {
         if (this.dragSupport) {
@@ -127,13 +128,16 @@ export default {
       this.$refs.upload_file.classList.remove('dragging-file')
     },
     setDefaultImage() {
-      this.file_upload = default_file
+      this.setFileUpload(default_file)
       this.is_default_image = true
     },
     extenstionFile(file) {
       return file.split('.').pop()
     },
     uploadFile() {
+      console.log('wkwkwk')
+      this.disabledUploadButton = true
+      console.log('button not ready')
       if (this.$refs.file.files[0]) {
         const file = this.$refs.file.files[0]
 
@@ -148,9 +152,11 @@ export default {
         this.$store.dispatch('file/Upload', { filename, file }).then(() => {
           this.setFilename('')
           this.setFileUpload('')
+          this.disabledUploadButton = false
+          console.log('button ready')
         })
       } else {
-        this.showAlert({ message: 'Pilih terlebih dahulu file yang akan diupload.' })
+        this.showAlert({ message: 'Pilih terlebih dahulu file yang akan diupload.', mode: 'warning' })
       }
     },
   },

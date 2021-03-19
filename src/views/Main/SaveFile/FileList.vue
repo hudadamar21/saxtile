@@ -83,8 +83,8 @@ export default {
     toggle(id) {
       const { commit } = this.$store
       if (this.show_option == id) {
-        commit('file/setShowOption', null)
-      } else commit('file/setShowOption', id)
+        commit('file/SET_SHOW_OPTION', null)
+      } else commit('file/SET_SHOW_OPTION', id)
     },
     deleteFile(data) {
       if (confirm('yakin ?')) {
@@ -93,7 +93,7 @@ export default {
     },
     archiveFile(id, status){
       this.$store.dispatch('file/Archive', {id, status})
-      this.$store.commit('file/setShowOption', id)
+      this.$store.commit('file/SET_SHOW_OPTION', id)
     }
   },
 }
