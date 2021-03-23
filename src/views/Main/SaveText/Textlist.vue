@@ -62,7 +62,7 @@
       <!-- options (edit, delete) -->
       <template #option>
         <div>
-          <ButtonCircle :mode="checkDarkmode ? '' : 'warning'" @klik="editText(list)">
+          <ButtonCircle mode="warning" @klik="editText(list)">
             <SVGIcon icon="pancil" size="w-5 h-5" />
           </ButtonCircle>
           <ButtonCircle mode="danger" @klik="deleteText(list.id)">

@@ -14,6 +14,9 @@ export default {
   }),
   
   mutations: {
+    SET_LISTS(state, value) {
+      state.lists = value
+    },
     SET_LOADING(state, value) {
       state.loading = value
     },
@@ -32,83 +35,50 @@ export default {
   },
 
   actions: {
-    List({ state, rootGetters, rootState, dispatch, commit }) {
-      dispatch('user/ValidationUser', () => {
-        commit('SET_LOADING', true)
-        const { property, type } = rootState.setting.orderBy
-        rootGetters['user/userRef']
-          .collection('text_collection')
-          .orderBy(property, type)
-          .onSnapshot(snaps => {
-            state.lists = []
-            snaps.forEach(snap => {
-              let data = snap.data()
-              data['id'] = snap.id
-              state.lists.push(data)
-            })
-            commit('SET_LOADING', false)
-          })
+    List({ commit, dispatch }) {
+      commit('SET_LOADING', true)
+      dispatch('firebase_actions/GetDocument', {
+        collection_name: 'text_collection', 
+        callback: lists => {
+          commit('SET_LISTS', lists)
+          commit('SET_LOADING', false)
+        }
+      }, {root: true})
+    },
+
+    Save({ dispatch }, newText) {
+      dispatch('firebase_actions/SaveDocument', {
+        collection_name: 'text_collection',
+        data: newText,
+        messageOnComplete: 'Text Berhasil di Simpan'
+      }, {root: true})
+    },
+
+    Update({ dispatch }, { id, data }) {
+      dispatch('firebase_actions/UpdateDocument', {
+        collection_name: 'text_collection',
+        updateText: data,
+        id,
+        messageOnComplete: 'Text Berhasil di Update'
       }, { root: true })
     },
 
-    Save({ rootGetters, dispatch }, newData) {
-      dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef']
-          .collection('text_collection')
-          .add(newData)
-          .then(() => {
-            dispatch('showAlert', { 
-              message: 'Data berhasil disimpan' 
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
+    Delete({ dispatch, commit }, id) {
+      dispatch('firebase_actions/DeleteDocument', {
+        collection_name: 'text',
+        id,
+        messageOnComplete: 'Text Berhasil di Hapus'
       }, { root: true })
+      commit('SET_OPEN_COLLECTION', false)
+      commit('SET_COLLECTION_DATA', null)
     },
 
-    Update({ rootGetters, dispatch }, { id, data }) {
-      dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef']
-          .collection('text_collection')
-          .doc(id)
-          .update(data)
-          .then(() => {
-            dispatch('showAlert', {
-              message: 'Data berhasil diupdate'
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-      }, { root: true })
-    },
-
-    Delete({ rootGetters, dispatch, commit }, id) {
-      dispatch('user/ValidationUser', () => {
-        rootGetters['user/userRef']
-          .collection('text_collection')
-          .doc(id)
-          .delete()
-          .then(() => {
-            dispatch('showAlert', {
-              message: 'Data berhasil dihapus'
-            }, { root: true })
-          })
-          .catch(err => {
-            dispatch('showAlert', {
-              message: err.message, 
-              mode: 'danger'
-            }, { root: true })
-          })
-          commit('SET_OPEN_COLLECTION', false)
-          commit('SET_COLLECTION_DATA', null)
+    async Archive({ dispatch, rootGetters }, {id, status}){
+      dispatch('firebase_actions/UpdateDocument', {
+        collection_name: 'text_collection',
+        id,
+        updateText: { archived: status },
+        messageOnComplete:  rootGetters.messageOnArchives('Text')
       }, { root: true })
     }
 

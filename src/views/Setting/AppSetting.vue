@@ -2,30 +2,25 @@
   <section id="app-setting" class="w-full min-h-screen bg-gray-100 dark:bg-gray-800 pt-14 pl-5">
     <h1 class="font-bold text-2xl text-blue-500 dark:text-white mb-3">App Setting</h1>
     <ul class="w-full md:w-1/2 bg-white dark:bg-gray-600 px-3 rounded shadow">
-      <li class="border-b dark:border-gray-700 py-3">
-        <label class="text-gray-700 dark:text-white">Order by</label>
+      <li class="list-setting">
+        <label class="label-title-setting">Order by</label>
         <div class="py-1">
-          <select 
-            id="orderby" 
-            v-model="orderBy.property" 
-            class="dark:bg-gray-500 dark:text-white px-3 py-1 rounded border dark:border-gray-700 mr-2 focus:outline-none focus:border-blue-500">
-            <option value="title">title</option>
-            <option value="content">content</option>
-            <option value="date">date</option>
-          </select>
-          <select 
-            id="ordertype" 
-            v-model="orderBy.type" 
-            class="dark:bg-gray-500 dark:text-white px-3 py-1 rounded border dark:border-gray-700 mr-2 focus:outline-none focus:border-blue-500">
-            <option value="asc">ASC</option>
-            <option value="desc">DESC</option>
-          </select>
+          <SelectBase 
+            :value="orderBy.property" 
+            :options="['title','content','date']"
+            @getvalue="(value) => orderBy.property = value"
+          />
+          <SelectBase 
+            :value="orderBy.type" 
+            :options="['asc','desc']"
+            @getvalue="(value) => orderBy.type = value"
+          />
         </div>
       </li>
-      <li class="border-b dark:border-gray-700 py-3">
-        <label class="text-gray-700 dark:text-white">Darkmode</label>
+      <li class="list-setting">
+        <label class="label-title-setting">Darkmode</label>
         <div class="px-3 py-2">
-          <SwitchButton 
+          <ButtonSwitch 
             activeColor="bg-gray-500" 
             nonActiveColor="bg-blue-500" 
             :state="darkmode" 
@@ -43,7 +38,8 @@ import { mapMutations } from 'vuex'
 
 export default {
   components: {
-    SwitchButton: () => import('@/components/SwitchButton')
+    ButtonSwitch: () => import('@/components/ButtonSwitch'),
+    SelectBase: () => import('@/components/SelectBase'),
   },
   data() {
     return {
@@ -58,7 +54,7 @@ export default {
     orderBy: {
       handler(val) {
         this.SET_ORDER_BY(val)
-        window.localStorage.setItem('setting', JSON.stringify(this.setting))
+        window.localStorage.setItem('setting', JSON.stringify(val))
       },
       deep: true,
     },
@@ -74,7 +70,7 @@ export default {
   },
   computed: {
     setting() {
-      return this.$store.state.setting
+      return this.$store.state.app_setting
     },
   },
   mounted() {
@@ -84,7 +80,7 @@ export default {
     this.darkmode = localDarkmode ? true : false
 
     if (localSetting) {
-      this.$store.commit('SET_SETTING', localSetting)
+      this.SET_ORDER_BY(localSetting)
     }
 
     this.orderBy = {
@@ -94,11 +90,16 @@ export default {
   },
   
   methods: {
-    ...mapMutations(['SET_ORDER_BY']),
+    ...mapMutations('app_setting',['SET_ORDER_BY', 'SET_SETTING']),
   },
 }
 </script>
 
-<style>
-
+<style lang="postcss">
+  .label-title-setting {
+    @apply text-gray-700 dark:text-white
+  }
+  .list-setting {
+    @apply border-b dark:border-gray-700 py-3
+  }
 </style>

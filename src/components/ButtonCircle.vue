@@ -19,7 +19,7 @@ export default {
       required: true,
       validator: (value) => {
         return ['success', 'warning', 'danger'].indexOf(value) !== -1
-      },
+      }
     },
     size: String,
   },

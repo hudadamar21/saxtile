@@ -4,10 +4,13 @@
     class="z-40"
     @closemodal="closeModal"
   >
+
     <template #body>
-      <!-- input title and prefix -->
+      <!-- Wrapper Input Title and Prefix + Options -->
       <div class="flex flex-col md:flex-row w-full mb-3">
         <div class="w-full md:w-2/3">
+
+          <!-- Title Input -->
           <div class="flex flex-col md:flex-row items-start md:items-center w-full mb-1 md:mb-3">
             <h3 class="text-base mr-2 w-1/12">Title</h3>
             <Input
@@ -17,6 +20,8 @@
               @getval="(val) => (textCollection.title = val)"
             />
           </div>
+
+          <!-- Prefix Input -->
           <div class="flex flex-col md:flex-row items-start md:items-center w-full">
             <h3 class="mr-1 text-base mr-2 w-1/12">Prefix</h3>
             <Input
@@ -27,30 +32,38 @@
             />
           </div>
         </div>
+
+        <!-- Options -->
         <div class="mt-2 md:mt-0 ml-2 md:ml-4 flex flex-col justify-start items-start gap-2">
           <div class="flex justify-center items-center">
-            <SwitchButton 
+            <ButtonSwitch 
               :state="withSubtitle"  
               @switch="(value) => withSubtitle = value" 
             >
-            </SwitchButton>
+            </ButtonSwitch>
             <p class="ml-3 text-base text-gray-800">with subtitle</p>
           </div>
         </div>
-      </div>
-      <!-- END input title and prefix -->
 
-      <!-- wrapper text collections -->
+      </div>
+      <!-- END Wrapper Input Title and Prefix + Options -->
+
+      <!-- Wrapper Text Collections Inputs -->
       <div class="overflow-auto overflow-x-hidden height-textCollection w-full">
         <div
           class="flex items-center justify-center w-full"
           v-for="({subtitle, text}, index) of textCollection.contents"
           :key="index"
         >
+
+          <!-- Increment Numbers -->
           <div class="mr-1 font-semibold text-sm w-5">{{ index + 1 }}.</div>
+
           <div class="relative my-1 w-11/12">
             <!-- wrapper input text -->
             <div class="w-full flex">
+
+              <!-- Input Subtitle -->
               <div v-if="withSubtitle" class="w-1/3 flex justify-center items-center mr-1">
                 <Input
                   @keyup.enter.native="focusedToNewText(index)"
@@ -61,8 +74,9 @@
                   class="w-full"
                 />
               </div>
+
+              <!-- Input Text -->
               <div class="w-full flex justify-center items-center">
-              <!-- input text -->
               <Input
                 @keyup.enter.native="focusedToNewText(index)"
                 name="input your text or link"
@@ -72,10 +86,11 @@
                 class="w-full"
               />
               </div>
+
             </div>
             <!-- END input text -->
 
-            <!-- delete text -->
+            <!-- Delete Text -->
             <ButtonCircle
               v-if="index !== 0"
               mode="danger"
@@ -85,9 +100,8 @@
             >
               <SVGIcon icon="x" color="text-white" size="w-4 h-4" />
             </ButtonCircle>
-            <!-- END delete text -->
 
-            <!-- add new text -->
+            <!-- Add New Text -->
             <Button
               v-if="textCollection.contents.length - 1 == index"
               color="blue"
@@ -97,22 +111,23 @@
             >
               + Add New
             </Button>
-            <!-- END add new text -->
+
           </div>
         </div>
       </div>
-      <!-- END wrapper text collections -->
+      <!-- END Wrapper Text Collections Inputs -->
     </template>
 
     <template #footer>
-      <!-- save text collection -->
+      <!-- Save Text Collection -->
       <div class="flex items-center justify-end h-full">
         <Button color="green" lg class="justify-self mx-3" @click.native="submitCollection">
           {{ is_update ? 'Update' : 'Save' }} Collection
         </Button>
       </div>
-      <!-- END save text collection -->
+      <!-- END Save Text Collection -->
     </template>
+    
   </Modal>
 </template>
 
@@ -126,7 +141,7 @@ export default {
   components: {
     Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
     Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-    SwitchButton: () => import(/* webpackChunkName: "components" */ '@/components/SwitchButton'),
+    ButtonSwitch: () => import(/* webpackChunkName: "components" */ '@/components/ButtonSwitch'),
     Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
     ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
     SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
@@ -151,7 +166,7 @@ export default {
   computed: {
     ...mapState('text_collection', ['collection_data', 'is_update']),
     validateInput() {
-      let { title, contents } = this.textCollection
+      const { title, contents } = this.textCollection
       return title && contents.filter(content => content).length > 0 ? true : false
     },
     

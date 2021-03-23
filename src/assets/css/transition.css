@@ -19,3 +19,10 @@
 .modal-enter-active, .modal-leave-active {
   transition: transfrom opacity .3s ease;
 }
+
+.opacity-enter, .opacity-leave-to {
+	opacity: 0
+}
+.opacity-enter-active, .opacity-leave-active {
+  transition: opacity .3s ease;
+}

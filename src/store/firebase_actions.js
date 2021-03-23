@@ -6,12 +6,10 @@ export default {
   namespaced: true,
   actions: {
 
-    GetDocument({ rootGetters, rootState, dispatch, commit }, {collection_name, callback}){
+    GetDocument({ rootGetters, rootState, dispatch }, {collection_name, callback}){
       // check user is valid
       dispatch('user/ValidationUser', () => {
-        commit(`${collection_name}/SET_LOADING`, true, {root: true})
-        const { property, type } = rootState.setting.orderBy
-
+        const { property, type } = rootState.app_setting.orderBy
         // get user reference
         rootGetters['user/userRef']
           .collection(collection_name)
@@ -23,7 +21,6 @@ export default {
               id: snap.id
             }))
             callback(lists)
-            commit(`${collection_name}/SET_LOADING`, false, {root: true})
           })
       }, { root: true })
     },

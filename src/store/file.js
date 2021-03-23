@@ -36,9 +36,13 @@ export default {
   },
   actions: {
     List({ commit, dispatch }) {
+      commit('SET_LOADING', true)
       dispatch('firebase_actions/GetDocument', {
         collection_name: 'file', 
-        callback: lists => commit('SET_LISTS', lists),
+        callback: lists => {
+          commit('SET_LISTS', lists)
+          commit('SET_LOADING', false)
+        },
       }, {root: true})
     },
     
@@ -59,12 +63,12 @@ export default {
       }, {root: true})
     },
 
-    Archive({ dispatch }, {id, status}){
+    async Archive({ dispatch, rootGetters}, {id, status}){
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'file',
         id,
         updateText: {archived: status},
-        messageOnComplete: 'File Berhasil dimasukan kedalam Archive'
+        messageOnComplete:  rootGetters.messageOnArchives('File')
       }, { root: true })
     }
 
