@@ -26,3 +26,15 @@
 .opacity-enter-active, .opacity-leave-active {
   transition: opacity .3s ease;
 }
+
+.router-enter, .router-leave-to {
+	opacity: 50%;
+}
+
+.router-enter-active {
+  transition: all .3s ease-in;
+}
+
+.router-leave-active {
+	transition: all .3s ease-out;
+}

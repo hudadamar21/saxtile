@@ -175,6 +175,9 @@ export default {
     if (this.is_update) {
       this.textCollection = JSON.parse(window.localStorage.getItem('collection_data'))
     }
+    if(this.textCollection?.contents[0]?.subtitle){
+      this.withSubtitle = true
+    }
   },
   methods: {
 
@@ -235,14 +238,15 @@ export default {
             data: this.textCollection,
           }
           this.Update(updatedCollection)
+          this.setIsUpdate(false)
           this.setCollectionData(null)
           this.setOpenCollection(false)
-
+          
         // save new text collection
         } else {
           this.Save(this.textCollection)
         }
-
+        
         this.setShowFormModal(false)
       } else {
         alert('input is required')

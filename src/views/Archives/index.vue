@@ -20,7 +20,13 @@
         <TextArchives v-if="selectedArchive === 'text'"  />
         <FileArchives v-else-if="selectedArchive === 'file'" />
         <TextCollectionArchives v-else-if="selectedArchive === 'text_collection'" />
-        <div v-else-if="selectedArchive === 'file_collection'">Save File Collection</div>
+        <div v-else-if="selectedArchive === 'file_collection'">
+          <div class="w-full text-center text-gray-600">
+            <h1 class="font-bold text-2xl">Save File Collection</h1>
+            <h3 class="font-base">fitur ini sedang dikembangkan.</h3>
+            <h3 class="font-base">Stay tune..</h3>
+          </div>
+        </div>
       </div>
     </section>
   </Layout>

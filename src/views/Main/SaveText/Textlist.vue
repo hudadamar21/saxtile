@@ -43,7 +43,9 @@
             title="copy"
             >
 
-            <SVGIcon :icon="textCopied == list.id ? 'copied' : 'copy'" size="w-5 h-5" />
+            <SVGIcon v-if="textCopied == list.id" icon="copied" size="w-5 h-5" />
+            <SVGIcon v-else icon="copy" size="w-5 h-5" />
+
             {{ textCopied == list.id ? 'copied' : 'copy' }}
           </Button>
           <a

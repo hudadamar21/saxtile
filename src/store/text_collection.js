@@ -65,7 +65,7 @@ export default {
 
     Delete({ dispatch, commit }, id) {
       dispatch('firebase_actions/DeleteDocument', {
-        collection_name: 'text',
+        collection_name: 'text_collection',
         id,
         messageOnComplete: 'Text Berhasil di Hapus'
       }, { root: true })

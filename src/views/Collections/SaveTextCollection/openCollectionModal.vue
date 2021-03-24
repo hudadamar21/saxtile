@@ -11,7 +11,7 @@
           :key="index"
         >
           <div>
-            <h3 v-if="subtitle" class="text-lg font-bold text-gray-700">{{ subtitle }}</h3>
+            <h3 v-if="subtitle" class="text-base font-bold text-gray-700">{{ subtitle }}</h3>
             <p
             class="text-sm md:text-base break-all"
             :class="{
@@ -22,8 +22,17 @@
           </p>
           </div>
           <div class="flex items-center mt-2 md:mt-0">
-            <Button color="green" @click.stop.native="copyText(collection.prefix + text, index)" sm>
-              {{ textCopied === index ? 'copied' : 'copy' }}
+            <Button
+              padding="px-2 py-1"
+              class="flex gap-1"
+              color="green" 
+              @click.stop.native="copyText(collection.prefix + text, index)" sm
+              title="copy"
+            >
+              <SVGIcon v-if="textCopied == index" icon="copied" size="w-5 h-5" />
+              <SVGIcon v-else icon="copy" size="w-5 h-5" />
+
+              {{ textCopied == index ? 'copied' : 'copy' }}
             </Button>
             <a
               v-if="isUrl(collection.prefix + text)"

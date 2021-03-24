@@ -44,7 +44,7 @@ export default {
       },
       menuList: [
         {
-          name: 'Home',
+          name: 'Main',
           url_name: 'main',
           url: { name: 'main', params: this.params },
         },

@@ -8,6 +8,14 @@ const routes = [
   { path: '*', component: () => import('@/views/NotFound.vue') },
   {
     path: '/',
+    name: 'home',
+    component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+    meta: {
+      hideForAuth: true
+    }
+  },
+  {
+    path: '/auth',
     name: 'auth',
     component: () => import(/* webpackChunkName: "auth" */ '@/views/Auth/index.vue'),
     meta: {

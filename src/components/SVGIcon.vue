@@ -5,19 +5,29 @@
 <script>
 export default {
   props: {
-    icon: String,
+    icon: {
+      type: String,
+      required: true
+    },
     size: {
       type: String,
       required: true,
     },
     color: String,
   },
+  watch: {
+    icon(newval){
+      this.render(newval)
+    }
+  },
   mounted() {
-    this.icons.map((icon) => {
-      if (this.icon == icon.icon) {
-        this.iconResult = icon.svg
-      }
-    })
+    this.render(this.icon)
+  },
+  methods: {
+    render(propsIcon){
+      const getIcon = this.icons.find(icon => icon.icon === propsIcon)
+      this.iconResult = getIcon.svg
+    }
   },
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modal"
-    class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-0 z-40 py-0 md:py-5 flex justify-center items-center transition duration-300"
+    class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-0 z-50 py-0 md:py-5 flex justify-center items-center transition duration-300"
   >
     <div
       class="relative w-full sm:w-10/12 md:w-8/12 h-full bg-gray-100 my-0 sm:my-20 rounded-none sm:rounded overflow-hidden transition duration-300 shadow-lg"

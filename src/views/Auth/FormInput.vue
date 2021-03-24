@@ -23,7 +23,7 @@
       class="input"
       :class="focusMode"
       ref="password"
-      type="password"
+      :type="isLookPassword ? 'text' : 'password'"
       placeholder="password.."
       v-model="form.password"
     />
@@ -86,6 +86,7 @@ export default {
         email: '',
         password: '',
       },
+      isLookPassword: false
     }
   },
   watch: {
@@ -120,21 +121,20 @@ export default {
   methods: {
     validateWatch(val, newval) {
       let value = this.$refs[val]
-      if (newval == '') value.classList.add('invalid')
-      else value.classList.remove('invalid')
+      newval == ''
+        ? value.classList.add('invalid')
+        : value.classList.remove('invalid')
     },
     validateSubmit(val) {
       let value = this.$refs[val]
-      if (this.form[val] == '') value.classList.add('invalid')
-      else value.classList.remove('invalid')
+      this.form[val] == ''
+        ? value.classList.add('invalid')
+        : value.classList.remove('invalid')
     },
     submit() {
-      if (this.isRegister) {
-        this.validateSubmit('name')
-      }
+      if (this.isRegister) this.validateSubmit('name')
       this.validateSubmit('email')
       this.validateSubmit('password')
-
       if (this.formValid) this.$emit('submited', this.form)
     },
   },
@@ -146,6 +146,10 @@ export default {
   @apply px-5 py-2 border mb-3 mx-5 w-full;
 }
 .input-login:focus {
+  @apply outline-none border-blue-500;
+}
+
+.input  input:focus {
   @apply outline-none border-blue-500;
 }
 .input-register:focus {

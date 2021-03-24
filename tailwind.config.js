@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       colors: {
         orange: colors.orange,
-        blue: colors.lightBlue
+        'light-blue': colors.lightBlue
       },
       animation: {
         none: 'none',
