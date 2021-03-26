@@ -40,7 +40,7 @@ export default {
 
 <style lang="postcss" scoped>
 .sfile-main {
-  @apply bg-gradient-to-br from-gray-700 to-gray-900 flex flex-col items-center;
+  @apply bg-gray-800 flex flex-col items-center;
 }
 .sfile-title {
   @apply my-2 font-bold text-white;

@@ -1,7 +1,7 @@
 <template>
   <ul class="w-full flex flex-col items-center px-5">
     <li v-if="!lists.length" class="text-center font-semibold text-gray-500 dark:text-gray-200 mt-5">
-      Tidak ada text yang tersimpan.
+      Tidak ada {{ onArchives ? 'archive ' : '' }}text collection yang tersimpan.
     </li>
     <li v-else v-for="(list, index) of lists" :key="index" class="list-view-text-collection">
       <div>
@@ -18,16 +18,14 @@
       <div>
         <Button
           :color="isDarkmode ? 'white' : 'red'" md shadow="shadow"
-          @click.native="setArchived(list.id)"
-          class="mr-2"
-        >
-          {{ onArchives ? 'UnArchive' : 'Archive'}}
+          @click.native="setArchived(list.id, list.title)"
+          class="mr-2">
+            {{ onArchives ? 'UnArchive' : 'Archive'}}
         </Button>
         <Button 
           :color="isDarkmode ? 'white' : 'blue'" md shadow="shadow" 
-          @click.native="openCollection(list)"
-        >
-          Open
+          @click.native="openCollection(list)">
+            Open
         </Button>
       </div>
     </li>
@@ -66,9 +64,11 @@ export default {
       this.setOpenCollection(true)
       this.setCollectionData(list)
     },
-    setArchived(id){
+    setArchived(id, title){
       const status = this.onArchives ? false : true
-      this.$store.dispatch('text_collection/Archive', {id, status})
+      if(confirm(`apakah anda ingin ${this.onArchives ? 'un-archive' : 'archive'} collection '${title}' ?`)){
+        this.$store.dispatch('text_collection/Archive', {id, status})
+      }
     }
   },
 }

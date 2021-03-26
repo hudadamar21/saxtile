@@ -1,6 +1,6 @@
 <template>
-  <section id="app-setting" class="w-full min-h-screen bg-gray-100 dark:bg-gray-800 pt-14 pl-5">
-    <h1 class="font-bold text-2xl text-blue-500 dark:text-white mb-3">App Setting</h1>
+  <section id="app-setting" class="w-full min-h-screen bg-gray-100 dark:bg-gray-800 pt-14 pl-5 transition-colors duration-200">
+    <h1 class="font-bold text-2xl text-blue-500 dark:text-white mb-3 transition-colors duration-200">App Setting</h1>
     <ul class="w-full md:w-1/2 bg-white dark:bg-gray-600 px-3 rounded shadow">
       <li class="list-setting">
         <label class="label-title-setting">Order by</label>
@@ -97,7 +97,7 @@ export default {
 
 <style lang="postcss">
   .label-title-setting {
-    @apply text-gray-700 dark:text-white
+    @apply text-gray-700 dark:text-white transition-colors duration-200
   }
   .list-setting {
     @apply border-b dark:border-gray-700 py-3

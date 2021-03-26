@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   components: { 
     Alert: () => import(/* webpackChunkName: "components" */ '@/components/Alert'),
@@ -41,6 +42,33 @@ export default {
       } else {
         document.querySelector('body').classList.remove('dark')
       }
+  },
+  methods: {
+    ...mapMutations('text',[
+      'SET_INPUT',
+      'SET_IS_UPDATE',
+      'SET_SHOW_OPTION',
+      'SET_UPDATE_TEXT_ID'
+    ]),
+    ...mapMutations('file', [
+      'SET_FILENAME',
+      'SET_FILE_UPLOAD',
+    ])
+  },
+  watch: {
+    // Clear state when route change
+    $route(to, from){
+      if(from.name === 'main' || from.name === 'archives'){
+        this.SET_INPUT({ title: '',content: '' })
+        this.SET_IS_UPDATE(false)
+        this.SET_SHOW_OPTION(null)
+        this.SET_UPDATE_TEXT_ID(null)
+
+        this.SET_FILENAME('')
+        this.SET_FILE_UPLOAD('')
+        this.$store.commit('file/SET_SHOW_OPTION', null)
+      }
+    }
   }
 }
 </script>

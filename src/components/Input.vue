@@ -1,7 +1,7 @@
 <template>
   <input
     :class="valid ? `input-text placeholder-red-500 placeholder-opacity-50 ${sizeClass || ''}` 
-                  : `input-text ${sizeClass || ''}`"
+                  : `input-text ${sizeClass || ''} dark:text-gray-600`"
     :placeholder="valid || name"
     :value="value"
     @input="$emit('getval', $event.target.value)"

@@ -1,8 +1,8 @@
 <template>
   <ul class="text-list md:overflow-auto">
     <!-- jika list kosong -->
-    <li v-if="!lists.length" class="text-center font-semibold text-gray-700 mt-5">
-      Tidak ada {{ isArchive ? 'archive' : '' }} text yang tersimpan.
+    <li v-if="!lists.length" class="text-center font-semibold text-gray-700 dark:text-gray-300 mt-5">
+      Tidak ada {{ onArchives ? 'archive' : '' }} text yang tersimpan.
     </li>
 
     <!-- list views -->
@@ -14,7 +14,7 @@
       :data="list"
       :showOption="showOption"
       :isUpdate="isUpdate"
-      @archive="(id) => archiveText(id, !list.archived)"
+      @archive="(id) => archiveText(id, list.title)"
       @toggle="toggle"
     >
       <!-- Content (title and date) -->
@@ -88,8 +88,7 @@ export default {
     lists: {
       type: Array,
       required: true
-    },
-    isArchive: Boolean
+    }
   },
   mixins: [action_text, check_darkmode],
   components: {
@@ -108,6 +107,9 @@ export default {
       isUpdate: (state) => state.text.isUpdate,
       showOption: (state) => state.text.showOption,
     }),
+    onArchives(){
+      return this.$route.name === 'archives'
+    }
   },
   methods: {
     ...mapMutations('text', {
@@ -144,9 +146,12 @@ export default {
       }
     },
 
-    archiveText(id, status){
-      this.$store.dispatch('text/Archive', {id, status})
-      this.setShowOption(id)
+    archiveText(id, title){
+      const status = this.onArchives ? false : true
+      if(confirm(`apakah anda ingin archive text '${title}' ?`)){
+        this.$store.dispatch('text/Archive', {id, status})
+        this.setShowOption(id)
+      }
     }
   },
 }

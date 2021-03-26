@@ -1,10 +1,10 @@
 <template>
   <div
     class="btn-circle mb-1 cursor-pointer"
-    :class="`${mode || 'default'} ${
+    :class="`${mode} ${isDarkmode ? 'default' : mode} ${
       size == 'lg' ? 'p-3 h-10 w-10' 
       : size == 'sm' ? 'p-1 h-6 w-6' 
-      : 'p-2 h-8 w-8' }`"
+      : 'p-2 h-8 w-8' } `"
     @click="$emit('klik')"
   >
     <slot></slot>
@@ -23,6 +23,11 @@ export default {
     },
     size: String,
   },
+  computed: {
+    isDarkmode(){
+      return document.body.classList.contains('dark')
+    }
+  }
 }
 </script>
 

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="h-screen w-full flex justify-center items-center transition duration-300"
+    class="h-screen w-full flex justify-center items-center"
     :class="isRegister ? 'bg-register' : 'bg-login'"
   >
   <router-link to="/" class="fixed top-5 left-5 text-white hover:bg-white hover:bg-opacity-10 rounded-full" >
-    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    <SVGIcon icon="back" size="w-12 h-12" />
   </router-link>
     <div
       class="bg w-full sm:w-1/2 md:w-9/12 lg:w-1/2 mx-3 md:mx-5 lg:mx-0 shadow-md flex flex-col md:flex-row items-center rounded z-10 overflow-hidden bg-center bg-cover"

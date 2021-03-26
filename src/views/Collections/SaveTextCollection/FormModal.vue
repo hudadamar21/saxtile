@@ -1,7 +1,7 @@
 <template>
   <Modal
     :title="`${is_update ? 'Edit' : ''} Text Collection`"
-    class="z-40"
+    class="z-40 text-gray-700 dark:text-gray-100"
     @closemodal="closeModal"
   >
 
@@ -41,7 +41,7 @@
               @switch="(value) => withSubtitle = value" 
             >
             </ButtonSwitch>
-            <p class="ml-3 text-base text-gray-800">with subtitle</p>
+            <p class="ml-3 text-base">with subtitle</p>
           </div>
         </div>
 
@@ -49,46 +49,51 @@
       <!-- END Wrapper Input Title and Prefix + Options -->
 
       <!-- Wrapper Text Collections Inputs -->
-      <div class="overflow-auto overflow-x-hidden height-textCollection w-full">
-        <div
+      <transition-group 
+        tag="ul"
+        name="list"
+        class="overflow-auto overflow-x-hidden height-textCollection w-full">
+
+        <li
           class="flex items-center justify-center w-full"
           v-for="({subtitle, text}, index) of textCollection.contents"
-          :key="index"
-        >
+          :key="subtitle+index">
 
           <!-- Increment Numbers -->
           <div class="mr-1 font-semibold text-sm w-5">{{ index + 1 }}.</div>
 
           <div class="relative my-1 w-11/12">
-            <!-- wrapper input text -->
+            <!-- Wrapper Input Text -->
             <div class="w-full flex">
 
               <!-- Input Subtitle -->
-              <div v-if="withSubtitle" class="w-1/3 flex justify-center items-center mr-1">
+              <transition name="subtitle-show">
+                <div v-if="withSubtitle" class="w-1/3 flex justify-center items-center mr-1">
+                  <Input
+                    @keyup.enter.native="focusedToNewText(index)"
+                    name="subtitle"
+                    :value="subtitle || ''"
+                    :ref="'text' + index"
+                    @getval="(value) => changeSubtitleOfIndex(value, index)"
+                    class="w-full"
+                  />
+                </div>
+              </transition>
+
+              <!-- Input Text -->
+              <div class="w-full flex justify-center items-center">
                 <Input
                   @keyup.enter.native="focusedToNewText(index)"
-                  name="subtitle"
-                  :value="subtitle || ''"
+                  name="input your text or link"
+                  :value="text"
                   :ref="'text' + index"
-                  @getval="(value) => changeSubtitleOfIndex(value, index)"
+                  @getval="(value) => changeTextOfIndex(value, index)"
                   class="w-full"
                 />
               </div>
 
-              <!-- Input Text -->
-              <div class="w-full flex justify-center items-center">
-              <Input
-                @keyup.enter.native="focusedToNewText(index)"
-                name="input your text or link"
-                :value="text"
-                :ref="'text' + index"
-                @getval="(value) => changeTextOfIndex(value, index)"
-                class="w-full"
-              />
-              </div>
-
             </div>
-            <!-- END input text -->
+            <!-- End Wrapper Input Text -->
 
             <!-- Delete Text -->
             <ButtonCircle
@@ -96,25 +101,22 @@
               mode="danger"
               class="absolute-vertical-center text-sm"
               size="sm"
-              @klik="deleteListOfIndex(index)"
-            >
-              <SVGIcon icon="x" color="text-white" size="w-4 h-4" />
+              @klik="deleteListOfIndex(index)">
+                <SVGIcon icon="x" color="text-white" size="w-4 h-4" />
             </ButtonCircle>
 
             <!-- Add New Text -->
             <Button
               v-if="textCollection.contents.length - 1 == index"
-              color="blue"
-              sm
+              color="blue" sm
               class="mt-1 text-right absolute -bottom-5 right-0"
-              @click.native="addNewText(() => $refs[`text${index + 1}`][0].$el.focus())"
-            >
-              + Add New
+              @click.native="addNewText(() => $refs[`text${index + 1}`][0].$el.focus())">
+                + Add New
             </Button>
 
           </div>
-        </div>
-      </div>
+        </li>
+      </transition-group>
       <!-- END Wrapper Text Collections Inputs -->
     </template>
 
@@ -280,5 +282,29 @@ export default {
 }
 .height-textCollection {
   height: 24rem;
+}
+
+.subtitle-show-enter, .subtitle-show-leave-to {
+  width: 0;
+  opacity: 0;
+}
+
+.subtitle-show-enter-active, .subtitle-show-leave-active {
+  transition-property: width, opacity;
+  transition:  .3s ease-in-out;
+}
+
+.list-enter, .list-leave-to {
+  transform: translateY(-30px) scale(0.99);
+  opacity: 0;
+}
+
+.list-enter-active, .list-leave-active {
+  transition-property: transform, opacity;
+  transition:  .2s ease-in-out;
+}
+
+.list-move {
+  transition: .2s ease-in-out;
 }
 </style>

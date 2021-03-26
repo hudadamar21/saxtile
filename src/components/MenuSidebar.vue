@@ -5,7 +5,7 @@
         <small class="text-sm lg:text-base dark:text-gray-100">Hallo, {{ user.displayName }}</small>
       </div>
       <h3 class="font-bold mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
-      <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height">
+      <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height overflow-hidden">
         <li
           v-for="menu of menuList"
           :key="menu.name"
@@ -91,6 +91,6 @@ export default {
   @apply fixed top-0 left-0 flex flex-col w-full md:w-1/3 lg:w-1/4 self-start items-start p-5 bg-gray-100 dark:bg-gray-600 h-screen shadow-lg border border-gray-200 dark:border-gray-700 transition duration-300 cursor-default
 }
 .selected-menu {
-  @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-600
+  @apply bg-blue-50 text-blue-500 dark:text-white dark:bg-gray-700 
 }
 </style>

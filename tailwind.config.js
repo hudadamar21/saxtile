@@ -46,7 +46,7 @@ module.exports = {
     extend: {
       backgroundColor: ['disabled'],
       cursor: ['disabled'],
-      opacity: ['disabled'],
+      opacity: ['disabled','group-hover'],
       display: ['group-hover', 'responsive']
     },
   },

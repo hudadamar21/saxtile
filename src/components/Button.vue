@@ -5,7 +5,7 @@
       ${shadow || ''}
       ${coloring}
       ${sizing} 
-      ${className || ''} `"
+      ${className || ''} dark:bg-white dark:text-gray-700`"
   >
     <slot></slot>
   </button>

@@ -1,24 +1,25 @@
 <template>
   <Modal name="modal" :title="`Title: ${collection.title}`" @closemodal="closeModal">
     <template #body>
-      <h3 class="text-sm text-gray-500">
+      <h3 class="text-sm text-gray-500 dark:text-gray-300">
         {{ new Date().formatDate(collection.date) }}
       </h3>
-      <ul>
+      <ul class="text-gray-700 dark:text-white">
         <li
-          class="w-full bg-white m-2 px-3 py-2 shadow rounded flex flex-col md:flex-row md:items-center justify-between overflow-hidden"
+          class="w-full bg-white dark:bg-gray-600 my-2 px-3 py-2 shadow rounded flex flex-col md:flex-row md:items-center justify-between overflow-hidden"
           v-for="({subtitle, text}, index) of collection.contents"
           :key="index"
         >
           <div>
-            <h3 v-if="subtitle" class="text-base font-bold text-gray-700">{{ subtitle }}</h3>
+            <h3 v-if="subtitle" class="text-base font-bold ">{{ subtitle }}</h3>
             <p
             class="text-sm md:text-base break-all"
             :class="{
-              'text-blue-500': isUrl(collection.prefix + text),
+              'text-blue-500 dark:text-blue-300': isUrl(collection.prefix + text),
             }"
           >
-            {{ collection.prefix }}<span class="font-semibold">{{ text }}</span>
+            <span class="mr-px">{{ collection.prefix }}</span>
+            <span :class="{'font-semibold' : collection.prefix}">{{ text }}</span>
           </p>
           </div>
           <div class="flex items-center mt-2 md:mt-0">
@@ -37,7 +38,7 @@
             <a
               v-if="isUrl(collection.prefix + text)"
               @click.stop
-              class="bg-blue-500 hover:bg-blue-600 rounded p-1 text-white ml-2"
+              class="bg-blue-500 hover:bg-blue-600 text-white dark:bg-white dark:hover:bg-gray-200 text-gray-700 rounded p-1  ml-2"
               :href="collection.prefix + text"
               target="_blank"
               title="go to link"

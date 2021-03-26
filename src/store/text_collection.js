@@ -73,7 +73,7 @@ export default {
       commit('SET_COLLECTION_DATA', null)
     },
 
-    async Archive({ dispatch, rootGetters }, {id, status}){
+    Archive({ dispatch, rootGetters }, {id, status}){
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'text_collection',
         id,

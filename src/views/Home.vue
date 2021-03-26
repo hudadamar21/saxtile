@@ -89,13 +89,14 @@
 
 <script>
 export default {
+	title: 'Saxtile',
 	components: {
 		Button: () => import('@/components/Button')
 	}
 }
 </script>
 
-<style>
+<style lang="postcss">
 	#home {
 		font-family: 'Poppins', 'Arial', sans-serif;
 	}

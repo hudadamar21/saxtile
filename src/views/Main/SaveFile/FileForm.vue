@@ -10,14 +10,20 @@
         :value="filename"
         @getval="filenameChange"
         maxlength="30"
+        :placeholder="placeholder_name || 'filename..'"
       />
 
       <!-- Upload Button -->
       <button
-        class="upload-button bg-white hover:bg-gray-200 disabled:bg-gray-200 text-sm md:text-base focus:outline-none disabled:cursor-not-allowed"
+        class="upload-button group"
         :disabled="disabledUploadButton || !file_upload"
         @click="uploadFile"
       >
+      <div 
+        v-if="disabledUploadButton && !file_upload" 
+        class="absolute -bottom-3 opacity-0 group-hover:opacity-100 text-sm bg-red-500 text-white rounded py-1 px-2">
+          <p>select file first</p>
+      </div>
         <ProgressUpload :progress="progress_upload" />
         <div class="flex items-center focus:outline-none">
           <SVGIcon icon="upload" size="w-5 md:w-6 h-5 md:h-6" />
@@ -67,7 +73,8 @@ export default {
   data() {
     return {
       is_default_image: false,
-      disabledUploadButton: false
+      disabledUploadButton: false,
+      placeholder_name: ''
     }
   },
   computed: {
@@ -116,6 +123,8 @@ export default {
           this.showAlert({ message: 'Browser anda tidak support drag & drop file', mode: 'danger'})
         }
       } else file = e.target.files[0]
+
+      // validasi jika ukuran file lebih dari 3mb
       if (file.size > 3145728) {
         this.showAlert({ message: 'Ukuran file tidak boleh lebih besar dari 3mb', mode: 'danger'})
         this.$refs.upload_file.classList.remove('dragging-file')
@@ -125,6 +134,7 @@ export default {
       const reader = new FileReader()
       reader.addEventListener('load', () => this.setFileUpload(reader.result), false)
       if (file) reader.readAsDataURL(file)
+      this.placeholder_name = `filename: ${file.name.split('.')[0]}`
       this.$refs.upload_file.classList.remove('dragging-file')
     },
     setDefaultImage() {
@@ -135,9 +145,7 @@ export default {
       return file.split('.').pop()
     },
     uploadFile() {
-      console.log('wkwkwk')
       this.disabledUploadButton = true
-      console.log('button not ready')
       if (this.$refs.file.files[0]) {
         const file = this.$refs.file.files[0]
 
@@ -153,7 +161,7 @@ export default {
           this.setFilename('')
           this.setFileUpload('')
           this.disabledUploadButton = false
-          console.log('button ready')
+          this.placeholder_name = 'filename...'
         })
       } else {
         this.showAlert({ message: 'Pilih terlebih dahulu file yang akan diupload.', mode: 'warning' })
@@ -168,7 +176,7 @@ export default {
   @apply bg-green-200 transform scale-105;
 }
 .upload-button {
-  @apply mt-1 w-full flex justify-center items-center cursor-pointer rounded py-1 relative;
+  @apply mt-1 w-full flex justify-center items-center cursor-pointer rounded py-1 relative bg-white hover:bg-gray-200 disabled:bg-gray-200 text-sm md:text-base focus:outline-none disabled:cursor-not-allowed;
 }
 .open-folder-button {
   @apply ml-1 w-24 rounded cursor-pointer flex justify-center items-center;

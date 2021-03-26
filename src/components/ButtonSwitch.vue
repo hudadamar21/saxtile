@@ -1,6 +1,7 @@
 <template>
   <button
-    class="w-8 h-4 md:w-10 md:h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none bg-gray-200 shadow"
+    class="w-8 h-4 md:w-10 md:h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow"
+    :class="state ? 'bg-white' : 'bg-gray-200'"
     @click="changeState"
   >
     <div

@@ -2,9 +2,9 @@
   <ul class="file-list md:overflow-auto">
     <!-- jika list kosong -->
     <li v-if="!lists.length" class="text-center font-semibold mt-5"
-        :class="isArchive ? 'text-gray-600' : 'text-gray-200'"
+        :class="onArchives ? 'text-gray-600 dark:text-gray-300' : 'text-gray-200'"
     >
-      Tidak ada {{ isArchive ? 'archive' : '' }} file yang tersimpan.
+      Tidak ada {{ onArchives ? 'archive' : '' }} file yang tersimpan.
     </li>
 
     <!-- list views -->
@@ -16,7 +16,7 @@
       :data="list"
       :showOption="show_option"
       @toggle="(id) => toggle(id)"
-      @archive="(id) => archiveFile(id, !list.archived)"
+      @archive="(id) => archiveFile(id, list.title)"
     >
       <!-- Content (title and date) -->
       <template #content>
@@ -75,6 +75,9 @@ export default {
     ...mapState('file', [
         'show_option'
     ]),
+    onArchives(){
+      return this.$route.name === 'archives'
+    }
   },
   methods: {
     setReferenceImage(e) {
@@ -91,9 +94,12 @@ export default {
         this.$store.dispatch('file/Delete', data)
       }
     },
-    archiveFile(id, status){
-      this.$store.dispatch('file/Archive', {id, status})
-      this.$store.commit('file/SET_SHOW_OPTION', id)
+    archiveFile(id, title){
+      const status = this.onArchives ? false : true
+      if(confirm(`apakah anda ingin archive file '${title}' ?`)){
+        this.$store.dispatch('file/Archive', {id, status})
+        this.$store.commit('file/SET_SHOW_OPTION', id)
+      }
     }
   },
 }
