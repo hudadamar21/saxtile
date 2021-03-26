@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4f6483f757ac9f7a2090",
-    "url": "/saxtile/css/app.2bffbeb5.css"
+    "revision": "69745924015d755918bf",
+    "url": "/saxtile/css/app.a95104b6.css"
   },
   {
     "revision": "d68d9ad6dd823c48a65a",
@@ -12,11 +12,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/saxtile/css/chunk-25bd43a6.1a786c56.css"
   },
   {
-    "revision": "9f84c7f7f948165e8b97",
-    "url": "/saxtile/css/collections.371a14c1.css"
+    "revision": "81491988f73a7332e349",
+    "url": "/saxtile/css/collections.a5c67e9b.css"
   },
   {
-    "revision": "eeab926a18c40e784132",
+    "revision": "a6d51e82e0580f4de8b6",
     "url": "/saxtile/css/components.fe8c6866.css"
   },
   {
@@ -64,12 +64,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/saxtile/img/logo/vuejs.png"
   },
   {
-    "revision": "5d69b7bd643dc939a04b0ac22c7e0fb7",
+    "revision": "dc45055a46ad1329e078ab1ea1ddec6b",
     "url": "/saxtile/index.html"
   },
   {
-    "revision": "4f6483f757ac9f7a2090",
-    "url": "/saxtile/js/app.e03ed47b.js"
+    "revision": "69745924015d755918bf",
+    "url": "/saxtile/js/app.da4a97f2.js"
   },
   {
     "revision": "e7dba48e51be33d4a52e",
@@ -88,8 +88,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/saxtile/js/chunk-2d0b671b.0e1b1484.js"
   },
   {
-    "revision": "a15505183581d87202bf",
-    "url": "/saxtile/js/chunk-2d0bceb2.c669352a.js"
+    "revision": "98325e91836ec8c39455",
+    "url": "/saxtile/js/chunk-2d0bceb2.0ff8fd1a.js"
   },
   {
     "revision": "7491a0a0075a17611974",
@@ -100,12 +100,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/saxtile/js/chunk-vendors.e5c16125.js"
   },
   {
-    "revision": "9f84c7f7f948165e8b97",
-    "url": "/saxtile/js/collections.c26881c1.js"
+    "revision": "81491988f73a7332e349",
+    "url": "/saxtile/js/collections.c0373b3c.js"
   },
   {
-    "revision": "eeab926a18c40e784132",
-    "url": "/saxtile/js/components.2cbc6fba.js"
+    "revision": "a6d51e82e0580f4de8b6",
+    "url": "/saxtile/js/components.d6677925.js"
   },
   {
     "revision": "e83fd9deac9d2f291ea0",
