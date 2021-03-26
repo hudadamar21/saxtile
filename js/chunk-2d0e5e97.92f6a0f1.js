@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e5e97"],{9703:function(e,t,n){"use strict";n.r(t);var l=function(){var e=this,t=e.$createElement;e._self._c;return e._m(0)},c=[function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"w-full h-screen flex justify-center items-center"},[n("h1",[e._v("NOT FOUND 404")])])}],s={title:"Saxtile Not Found"},r=s,u=n("2877"),i=Object(u["a"])(r,l,c,!1,null,null,null);t["default"]=i.exports}}]);
+//# sourceMappingURL=chunk-2d0e5e97.92f6a0f1.js.map
