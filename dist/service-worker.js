@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/saxtile/precache-manifest.67fa9937d790f9aba9129949a3bb08ab.js"
+  "/saxtile/precache-manifest.829080f7341db2297c3ca6d0b21a90ce.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "saxtile"});
