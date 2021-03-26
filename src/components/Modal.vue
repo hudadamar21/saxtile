@@ -34,7 +34,7 @@
       <div class="flex flex-col p-3">
         <slot name="body" />
       </div>
-      <div class="absolute left-0 bottom-0 h-12 border-t dark:border-gray-500 bg-white dark:bg-gray-600 w-full">
+      <div class=" h-12 border-t dark:border-gray-500 w-full">
         <slot name="footer" />
       </div>
     </div>

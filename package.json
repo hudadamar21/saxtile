@@ -6,8 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "git subtree push --prefix dist origin gh-pages",
-    "serve-prod": "vue-cli-service serve --mode production"
+    "serve-prod": "vue-cli-service serve --mode production",
+    "deploy": "git push origin `git subtree split --prefix dist master`:gh-pages --force"
   },
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",

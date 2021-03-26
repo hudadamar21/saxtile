@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="`focus:outline-none focus:border-blue-500 focus:border-3 rounded
+    :class="`focus:outline-none focus:border-blue-500 focus:border-3 rounded focus:ring
       ${padding || 'px-3 py-1'}
       ${shadow || ''}
       ${coloring}
@@ -26,7 +26,7 @@ export default {
     coloring(){
       return this.color == 'white' 
           ? 'bg-white hover:bg-gray-200 text-gray-700'
-          : `bg-${this.color}-500 hover:bg-${this.color}-600 text-white`
+          : `bg-${this.color}-500 hover:bg-${this.color}-600 focus:ring-${this.color}-200 dark:focus:ring-gray-200 text-white`
     },
     sizing(){
       return this.lg ? 'text-lg' 

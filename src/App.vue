@@ -21,9 +21,7 @@
 
     <TextCollectionModals />
     
-    <transition name="router" mode="out-in">
-      <router-view></router-view>
-    </transition>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -49,15 +49,13 @@
       <!-- END Wrapper Input Title and Prefix + Options -->
 
       <!-- Wrapper Text Collections Inputs -->
-      <transition-group 
-        tag="ul"
-        name="list"
+      <ul
         class="overflow-auto overflow-x-hidden height-textCollection w-full">
 
         <li
           class="flex items-center justify-center w-full"
           v-for="({subtitle, text}, index) of textCollection.contents"
-          :key="subtitle+index">
+          :key="index">
 
           <!-- Increment Numbers -->
           <div class="mr-1 font-semibold text-sm w-5">{{ index + 1 }}.</div>
@@ -102,7 +100,7 @@
               class="absolute-vertical-center text-sm"
               size="sm"
               @klik="deleteListOfIndex(index)">
-                <SVGIcon icon="x" color="text-white" size="w-4 h-4" />
+                <SVGIcon icon="x" color="text-white dark:text-gray-800" size="w-4 h-4" />
             </ButtonCircle>
 
             <!-- Add New Text -->
@@ -116,7 +114,7 @@
 
           </div>
         </li>
-      </transition-group>
+      </ul>
       <!-- END Wrapper Text Collections Inputs -->
     </template>
 
@@ -282,6 +280,10 @@ export default {
 }
 .height-textCollection {
   height: 24rem;
+}
+
+.invert-color {
+  filter: invert(0.85);
 }
 
 .subtitle-show-enter, .subtitle-show-leave-to {
