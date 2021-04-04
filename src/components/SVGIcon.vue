@@ -125,6 +125,14 @@ export default {
         {
           icon: 'back',
           svg: `<svg class="${this.size} ${this.color || ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>`
+        },
+        {
+          icon: 'check',
+          svg: `<svg class="${this.size} ${this.color || ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`
+        },
+        {
+          icon: 'arrow-left',
+          svg: `<svg class="${this.size} ${this.color || ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>`
         }
       ], // icons
     }

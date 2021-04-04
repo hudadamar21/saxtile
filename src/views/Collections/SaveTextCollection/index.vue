@@ -1,6 +1,6 @@
 <template>
   <section
-    class="stext-collection-main md:h-screen min-h-screen w-full md:w-1/2 bg-gray-100 dark:bg-gray-700"
+    class="md:h-screen min-h-screen w-full md:w-1/2 bg-gray-100 dark:bg-gray-700"
     id="savetext-collection">
 
     <h3 class="my-3 w-full text-center font-bold text-2xl text-blue-500 dark:text-white">
@@ -9,7 +9,7 @@
 
     <div class="w-full text-center mb-5">
       <Button 
-        :color="isDarkmode ? 'white' : 'blue'" lg 
+        color="blue" lg 
         shadow="shadow-md" 
         @click.native="$store.commit('text_collection/SET_SHOW_FORM_MODAL',true)"
         > Create New Collection
@@ -30,15 +30,9 @@ export default {
     ListView: () => import(/* webpackChunkName: "collections" */ './ListView'),
   },
   mounted() {
-    this.$store.dispatch('text_collection/List', null, { root: true })
+    this.$store.dispatch('text_collection/List')
   },
   computed: {
-    isDarkmode(){
-      return document.querySelector('body').classList.contains('dark')
-    },
-    loading(){
-      return this.$store.state.text_collection.loading
-    },
     lists(){
       return this.$store.state.text_collection.lists
     },

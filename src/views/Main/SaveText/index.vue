@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('text/List', null, { root: true })
+    this.$store.dispatch('text/List')
   },
 }
 </script>

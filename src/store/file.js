@@ -67,7 +67,7 @@ export default {
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'file',
         id,
-        updateText: {archived: status},
+        updateDoc: {archived: status},
         messageOnComplete:  rootGetters.messageOnArchives('File')
       }, { root: true })
     }

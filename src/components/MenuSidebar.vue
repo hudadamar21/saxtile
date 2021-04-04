@@ -4,7 +4,7 @@
       <div class="flex justify-end w-full items-center">
         <small class="text-sm lg:text-base dark:text-gray-100">Hallo, {{ user.displayName }}</small>
       </div>
-      <h3 class="font-bold mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
+      <h3 class="font-bold text-lg mt-3 mb-2 text-blue-500 dark:text-white">Menu</h3>
       <ul class="w-full text-left bg-white dark:bg-gray-500 rounded shadow transition-max-height overflow-hidden">
         <li
           v-for="menu of menuList"
@@ -49,9 +49,14 @@ export default {
           url: { name: 'main', params: this.params },
         },
         {
-          name: 'Save Collection',
+          name: 'Collections',
           url_name: 'collections',
           url: { name: 'collections', params: this.params },
+        },
+        {
+          name: 'Notes',
+          url_name: 'notes',
+          url: { name: 'notes', params: this.params },
         },
         {
           name: 'Archives',

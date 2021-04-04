@@ -1,8 +1,8 @@
 <template>
   <div
     class="btn-circle mb-1 cursor-pointer"
-    :class="`${mode} ${isDarkmode ? 'default' : mode} ${
-      size == 'lg' ? 'p-3 h-10 w-10' 
+    :class="`${mode} text-gray-500 ${isDarkmode ? 'default' : mode} ${
+      size == 'lg' ? 'p-3 h-10 w-10'
       : size == 'sm' ? 'p-1 h-6 w-6' 
       : 'p-2 h-8 w-8' } `"
     @click="$emit('klik')"
@@ -18,9 +18,10 @@ export default {
       type: String,
       required: true,
       validator: (value) => {
-        return ['success', 'warning', 'danger'].indexOf(value) !== -1
+        return ['success', 'warning', 'danger', 'none'].indexOf(value) !== -1
       }
     },
+    textColor: String,
     size: String,
   },
   computed: {
@@ -50,6 +51,10 @@ export default {
 
 .default {
   @apply bg-white hover:bg-gray-200 text-gray-600;
+}
+
+.none {
+  @apply bg-transparent hover:bg-white hover:bg-opacity-20 text-gray-600;
 }
 
 </style>

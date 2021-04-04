@@ -2,12 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router'
 
-import user from './user';
-import text from './text';
-import text_collection from './text_collection';
-import file from './file';
-import firebase_actions from "./firebase_actions";
-import app_setting from "./app_setting";
+import firebase_actions from "./firebase_actions"
+import app_setting from "./app_setting"
+import user from './user'
+
+import text from './text'
+import text_collection from './text_collection'
+
+import file from './file'
+
+import note from './note.js'
 
 Vue.use(Vuex)
 
@@ -46,7 +50,7 @@ export default new Vuex.Store({
       commit('SET_SHOW_ALERT', { message, mode })
       setTimeout(() => {
         commit('SET_SHOW_ALERT', { message: '', mode: '' })
-      }, duration);
+      }, duration)
     },
   },
   modules: {
@@ -55,6 +59,7 @@ export default new Vuex.Store({
     user,
     text,
     text_collection,
-    file
+    file,
+    note
   }
 })

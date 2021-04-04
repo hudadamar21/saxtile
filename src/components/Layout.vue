@@ -39,10 +39,10 @@ export default {
   @apply mr-4 mb-5 fixed bottom-0 right-0 p-1 rounded-md shadow z-50;
 }
 .indicator-container {
-  @apply fixed bottom-0 left-0 border-none z-30 w-full h-12 bg-white flex md:hidden border;
+  @apply fixed bottom-0 left-0 border-none z-30 w-full h-10 bg-white flex md:hidden border;
 }
 .indicator {
-  @apply flex justify-center items-center w-1/2 h-12 text-white;
+  @apply flex justify-center items-center w-1/2 h-10 text-white;
 }
 
 

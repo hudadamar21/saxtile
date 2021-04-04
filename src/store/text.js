@@ -59,10 +59,10 @@ export default {
       }, {root: true})
     },
 
-    Update({ dispatch, state }, updateText) {
+    Update({ dispatch, state }, updatedText) {
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'text',
-        updateText,
+        updateDoc: updatedText,
         id: state.updateTextId,
         messageOnComplete: 'Text Berhasil di Update'
       }, { root: true })
@@ -80,7 +80,7 @@ export default {
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'text',
         id,
-        updateText: {archived: status},
+        updateDoc: {archived: status},
         messageOnComplete: rootGetters.messageOnArchives('Text')
       }, { root: true })
     }

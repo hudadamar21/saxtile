@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "serve-prod": "vue-cli-service serve --mode production",
-    "deploy": "git push origin `git subtree split --prefix dist master`:gh-pages --force"
+    "deploy": "git push origin `git subtree split --prefix=dist master`:gh-pages --force"
   },
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",
@@ -46,7 +46,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-mixed-spaces-and-tabs": 0
+    }
   },
   "browserslist": [
     "> 1%",

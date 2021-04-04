@@ -17,6 +17,7 @@ export default {
     userRef(state) {
       const firebase_uid = firebase.auth().currentUser.uid
       if (firebase_uid === state.uid) {
+        console.log(firebase_uid);
         return firebase.firestore().collection('users').doc(state.uid)
       } else {
         return false

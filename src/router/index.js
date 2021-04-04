@@ -39,6 +39,14 @@ const routes = [
     }
   },
   {
+    path: '/:userId/notes',
+    name: 'notes',
+    component: () => import(/* webpackChunkName: "notes" */ '@/views/Notes/index.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/:userId/archives',
     name: 'archives',
     component: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/index.vue'),

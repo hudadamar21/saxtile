@@ -57,7 +57,7 @@ export default {
     Update({ dispatch }, { id, data }) {
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'text_collection',
-        updateText: data,
+        updateDoc: data,
         id,
         messageOnComplete: 'Text Berhasil di Update'
       }, { root: true })
@@ -77,7 +77,7 @@ export default {
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'text_collection',
         id,
-        updateText: { archived: status },
+        updateDoc: { archived: status },
         messageOnComplete:  rootGetters.messageOnArchives('Text')
       }, { root: true })
     }

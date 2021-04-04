@@ -16,10 +16,12 @@ export default {
           .orderBy(property, type)
           .onSnapshot(snaps => {
             let lists = []
-            snaps.forEach(snap => lists.push({
-              ...snap.data(), 
-              id: snap.id
-            }))
+            snaps.forEach(snap => {
+              lists.push({
+                ...snap.data(), 
+                id: snap.id
+              })
+            })
             callback(lists)
           })
       }, { root: true })
@@ -45,12 +47,13 @@ export default {
       }, { root: true })
     },
 
-    UpdateDocument({ rootGetters, dispatch }, {collection_name, id, updateText, messageOnComplete}){
+    UpdateDocument({ rootGetters, dispatch }, {collection_name, id, updateDoc, messageOnComplete}){
+      console.log('firebase',updateDoc);
       dispatch('user/ValidationUser', () => {
         rootGetters['user/userRef']
           .collection(collection_name)
           .doc(id)
-          .update(updateText)
+          .update(updateDoc)
           .then(() => {
             dispatch('showAlert', {
               message: messageOnComplete
@@ -71,9 +74,12 @@ export default {
           .collection(collection_name)
           .doc(id)
           .delete()
-          .then(() => dispatch('showAlert', {
-            message: messageOnComplete
-          }, { root: true }))
+          .then(() => {
+            console.log('delete success');
+            dispatch('showAlert', {
+              message: messageOnComplete
+            }, { root: true })
+          })
           .catch(err => {
             dispatch('showAlert', {
               message: err.message, 

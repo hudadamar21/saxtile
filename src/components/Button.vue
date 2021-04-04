@@ -26,7 +26,7 @@ export default {
     coloring(){
       return this.color == 'white' 
           ? 'bg-white hover:bg-gray-200 text-gray-700'
-          : `bg-${this.color}-500 hover:bg-${this.color}-600 focus:ring-${this.color}-200 dark:focus:ring-gray-200 text-white`
+          : `bg-${this.color}-500 hover:bg-${this.color}-600 focus:ring-${this.color}-200 dark:focus:ring-white dark:focus:ring-opacity-20  text-white`
     },
     sizing(){
       return this.lg ? 'text-lg' 

@@ -38,7 +38,7 @@
             <a
               v-if="isUrl(collection.prefix + text)"
               @click.stop
-              class="bg-blue-500 hover:bg-blue-600 text-white dark:bg-white dark:hover:bg-gray-200 text-gray-700 rounded p-1  ml-2"
+              class="bg-blue-500 hover:bg-blue-600 text-white dark:text-gray-700 dark:bg-white dark:hover:bg-gray-200 rounded p-1  ml-2"
               :href="collection.prefix + text"
               target="_blank"
               title="go to link"
