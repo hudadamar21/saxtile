@@ -1,16 +1,16 @@
 <template>
-<section class="h-screen border-l-2 border-gray-300 w-full md:w-8/12 bg-gray-100 dark:bg-gray-600">
+<section class="h-screen border-l-2 border-gray-300 dark:border-gray-800 w-full md:w-8/12 bg-white dark:bg-gray-600">
 
 	<!-- jika tidak ada note yang dibuka -->
 	<div v-if="!noteOpened" class="flex h-screen justify-center items-center">
 		<h1 class="text-blue-400 text-2xl font-bold flex items-center">
 			<SVGIcon icon="arrow-left" size="w-8 h-8" /> 
-			<span class="ml-2">Pilih Note...</span>
+			<span class="ml-2">Select A Note...</span>
 		</h1>
 	</div>
 
 	<!-- jika ada note yang dibuka -->
-	<div v-else class="h-screen">
+	<div v-else class="h-screen bg-white">
 		<div class="w-full h-title flex items-center justify-between bg-gray-200 text-xl">
 
 			<!-- title -->
@@ -48,17 +48,20 @@
 			</div>
 
 		</div>
-
+		
 		<!-- note open -->
-		<div class="h-note w-full bg-gray-100 p-2 mb-5">
+		<div class="relative h-note w-full bg-white p-2 mb-5">
+			<div class="absolute top-0 left-0 px-3 pt-px flex items-center justify-between w-full text-sm text-gray-400 py-0">
+				<p>{{ editmode ? 'sedang disunting' : calcDate }}</p>
+				<p>{{ new Date().formatDate(noteOpened.date) }}</p>
+			</div>
 			<div 
-				class="bg-white p-3 rounded shadow-md" 
-				:class="editmode ? 'border border-gray-400' : 'border'"
+				class="p-3 pt-4" 
 				@dblclick="!editmode ? setEditMode(true) : false">
 				<textarea
 					ref="note-editor"
 					class="w-full bg-white overflow-auto focus:outline-none placeholder-gray-400 text-lg" 
-					rows="20" 
+					rows="19" 
 					placeholder="write something..."
 					:disabled="!editmode"
 					v-model="noteOpened.note"
@@ -84,7 +87,13 @@ export default {
 			'noteOpened',
 			'editmode',
 			'updatedNoteId'
-		])
+		]),
+		calcDate(){
+			const selisih = new Date().getTime() - this.noteOpened.date
+			const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+			console.log(hari);
+			return hari > 0 ? `${hari} hari yang lalu` : 'baru saja'
+		}
 	},
 	methods: {
 		...mapMutations('note', ['setEditMode']),
@@ -104,7 +113,7 @@ export default {
 			if(confirm('apakah anda ingin menghapus note ini ?')){
 				this.Delete(this.updatedNoteId)
 			}
-		}
+		},
 	}
 }
 </script>

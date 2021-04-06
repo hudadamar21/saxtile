@@ -11,4 +11,23 @@
   @apply py-2 px-5 text-base tracking-wide text-left w-full;
 }
 
+::-webkit-scrollbar {
+	@apply w-3
+}
+
+/* Track */
+::-webkit-scrollbar-track { 
+	@apply bg-white dark:bg-gray-400; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-500 dark:bg-gray-700 border border-white dark:border-gray-400 shadow;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-blue-600 dark:bg-gray-800; 
+}
+
 @tailwind utilities;

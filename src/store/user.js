@@ -60,7 +60,7 @@ export default {
           router.push({ name: 'main', params: data.user.uid })
           commit('SET_LOADING', false, { root: true })
           dispatch('showAlert', {
-            message: "You're login to Saxtile"
+            message: "You're login to Saxtile, Welcome"
           }, { root: true })
         })
         .catch(err => {
@@ -96,7 +96,7 @@ export default {
             createdAt: new Date().getTime()
           })
           dispatch('showAlert', {
-            message: "Register success, Welcome to Saxtile"
+            message: "Register Success, Welcome to Saxtile"
           }, { root: true })
           commit('SET_LOADING', false, { root: true })
         })
@@ -116,8 +116,9 @@ export default {
       firebase.auth().signOut()
 
       commit('SET_USER', { uid: '', email: '', displayName: null })
-      dispatch('showAlert', { message: "You're logout, goodbye" }, { root: true })
+      dispatch('showAlert', { message: "You're logout, see you again.." }, { root: true })
       router.push({ name: 'auth' })
+
     }
 
   }

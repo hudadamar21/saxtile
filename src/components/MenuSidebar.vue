@@ -81,6 +81,8 @@ export default {
       if (confirm('mau logout ?')) {
         this.$store.dispatch('user/Logout')
         this.$store.commit('TOGGLE_MENU')
+        document.querySelector('body').classList.remove('dark')
+        localStorage.setItem('darkmode', false)
       }
     },
   },

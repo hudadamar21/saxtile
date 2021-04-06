@@ -51,4 +51,23 @@ export default {
 .close-notif {
   @apply w-5 h-5 bg-red-600 rounded-full p-2 text-white flex justify-center items-center text-sm outline-none;
 }
+
+::-webkit-scrollbar {
+  @apply w-3
+}
+
+/* Track */
+::-webkit-scrollbar-track { 
+  @apply bg-gray-400; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 border border-gray-400 shadow;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-700; 
+}
 </style>

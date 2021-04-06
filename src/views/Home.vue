@@ -1,7 +1,7 @@
 <template>
-	<div id="home" class="min-h-screen bg-gradient-to-tr from-blue-900 to-blue-600 text-white">
+	<div id="home" class="min-h-screen bg-gradient-to-tr from-blue-900 to-blue-800 text-white">
 		<!-- header -->
-		<div class="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-600 h-14 shadow px-5">
+		<div class="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-800 h-14 shadow px-5">
 			<div class="flex items-center">
 				<img src="@/assets/images/logo-saxtile.png" alt="logo saxtile" class="h-9 w-9">
 				<h1 class="font-semibold text-2xl ml-2 tracking-widest">Saxtile</h1>
@@ -23,12 +23,12 @@
 					<h3 class="text-2xl md:text-5xl tracking-wider">Web Application</h3>
 					<div class="mt-5 flex items-center gap-3">
 						<router-link to="/auth">
-							<Button color="blue" lg>
+							<Button color="blue" lg class="focus:ring-opacity-70">
 								GO TO APP
 							</Button>
 						</router-link>
-						<a href="https://github.com/hudadamar21/saxtile" target="_blank">
-							<Button color="green" lg class="flex items-center" >
+						<a href="https://github.com/hudadamar21/saxtile" target="_blank" >
+							<Button color="green" lg class="flex items-center focus:ring-opacity-70">
 								GITHUB
 								<svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
 							</Button>
@@ -38,26 +38,20 @@
 			</div>
 
 			<!-- webapp dibuat dengan -->
-			<div class="text-center text-xl text-gray-100">
+			<div class="text-center text-xl">
 				<h1 class="mb-3">Web App ini dibuat dengan : </h1>
 				<div class="grid grid-cols-3 gap-2">
-					<div class="card-logo">
-						<img src="img/logo/vuejs.png" alt="logo-vuejs" class="h-10 p-1">
-						<p>Vuejs</p>
-					</div>
-					<div class="card-logo">
-						<img src="img/logo/firebase.png" alt="logo-vuejs" class="h-10 p-1">
-						<p>Firebase</p>
-					</div>
-					<div class="card-logo">
-						<img src="img/logo/tailwindcss.png" alt="logo-vuejs" class="h-10 p-1">
-						<p>TailwindCSS</p>
-					</div>
+					<template v-for="(tech, index) of techs">
+						<a :href="tech.url" target="_blank" class="card-logo" :key="index">
+							<img :src="tech.srcImage" :alt="tech.alt" class="h-10 p-1">
+							<p>{{ tech.name }}</p>
+						</a>
+					</template>
 				</div>
 			</div>
 
 			<!-- application description -->
-			<div class="w-11/12 md:w-1/2 text-center my-12 leading-relaxed shadow-md pt-3 pb-8 px-3 md:px-8 rounded">
+			<div class="w-11/12 md:w-1/2 text-center my-20 leading-relaxed shadow-md p-8 md:px-8 rounded">
 				<h1 class="text-2xl md:text-4xl mb-6">Kenapa Web App ini dibuat ?</h1>
 				<h3 class="text-2xl md:text-3xl">Saxtile</h3>
 				<h4 class="text-xl md:text-xl mb-6">Save Text & File</h4>
@@ -80,7 +74,7 @@
 			</div>
 		</div>
 		<!-- footer -->
-		<div class="w-full flex flex-col items-center justify-center h-24 text-gray-100">
+		<div class="w-full flex flex-col items-center justify-center h-24">
 			<h3>Saxtile</h3>
 			<h4>Copyright &copy; 2020-2021 Huda Damar</h4>
 		</div>
@@ -92,6 +86,30 @@ export default {
 	title: 'Saxtile',
 	components: {
 		Button: () => import('@/components/Button')
+	},
+	data(){
+		return {
+		techs: [
+				{
+					name: 'Vuejs',
+					srcImage: 'img/logo/vuejs.png',
+					url: 'https://vuejs.org',
+					alt: 'logo vuejs'
+				},
+				{
+					name: 'Firebase',
+					srcImage: 'img/logo/firebase.png',
+					url: 'https://firebase.google.com',
+					alt: 'logo firebase'
+				},
+				{
+					name: 'TailwindCSS',
+					srcImage: 'img/logo/tailwindcss.png',
+					url: 'https://tailwindcss.com',
+					alt: 'logo tailwindcss'
+				},
+			]
+		}
 	}
 }
 </script>
@@ -101,6 +119,8 @@ export default {
 		font-family: 'Poppins', 'Arial', sans-serif;
 	}
 	.card-logo {
-		@apply flex flex-col items-center shadow p-1 rounded
+		@apply flex flex-col items-center shadow p-3 rounded hover:bg-blue-800 transition-colors duration-100
 	}
+
+	
 </style>
