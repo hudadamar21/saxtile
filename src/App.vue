@@ -2,6 +2,7 @@
   <div id="app">
     <div v-if="$store.state.alert.message" class="fixed top-0 right-0 z-50 m-5">
       <Alert
+        @close="closeAlert"
         :mode="$store.state.alert.mode"
         :message="$store.state.alert.message"
         animation="opacity"
@@ -42,16 +43,20 @@ export default {
       }
   },
   methods: {
+    ...mapMutations(['SET_SHOW_ALERT']),
     ...mapMutations('text',[
       'SET_INPUT',
       'SET_IS_UPDATE',
       'SET_SHOW_OPTION',
-      'SET_UPDATE_TEXT_ID'
+      'SET_UPDATE_TEXT_ID',
     ]),
     ...mapMutations('file', [
       'SET_FILENAME',
       'SET_FILE_UPLOAD',
-    ])
+    ]),
+    closeAlert(){
+      this.SET_SHOW_ALERT(null)
+    }
   },
   watch: {
     // Clear state when route change

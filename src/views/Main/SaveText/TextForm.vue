@@ -33,10 +33,6 @@ import check_darkmode from '@/mixins/check_darkmode'
 
 export default {
   mixins: [check_darkmode],
-  components: {
-    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-  },
   computed: {
     ...mapState({
       input: (state) => state.text.input,

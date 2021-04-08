@@ -1,6 +1,6 @@
 <template>
   <section
-    class="md:h-screen min-h-screen w-full md:w-1/2 bg-gray-100 dark:bg-gray-700"
+    class="md:h-screen min-h-screen w-full md:w-1/2 bg-gray-100 dark:bg-gray-700 flex flex-col"
     id="savetext-collection">
 
     <h3 class="my-3 w-full text-center font-bold text-2xl text-blue-500 dark:text-white">
@@ -16,8 +16,13 @@
       </Button>
     </div>
 
-    <Skeleton v-if="loading" :count="3" />
-    <ListView v-else :lists="unArchivedLists" isArchive />
+    <div 
+      class="flex-grow overflow-auto"
+      :class="openCollection ? 'scrollbar-hidden' : ''"
+    >
+      <Skeleton v-if="loading" :count="3" />
+      <ListView v-else :lists="unArchivedLists" isArchive />
+    </div>
 
   </section>
 </template>
@@ -25,8 +30,6 @@
 <script>
 export default {
   components: {
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     ListView: () => import(/* webpackChunkName: "collections" */ './ListView'),
   },
   mounted() {
@@ -36,6 +39,12 @@ export default {
     lists(){
       return this.$store.state.text_collection.lists
     },
+    openCollection(){
+      return this.$store.state.text_collection.open_collection
+    },
+    loading(){
+      return this.$store.state.text_collection.loading
+    },
     unArchivedLists(){
       return this.lists.filter(list => !list.archived)
     }
@@ -43,3 +52,9 @@ export default {
   },
 }
 </script>
+
+<style>
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+</style>

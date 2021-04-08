@@ -17,7 +17,13 @@ Vue.config.productionTip = false
 
 Vue.mixin(setTitle)
 
-// store.commit('SET_SETTING', JSON.parse())
+// Global Components
+const components = ['Button','ButtonCircle', 'Input', 'Layout','List','Skeleton','SVGIcon','Modal']
+components.forEach(comp => 
+	Vue.component(comp, 
+		() => import(/* webpackChunkName: "components" */ `@/components/global/${comp}`)
+	)
+)
 
 firebase.auth().onAuthStateChanged((user) => {
 

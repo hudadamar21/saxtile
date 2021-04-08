@@ -7,9 +7,6 @@
 
 <script>
 export default {
-  components: {
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-  },
   computed: {
     menu() {
       return this.$store.state.menu

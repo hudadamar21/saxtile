@@ -20,9 +20,11 @@
     }"
     @click="$emit('toggle', data.id)"
   >
+
+  <!-- Archive -->
   <div
     @click="archiveAction" 
-    class="absolute top-1/2 transform -translate-y-1/2 bg-red-500 dark:bg-white dark:text-gray-700 w-32 flex items-center justify-end rounded p-3 text-white transition duration-200 shadow-md"
+    class="absolute top-1/2 transform -translate-y-1/2 bg-orange-400 hover:bg-orange-500 dark:bg-white dark:hover:bg-gray-100 dark:text-gray-700 w-32 flex items-center justify-end rounded p-3 text-white transition duration-200 shadow-md"
     :class="{
       '-translate-x-full opacity-0' : showOption !== data.id,
       'w-36' : data.archived

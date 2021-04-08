@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex items-center py-2 px-3 shadow-md mb-2 border-l-4"
+    @click="$emit('close')"
+    class="flex items-center py-2 px-3 shadow-md mb-2 border-l-4 cursor-pointer"
     :class="`${bgColor} dark:bg-gray-600 dark:border-gray-500 ${animation}`"
   >
     <div class="rounded-full bg-white dark:bg-gray-700 mr-3 dark:text-white" :class="textColor">
@@ -12,9 +13,6 @@
 
 <script>
 export default {
-  components: {
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-  },
   props: {
     message: {
       type: String,

@@ -48,10 +48,6 @@ export default {
   props: {
     isRegister: Boolean,
   },
-  components: {
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-  },
   data() {
     return {
       form: {

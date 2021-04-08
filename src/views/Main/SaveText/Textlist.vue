@@ -91,12 +91,6 @@ export default {
     }
   },
   mixins: [action_text, check_darkmode],
-  components: {
-    List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
-  },
   data() {
     return {
       textCopied: null,

@@ -9,7 +9,6 @@
 export default {
   title: 'Saxtile',
   components: {
-    Layout: () => import(/* webpackChunkName: "components" */ '@/components/Layout'),
     SaveText: () => import(/* webpackChunkName: "main" */ './SaveText/index.vue'),
     SaveFile: () => import(/* webpackChunkName: "main" */ './SaveFile/index.vue'),
   },

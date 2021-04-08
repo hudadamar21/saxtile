@@ -17,9 +17,6 @@ export default {
 		archiveTextCollectionLists(){
       return this.lists.filter(list => list.archived)
     }
-	},
-	methods: {
-
 	}
 }
 </script>

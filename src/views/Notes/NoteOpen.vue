@@ -1,31 +1,53 @@
 <template>
-<section class="h-screen border-l-2 border-gray-300 dark:border-gray-800 w-full md:w-8/12 bg-white dark:bg-gray-600">
-
-	<!-- jika tidak ada note yang dibuka -->
+<section 
+	class="absolute md:static h-screen border-l-2 w-full md:w-8/12 dark:bg-gray-600 z-50"
+	:class="`
+		${noteOpened ? 'block' : 'hidden md:block'}
+		${colorMode('border', noteColor, editmode ? '400' : '300')}
+	`"
+>
+	<!-- Jika Tidak Ada Note Yang Dibuka -->
 	<div v-if="!noteOpened" class="flex h-screen justify-center items-center">
-		<h1 class="text-blue-400 text-2xl font-bold flex items-center">
+		<h1 class="text-blue-400 dark:text-white text-2xl font-bold flex items-center">
 			<SVGIcon icon="arrow-left" size="w-8 h-8" /> 
 			<span class="ml-2">Select A Note...</span>
 		</h1>
 	</div>
 
-	<!-- jika ada note yang dibuka -->
+	<!-- Jika Ada Note Yang Dibuka -->
 	<div v-else class="h-screen bg-white">
-		<div class="w-full h-title flex items-center justify-between bg-gray-200 text-xl">
 
-			<!-- title -->
-			<input
-				type="text" v-model="noteOpened.title"
-				placeholder="type your title" 
-				class="ml-2 border-none focus:outline-none px-3 py-1 font-semibold rounded w-2/3"
-				:class="editmode 
-									? 'text-gray-600 bg-white placeholder-gray-400' 
-									: 'text-gray-600 bg-gray-200 placeholder-white'"
-				:disabled="!editmode"
-			/>
+		<!-- Header -->
+		<div 
+			class="w-full h-title flex items-center justify-between text-xl"
+			:class="`
+				${noteOpened ? 'flex' : 'hidden'}
+				${colorMode('bg',noteColor, editmode ? '400' : '300')} 
+				${noteColor === 'no-color' ? 'border-b bg-gray-100' : ''}
+			`">
 
-			<!-- options -->
-			<div class="mr-3 flex items-center">
+			<div class="flex items-center w-full">
+				<div 
+					class="ml-2 text-gray-700 cursor-pointer hover:bg-white hover:bg-opacity-20 p-1 rounded-full"
+					@click="closeNote"
+					>
+					<SVGIcon icon="arrow-left" size="w-6 h-6"></SVGIcon>
+				</div>
+
+				<!-- Title -->
+				<input
+					type="text" v-model="noteOpened.title"
+					placeholder="type your title" 
+					class="ml-2 border-none focus:outline-none px-3 py-1 font-semibold rounded w-2/3  text-gray-700"
+					:class="editmode 
+										? 'bg-white placeholder-gray-400 disabled:bg-white' 
+										: `text-gray-700 ${colorMode('bg',noteColor, 300)} ${colorMode('disabled:bg', noteColor, 300)} placeholder-white`"
+					:disabled="!editmode"
+				/>
+			</div>
+
+			<!-- Options -->
+			<div class="mr-5 flex items-center">	
 				<ButtonCircle 
 					v-if="!editmode" 
 					@click.native="setEditMode(!editmode)" 
@@ -45,22 +67,25 @@
 					mode="none" md textColor="text-gray-500">
 					<SVGIcon icon="trash" size="w-6 h-6"/>
 				</ButtonCircle>
-			</div>
 
+				<ColorPicker :colorSelected="noteColor" />
+
+			</div>
 		</div>
+		<!-- End Header -->
 		
-		<!-- note open -->
-		<div class="relative h-note w-full bg-white p-2 mb-5">
+		<!-- Note Open -->
+		<div class="relative h-note w-full p-2 mb-5" :class="colorMode('bg',noteColor, 100)">
 			<div class="absolute top-0 left-0 px-3 pt-px flex items-center justify-between w-full text-sm text-gray-400 py-0">
-				<p>{{ editmode ? 'sedang disunting' : calcDate }}</p>
+				<p>{{ editmode ? 'sedang di sunting' : timePassed }}</p>
 				<p>{{ new Date().formatDate(noteOpened.date) }}</p>
 			</div>
 			<div 
-				class="p-3 pt-4" 
+				class="p-5 px-2" 
 				@dblclick="!editmode ? setEditMode(true) : false">
 				<textarea
 					ref="note-editor"
-					class="w-full bg-white overflow-auto focus:outline-none placeholder-gray-400 text-lg" 
+					class="text-editor bg-transparent w-full overflow-auto focus:outline-none placeholder-gray-400 text-lg resize-none"
 					rows="19" 
 					placeholder="write something..."
 					:disabled="!editmode"
@@ -79,8 +104,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
 	components: {
-		SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-		ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
+		ColorPicker: () => import(/* webpackChunkName: "components" */ '@/components/ColorPicker'),
 	},
 	computed: {
 		...mapState('note', [
@@ -88,32 +112,53 @@ export default {
 			'editmode',
 			'updatedNoteId'
 		]),
-		calcDate(){
+		noteColor(){
+			return this.noteOpened?.color
+		},
+		timePassed(){
 			const selisih = new Date().getTime() - this.noteOpened.date
 			const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
-			console.log(hari);
-			return hari > 0 ? `${hari} hari yang lalu` : 'baru saja'
+			const jam = Math.floor(selisih % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+			return hari > 0 
+				? `${hari} hari yang lalu` 
+				: jam > 0 ? `${jam} jam yang lalu`
+				: 'baru saja'
+		}
+	},
+	watch: {
+		noteOpened(newval){
+			console.log(newval);
 		}
 	},
 	methods: {
-		...mapMutations('note', ['setEditMode']),
+		...mapMutations('note', ['setEditMode','setNoteOpened']),
 		...mapActions('note', ['Save', 'Update','Delete']),
 		submitNote(){
-			this.setEditMode(false)
-
 			if (!this.updatedNoteId) {
-				this.Save(this.noteOpened)
+				if(!this.noteOpened.title){
+					alert('input required')
+				} else {
+					this.Save(this.noteOpened)
+					this.setEditMode(false)
+				}
 			} else {
 				const updatedNote = this.noteOpened
 				delete updatedNote['id']
 				this.Update(updatedNote)
+				this.setEditMode(false)
 			} 
+		},
+		closeNote(){
+			this.setNoteOpened(null)
 		},
 		deleteNote(){
 			if(confirm('apakah anda ingin menghapus note ini ?')){
 				this.Delete(this.updatedNoteId)
 			}
 		},
+		colorMode(property, color, size){
+			return `${property}-${color}-${size}`
+		}
 	}
 }
 </script>
@@ -125,7 +170,14 @@ export default {
 	.h-note {
 		height: calc(100vh - 3rem);
 	}
-	textarea {
-		resize: none;
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.text-editor::-webkit-scrollbar {
+	  display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.text-editor {
+	  -ms-overflow-style: none;  /* IE and Edge */
+	  scrollbar-width: none;  /* Firefox */
 	}
 </style>

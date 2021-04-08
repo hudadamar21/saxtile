@@ -66,8 +66,6 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   components: {
-    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
     ProgressUpload: () => import(/* webpackChunkName: "components" */ '@/components/ProgressUpload'),
   },
   data() {

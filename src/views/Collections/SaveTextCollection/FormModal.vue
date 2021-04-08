@@ -50,7 +50,7 @@
 
       <!-- Wrapper Text Collections Inputs -->
       <ul
-        class="overflow-auto overflow-x-hidden height-textCollection w-full">
+        class="overflow-auto overflow-x-hidden flex-grow w-full">
 
         <li
           class="flex items-center justify-center w-full"
@@ -139,12 +139,7 @@ export default {
     data: Object,
   },
   components: {
-    Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
     ButtonSwitch: () => import(/* webpackChunkName: "components" */ '@/components/ButtonSwitch'),
-    Input: () => import(/* webpackChunkName: "components" */ '@/components/Input'),
-    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
   },
   data() {
     return {

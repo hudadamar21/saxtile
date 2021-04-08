@@ -17,7 +17,6 @@
 <script>
 export default {
   components: {
-    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     TextForm: () => import(/* webpackChunkName: "main" */ './TextForm'),
     TextList: () => import(/* webpackChunkName: "main" */ './TextList'),
   },

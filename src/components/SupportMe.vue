@@ -21,9 +21,6 @@
 
 <script>
 export default {
-  components: {
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon')
-  }
 }
 </script>
 

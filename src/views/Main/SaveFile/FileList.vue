@@ -66,11 +66,6 @@ export default {
       required: true
     }
   },
-  components: {
-    List: () => import(/* webpackChunkName: "components" */ '@/components/List'),
-    ButtonCircle: () => import(/* webpackChunkName: "components" */ '@/components/ButtonCircle'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-  },
   computed: {
     ...mapState('file', [
         'show_option'

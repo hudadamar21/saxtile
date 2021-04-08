@@ -9,7 +9,6 @@
 export default {
 	title: 'Saxtile Notes',
 	components: {
-		Layout: () => import(/* webpackChunkName: "components" */ '@/components/Layout'),
 		NoteList: () => import(/* webpackChunkName: "components" */ './NoteList'),
 		NoteOpen: () => import(/* webpackChunkName: "components" */ './NoteOpen'),
 	},

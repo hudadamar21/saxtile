@@ -7,8 +7,17 @@ export default {
       lists: [],
       noteOpened: null,
       editmode: false,
-      updatedNoteId: false,
-      loading: false
+      updatedNoteId: null,
+      loading: false,
+
+      colorList: [
+        'red',
+        'yellow',
+        'green',
+        'blue',
+        'gray',
+        'no-color'
+      ],
     }
   },
   mutations: {
@@ -16,7 +25,6 @@ export default {
       state.lists = value
     },
     setNoteOpened(state, value){
-      console.log('store');
       state.noteOpened = value
     },
     setEditMode(state, value){
@@ -28,6 +36,9 @@ export default {
     setLoading(state, value){
       state.loading = value
     },
+    setNoteColor(state, value){
+      state.noteOpened.color = value
+    }
   },
   actions: {
     List({ commit, dispatch }) {
@@ -48,10 +59,10 @@ export default {
     },
 
     Update({ state, dispatch }, updatedNote) {
-      console.log(updatedNote);
+      const updateDoc = {...updatedNote, date: new Date().getTime()}
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'note',
-        updateDoc: {...updatedNote},
+        updateDoc,
         id: state.updatedNoteId
       }, { root: true })
     },

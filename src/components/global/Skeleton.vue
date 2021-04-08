@@ -2,7 +2,7 @@
   <div class="flex flex-col w-full px-5 animate-pulse">
     <div v-for="val of countSkeleton" :key="val" class="relative card-skeleton overflow-hidden shadow"
          :class="cardSkeleton">
-      <div class="absolute bg-white opacity-25 w-56 h-64 pulse"
+      <div class="absolute bg-white dark:bg-gray-300 opacity-25 w-56 h-64 pulse"
           :style="`animation-delay: ${val / 10}s`"></div>
       <div class="flex flex-col w-10/12 h-full">
         <div :class="`${contentSkeleton} w-1/2 h-5 rounded mb-2`"></div>
@@ -30,10 +30,10 @@ export default {
   },
   computed: {
     cardSkeleton(){
-      return this.mode === 'light' ? 'bg-white' : 'bg-gray-600'
+      return this.mode === 'light' ? 'bg-white dark:bg-gray-600' : 'bg-gray-600'
     },
     contentSkeleton(){
-      return this.mode === 'light' ? 'bg-gray-400' : 'bg-gray-700'
+      return this.mode === 'light' ? 'bg-gray-400 dark:bg-gray-700' : 'bg-gray-700'
     }
   },
   data(){

@@ -4,7 +4,7 @@
     class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-0 z-50 py-0 md:py-5 flex justify-center items-center transition duration-300"
   >
     <div
-      class="relative w-full sm:w-10/12 md:w-8/12 h-full bg-gray-100 dark:bg-gray-700 my-0 sm:my-20 rounded-none sm:rounded overflow-hidden transition duration-300 shadow-lg"
+      class="relative flex flex-col w-full sm:w-10/12 md:w-8/12 h-full bg-gray-100 dark:bg-gray-700 my-0 sm:my-20 rounded-none sm:rounded overflow-hidden transition duration-300 shadow-lg"
     >
       <div class="flex justify-between p-2 justify-center bg-white dark:bg-gray-600 border-b dark:border-gray-500">
         <h3 class="ml-2 font-semibold text-base md:text-xl uppercase text-gray-600 dark:text-white">{{ title }}</h3>
@@ -31,10 +31,10 @@
           </svg>
         </Button>
       </div>
-      <div class="flex flex-col p-3">
+      <div class="flex flex-col p-3 flex-grow max-h-full pb-24">
         <slot name="body" />
       </div>
-      <div class=" h-12 border-t dark:border-gray-500 w-full">
+      <div class="absolute bottom-0 h-12 border-t dark:border-gray-500 w-full bg-white dark:bg-gray-600">
         <slot name="footer" />
       </div>
     </div>
@@ -43,9 +43,6 @@
 
 <script>
 export default {
-  components: {
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-  },
   props: {
     title: {
       type: String,

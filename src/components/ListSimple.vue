@@ -1,6 +1,6 @@
 <template>
   <li class="list-simple">
-    <div>
+    <div class="w-full md:w-1/2">
       <h3 class="text-blue-500 dark:text-white font-bold">
         {{ title }}
       </h3>
@@ -11,15 +11,15 @@
         {{ list.contents.length }} text on collection
       </p>  
     </div>
-    <div>
+    <div class="flex-grow text-left md:text-right mt-2 md:mt-0">
       <Button
-        color="red" md shadow="shadow"
-        @click.native="$emit('archive', {id: list.id, title: list.title})"
-        class="mr-2">
+        color="orange" md shadow="shadow"
+        @click.native="$emit('archive', {id: list.id, title: list.title})">
           {{ onArchives ? 'UnArchive' : 'Archive'}}
       </Button>
       <Button 
-        color="blue" md shadow="shadow" 
+        color="blue" md shadow="shadow"
+        class="ml-2" 
         @click.native="$emit('open', list)">
           Open
       </Button>
@@ -36,12 +36,9 @@ export default {
 		},
     isCollection: Boolean
 	},
-	components: {
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-  },
 	computed: {
     title(){
-      const title = this.list.title.slice(1,20)
+      const title = this.list.title.slice(0,20)
       return `${title}${this.list.title.length > 20 ? '...' : ''}` 
     },
     onArchives(){
@@ -53,6 +50,6 @@ export default {
 
 <style lang="postcss" scoped>
 .list-simple {
-  @apply w-full bg-white dark:bg-gray-600 rounded border border-blue-500 dark:border-white shadow flex justify-between items-center py-2 px-3 mb-4;
+  @apply w-full bg-white dark:bg-gray-600 rounded border border-blue-300 dark:border-gray-400 shadow flex flex-col md:flex-row justify-between items-start md:items-center py-2 px-3 mb-3;
 }
 </style>

@@ -17,7 +17,6 @@
 <script>
 export default {
   components: {
-    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     FileForm: () => import(/* webpackChunkName: "main" */ './FileForm'),
     FileList: () => import(/* webpackChunkName: "main" */ './FileList'),
   },

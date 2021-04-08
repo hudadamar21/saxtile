@@ -1,5 +1,5 @@
 <template>
-  <div class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
+  <div id="layout" class="text-xl w-full flex flex-col md:flex-row justify-between items-center">
     <MenuToggle />
     <section class="flex flex-col md:flex-row w-full">
       <slot></slot>
@@ -44,6 +44,4 @@ export default {
 .indicator {
   @apply flex justify-center items-center w-1/2 h-10 text-white;
 }
-
-
 </style>

@@ -1,8 +1,8 @@
 <template>
   <Layout no-indicator  >
-    <section ref="stext" class="stext-main min-h-screen w-full" id="savetext">
+    <section ref="stext" class="stext-main h-screen w-full" id="archives">
       <div 
-        class="text-center"
+        class="text-center mb-2"
         :class="{'mb-4' : selectedIsCollections}"
       >
         <h1 class="stext-title text-2xl py-1 md:py-0 md:text-3xl tracking-wider">ARCHIVES</h1>
@@ -16,7 +16,7 @@
 
       <!-- List Text -->
       <Skeleton v-if="loadingList" class="w-full md:w-2/3"  mode="light" :count="3" />
-      <div v-else class="w-full md:w-2/3">
+      <div v-else class="w-full md:w-2/3 flex-grow overflow-auto">
         <TextArchives v-if="selectedArchive === 'text'"  />
         <FileArchives v-else-if="selectedArchive === 'file'" />
         <TextCollectionArchives v-else-if="selectedArchive === 'text_collection'" />
@@ -35,10 +35,8 @@
 <script>
 export default {
   title: 'Saxtile Archives',
-  components: { 
-    Layout: () => import(/* webpackChunkName: "components" */ '@/components/Layout'), 
+  components: {
     SelectBase: () => import(/* webpackChunkName: "components" */ '@/components/SelectBase'),
-    Skeleton: () => import(/* webpackChunkName: "components" */ '@/components/Skeleton'),
     TextArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/TextArchives'),
     FileArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/FileArchives'),
     TextCollectionArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/TextCollectionArchives'),
@@ -61,4 +59,7 @@ export default {
 
 <style>
 
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 </style>

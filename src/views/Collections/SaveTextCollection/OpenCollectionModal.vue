@@ -4,7 +4,7 @@
       <h3 class="text-sm text-gray-500 dark:text-gray-300">
         {{ new Date().formatDate(collection.date) }}
       </h3>
-      <ul class="text-gray-700 dark:text-white">
+      <ul class="scrollbar-hidden text-gray-700 dark:text-white overflow-auto">
         <li
           class="w-full bg-white dark:bg-gray-600 my-2 px-3 py-2 shadow rounded flex flex-col md:flex-row md:items-center justify-between overflow-hidden"
           v-for="({subtitle, text}, index) of collection.contents"
@@ -70,11 +70,6 @@ import action_text from '@/mixins/action_text'
 
 export default {
   mixins: [action_text],
-  components: {
-    Button: () => import(/* webpackChunkName: "components" */ '@/components/Button'),
-    Modal: () => import(/* webpackChunkName: "components" */ '@/components/Modal'),
-    SVGIcon: () => import(/* webpackChunkName: "components" */ '@/components/SVGIcon'),
-  },
   data() {
     return {
       textCopied: null,
@@ -110,4 +105,7 @@ export default {
 </script>
 
 <style>
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 </style>

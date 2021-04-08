@@ -84,9 +84,6 @@
 <script>
 export default {
 	title: 'Saxtile',
-	components: {
-		Button: () => import('@/components/Button')
-	},
 	data(){
 		return {
 		techs: [

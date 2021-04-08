@@ -9,7 +9,6 @@
 export default {
   title: 'Saxtile Collection',
   components: {
-    Layout: () => import(/* webpackChunkName: "components" */ '@/components/Layout'),
     SaveTextCollection: () => import(/* webpackChunkName: "collections" */ './SaveTextCollection'),
     SaveFileCollection: () => import(/* webpackChunkName: "collections" */ './SaveFileCollection'),
   },
