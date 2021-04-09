@@ -38,7 +38,7 @@
           <Button
             padding="px-2 py-1"
             class="flex gap-1"
-            :color="checkDarkmode ? 'white' : 'green'" 
+            color="green" 
             @click.stop.native="copyText(list.content, list.id)" sm
             title="copy"
             >
@@ -67,7 +67,7 @@
           <ButtonCircle mode="warning" @klik="editText(list)">
             <SVGIcon icon="pancil" size="w-5 h-5" />
           </ButtonCircle>
-          <ButtonCircle mode="danger" @klik="deleteText(list.id)">
+          <ButtonCircle mode="danger" @klik="deleteText(list.id, list.title)">
             <SVGIcon icon="trash" size="w-5 h-5" />
           </ButtonCircle>
         </div>
@@ -120,8 +120,8 @@ export default {
       this.setUpdateTextId(id)
     },
 
-    deleteText(id) {
-      if (confirm('yakin ?')) {
+    deleteText(id, title) {
+      if (confirm(`apakah anda ingin menghapus note dengan title '${title}' ?`)) {
         this.$store.dispatch('text/Delete', id)
         this.setIsUpdate(false)
         this.setInput({ title: '', content: '' })

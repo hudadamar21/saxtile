@@ -2,7 +2,7 @@
   <Layout no-indicator  >
     <section ref="stext" class="stext-main h-screen w-full" id="archives">
       <div 
-        class="text-center mb-2"
+        class="text-center mb-2 w-1/2"
         :class="{'mb-4' : selectedIsCollections}"
       >
         <h1 class="stext-title text-2xl py-1 md:py-0 md:text-3xl tracking-wider">ARCHIVES</h1>
@@ -12,6 +12,7 @@
           @getvalue="(value) => selectedArchive = value"
           :options="['text','file','text_collection','file_collection']"
         />
+        <TextForm v-if="textIsUpdate" class="mt-2 w-full" />
       </div>
 
       <!-- List Text -->
@@ -37,6 +38,7 @@ export default {
   title: 'Saxtile Archives',
   components: {
     SelectBase: () => import(/* webpackChunkName: "components" */ '@/components/SelectBase'),
+    TextForm: () => import(/* webpackChunkName: "text" */ '@/views/Main/SaveText/TextForm'),
     TextArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/TextArchives'),
     FileArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/FileArchives'),
     TextCollectionArchives: () => import(/* webpackChunkName: "archives" */ '@/views/Archives/TextCollectionArchives'),
@@ -46,9 +48,19 @@ export default {
       selectedArchive: 'text'
     }
   },
+  watch: {
+    selectedArchive(newval, oldval) {
+      if(oldval === 'text'){
+        this.$store.commit('text/SET_IS_UPDATE', false)
+      }
+    }
+  },
   computed: {
     loadingList() {
       return this.$store.state.text.loadingList
+    },
+    textIsUpdate(){
+      return this.$store.state.text.isUpdate
     },
     selectedIsCollections(){
       return this.selectedArchive === 'text_collection' || this.selectedArchive === 'file_collection'

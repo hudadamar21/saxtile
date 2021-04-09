@@ -1,5 +1,5 @@
 <template>
-  <li class="list-simple">
+  <li class="list-simple cursor-normal">
     <div class="w-full md:w-1/2">
       <h3 class="text-blue-500 dark:text-white font-bold">
         {{ title }}

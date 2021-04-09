@@ -1,10 +1,10 @@
 <template>
   <div
     class="btn-circle mb-1 cursor-pointer"
-    :class="`${mode} text-gray-500 ${isDarkmode ? 'default' : mode} ${
+    :class="`${mode} ${isDarkmode ? 'default' : mode} ${
       size == 'lg' ? 'p-3 h-10 w-10'
       : size == 'sm' ? 'p-1 h-6 w-6' 
-      : 'p-2 h-8 w-8' } `"
+      : 'p-2 h-8 w-8' } ${textColor} `"
     @click="$emit('klik')"
   >
     <slot></slot>

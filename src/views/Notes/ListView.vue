@@ -6,7 +6,7 @@
     ${list.color === 'no-color' ? 'bg-white' : colorMode('bg',list.color, 100)} 
     ${list.color === 'no-color' ? 'hover:bg-gray-100' : colorMode('hover:bg',list.color, 200)}
   `"
-  class="list-simple "
+  class="notelist"
   >
   <div>
     <h3 class="text-gray-600 dark:text-white text-xl font-semibold break-all">
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style>
-.list-simple {
+.notelist {
   @apply w-full flex justify-between items-center py-2 px-3 mb-1 cursor-pointer dark:bg-gray-600 dark:hover:bg-gray-500 transition-colors border dark:border-0 border-l-4 dark:border-l-4;
 }
 </style>

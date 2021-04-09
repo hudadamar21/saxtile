@@ -1,14 +1,14 @@
 <template>
-	<div id="home" class="min-h-screen bg-gradient-to-tr from-blue-900 to-blue-800 text-white">
+	<div id="home" class="min-h-screen bg-gradient-to-b from-blue-900 via-blue-900 to-blue-800 text-white">
 		<!-- header -->
-		<div class="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-800 h-14 shadow px-5">
+		<div class="fixed top-0 left-0 right-0 flex justify-between items-center bg-blue-900 h-14 shadow px-5">
 			<div class="flex items-center">
 				<img src="@/assets/images/logo-saxtile.png" alt="logo saxtile" class="h-9 w-9">
 				<h1 class="font-semibold text-2xl ml-2 tracking-widest">Saxtile</h1>
 			</div>
 			<router-link 
 				to="/auth"
-				class="hover:bg-white hover:bg-opacity-10 rounded-md px-3 py-1	hover:shadow-sm transition duration-200"
+				class="hover:bg-white hover:bg-opacity-10 rounded-md px-3 py-1	hover:shadow-sm transition duration-200 focus:shadow-md"
 			>
 				Go to App
 			</router-link>
@@ -17,7 +17,7 @@
 		<div class="flex flex-col justify-start items-center min-h-screen w-full pt-20 md:pt-40">
 			<!-- hero -->
 			<div class="flex flex-col md:flex-row items-center justify-center mb-12">
-				<img src="img/icons/android-chrome-512x512.png" alt="logo saxtile" class="h-56 w-56">
+				<img src="img/icons/android-chrome-512x512.png" alt="logo saxtile" class="h-52 w-52">
 				<div class="md:ml-8 mt-3 md:mt-0 font-bold text-center md:text-left">
 					<h1 class="text-6xl md:text-8xl tracking-wider">Saxtile</h1>
 					<h3 class="text-2xl md:text-5xl tracking-wider">Web Application</h3>
@@ -116,7 +116,7 @@ export default {
 		font-family: 'Poppins', 'Arial', sans-serif;
 	}
 	.card-logo {
-		@apply flex flex-col items-center shadow p-3 rounded hover:bg-blue-800 transition-colors duration-100
+		@apply flex flex-col items-center shadow p-3 hover:shadow-md rounded transform hover:-translate-y-1 transition-colors transition-transform
 	}
 
 	

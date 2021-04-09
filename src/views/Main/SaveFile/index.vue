@@ -62,7 +62,7 @@ export default {
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-600 border border-gray-400 shadow;
+  @apply bg-gray-600;
 }
 
 /* Handle on hover */

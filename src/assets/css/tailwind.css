@@ -22,12 +22,12 @@
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-blue-500 dark:bg-gray-700 border border-white dark:border-gray-400 shadow;
+  @apply bg-blue-500 dark:bg-gray-600;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-blue-600 dark:bg-gray-800; 
+  @apply bg-blue-600 dark:bg-gray-700; 
 }
 
 @tailwind utilities;

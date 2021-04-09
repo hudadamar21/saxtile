@@ -21,7 +21,7 @@
         @getval="(val) => (input.content = val)"
       />
     </div>
-    <Button type="submit" :color="checkDarkmode ? 'white' : 'blue'" md className="text-base">{{
+    <Button type="submit" color="blue" md className="text-base">{{
       isUpdate ? 'Update' : 'Save'
     }}</Button>
   </form>
@@ -53,14 +53,18 @@ export default {
     saveText() {
       const { title, content } = this.input
       if (title && content) {
-        const Text = {
+        const text = {
           title,
           content,
-          archived: false,
           date: new Date().getTime()
         }
 
-        this.isUpdate ? this.Update(Text) : this.Save(Text)
+        if(this.isUpdate){
+          this.Update(text)
+        } else {
+          text.archived = false
+          this.Save(text)
+        }
 
         this.setIsUpdate(false)
         this.setInput({ title: '', content: '' })

@@ -13,7 +13,7 @@
     class="card lg:items-center flex-col lg:flex-row -translate-x-12 h-auto"
     :class="{
         'border-blue-400 border' : data.type === 'collection',
-        'transition-transform transform scale-105 bg-blue-100': showOption == data.id && isUpdate,
+        'transition-transform transform scale-105 bg-blue-100 dark:bg-gray-500': showOption == data.id && isUpdate,
         'transition-transform transform' : showOption == data.id,
         'bg-white': mode == 'light',
         'bg-gray-600 text-white' : mode == 'dark'
@@ -41,12 +41,7 @@
 
     <!-- Action Slot -->
     <div 
-      class="flex items-center lg:justify-end w-3/12 lg:mx-2"
-      :class="{
-        'bg-white' : mode == 'light',
-        'bg-gray-600' : mode == 'dark',
-        'bg-blue-100' : showOption === data.id && isUpdate
-      }">
+      class="flex items-center lg:justify-end w-3/12 lg:mx-2 bg-transparent">
         <slot name="action"></slot>
     </div>
 

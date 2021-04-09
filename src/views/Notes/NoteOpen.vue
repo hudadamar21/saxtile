@@ -1,6 +1,6 @@
 <template>
 <section 
-	class="absolute md:static h-screen border-l-2 w-full md:w-8/12 dark:bg-gray-600 z-50"
+	class="absolute md:static h-screen border-l-2 w-full md:w-8/12 dark:bg-gray-600 z-50 md:z-auto dark:border-gray-600"
 	:class="`
 		${noteOpened ? 'block' : 'hidden md:block'}
 		${colorMode('border', noteColor, editmode ? '400' : '300')}
@@ -15,7 +15,7 @@
 	</div>
 
 	<!-- Jika Ada Note Yang Dibuka -->
-	<div v-else class="h-screen bg-white">
+	<div v-else class="h-screen bg-white overflow-hidden">
 
 		<!-- Header -->
 		<div 
@@ -23,12 +23,13 @@
 			:class="`
 				${noteOpened ? 'flex' : 'hidden'}
 				${colorMode('bg',noteColor, editmode ? '400' : '300')} 
-				${noteColor === 'no-color' ? 'border-b bg-gray-100' : ''}
+				${colorMode('dark:bg',noteColor, editmode ? '900' : '800')} 
+				${noteColor === 'no-color' ? 'border-b bg-gray-100 dark:bg-gray-600 dark:border-0' : ''}
 			`">
 
 			<div class="flex items-center w-full">
 				<div 
-					class="ml-2 text-gray-700 cursor-pointer hover:bg-white hover:bg-opacity-20 p-1 rounded-full"
+					class="ml-2 text-gray-700 dark:text-gray-100 cursor-pointer hover:bg-white hover:bg-opacity-20 p-1 rounded-full"
 					@click="closeNote"
 					>
 					<SVGIcon icon="arrow-left" size="w-6 h-6"></SVGIcon>
@@ -38,34 +39,35 @@
 				<input
 					type="text" v-model="noteOpened.title"
 					placeholder="type your title" 
-					class="ml-2 border-none focus:outline-none px-3 py-1 font-semibold rounded w-2/3  text-gray-700"
+					class="ml-2 border-none focus:outline-none px-3 py-1 disabled:bg-transparent dark:disabled:text-gray-100 font-semibold rounded w-2/3 text-gray-700"
 					:class="editmode 
 										? 'bg-white placeholder-gray-400 disabled:bg-white' 
-										: `text-gray-700 ${colorMode('bg',noteColor, 300)} ${colorMode('disabled:bg', noteColor, 300)} placeholder-white`"
+										: `text-gray-700 ${colorMode('bg',noteColor, 300)} placeholder-white`"
 					:disabled="!editmode"
 				/>
 			</div>
 
 			<!-- Options -->
-			<div class="mr-5 flex items-center">	
+			<div class="mr-5 flex items-center">
+
 				<ButtonCircle 
 					v-if="!editmode" 
 					@click.native="setEditMode(!editmode)" 
-					mode="none" md textColor="text-gray-500">
-						<SVGIcon icon="pancil" size="w-6 h-6"/>
+					mode="none" md>
+						<SVGIcon icon="pancil" size="w-6 h-6" color="dark:text-gray-100"/>
 				</ButtonCircle>
 				<ButtonCircle 
 					v-else 
 					@click.native="submitNote" 
-					mode="none" md textColor="text-gray-500">
-					<SVGIcon icon="check" size="w-6 h-6"/>
+					mode="none" md>
+					<SVGIcon icon="check" size="w-6 h-6" color="dark:text-gray-100"/>
 				</ButtonCircle>
 
 				<ButtonCircle 
 					v-if="updatedNoteId" 
 					@click.native="deleteNote" 
-					mode="none" md textColor="text-gray-500">
-					<SVGIcon icon="trash" size="w-6 h-6"/>
+					mode="none" md>
+					<SVGIcon icon="trash" size="w-6 h-6" color="dark:text-gray-100"/>
 				</ButtonCircle>
 
 				<ColorPicker :colorSelected="noteColor" />
@@ -75,18 +77,20 @@
 		<!-- End Header -->
 		
 		<!-- Note Open -->
-		<div class="relative h-note w-full p-2 mb-5" :class="colorMode('bg',noteColor, 100)">
+		<div 
+			class="relative h-note w-full p-2 pb-0 mb-5 dark:bg-gray-700" 
+			:class="colorMode('bg',noteColor, 100)">
 			<div class="absolute top-0 left-0 px-3 pt-px flex items-center justify-between w-full text-sm text-gray-400 py-0">
 				<p>{{ editmode ? 'sedang di sunting' : timePassed }}</p>
 				<p>{{ new Date().formatDate(noteOpened.date) }}</p>
 			</div>
 			<div 
-				class="p-5 px-2" 
+				class="p-5 pb-0 px-2" 
 				@dblclick="!editmode ? setEditMode(true) : false">
 				<textarea
 					ref="note-editor"
-					class="text-editor bg-transparent w-full overflow-auto focus:outline-none placeholder-gray-400 text-lg resize-none"
-					rows="19" 
+					class="text-editor dark:text-white bg-transparent w-full overflow-auto focus:outline-none placeholder-gray-400 text-lg resize-none"
+					rows="20" 
 					placeholder="write something..."
 					:disabled="!editmode"
 					v-model="noteOpened.note"
@@ -149,7 +153,10 @@ export default {
 			} 
 		},
 		closeNote(){
-			this.setNoteOpened(null)
+			if(this.editmode){
+				const confirm = confirm('apakah anda ingin membatalkan pengeditan?')
+				if(confirm) this.setNoteOpened(null)
+			}
 		},
 		deleteNote(){
 			if(confirm('apakah anda ingin menghapus note ini ?')){
