@@ -19,7 +19,18 @@
       Tidak ada Note yang tersimpan.
       </li>
       <template v-else v-for="(list, index) of lists" >
-        <ListView :list="list" :key="index"/>
+        <ListView :list="{
+          note: list,
+          color: {
+            bg: {
+              default: `bg-${list.color}-100`,
+              hover: `hover:bg-${list.color}-200`
+            },
+            border: {
+              default : `border-${list.color}-400`
+            }
+          }
+        }" :key="index"/>
       </template>
     </ul>
   </div>

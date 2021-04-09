@@ -4,7 +4,15 @@
 	<div 
 		@click="showColorPicker = !showColorPicker" 
 		class="color-picker-button" 
-		:class="isNoColor ? 'border border-red-400 bg-white' : bgColor(noteColor)"
+		:class="isNoColor 
+			? 'border border-red-400 bg-white' 
+			: {
+					'bg-red-500': noteColor.base === 'red',
+					'bg-blue-500': noteColor.base === 'blue',
+					'bg-green-500': noteColor.base === 'green',
+					'bg-yellow-500': noteColor.base === 'yellow',
+					'bg-gray-500': noteColor.base === 'gray',
+				}"
 	>
 		<div v-if="isNoColor" class="no-color w-px"></div>
 	</div>
@@ -17,7 +25,13 @@
 					:key="color"
 					@click="changeNoteColor(color)"
 					class="color-size" 
-					:class="bgColor(color)">
+					:class="{
+						'bg-red-500': color === 'red',
+						'bg-blue-500': color === 'blue',
+						'bg-green-500': color === 'green',
+						'bg-yellow-500': color === 'yellow',
+						'bg-gray-500': color === 'gray',
+					}">
 				</div>
 				<div 
 					v-else
@@ -45,27 +59,15 @@ export default {
 	computed: {
 		...mapState('note', [
 			'colorList',
+			'noteColor',
 			'noteOpened',
 			'updatedNoteId'
 		]),
-		noteColor(){
-			return this.noteOpened.color
-		},
 		isNoColor(){
-			return !this.noteColor || this.noteColor === 'no-color'
-		}
-	},
-	mounted(){
-		document.onclick = function () {
-			if(!this.$refs.colorPicker){
-				this.showColorPicker = false
-			}
+			return !this.noteColor.base || this.noteColor.base === 'no-color'
 		}
 	},
 	methods: {
-		bgColor(color){
-			return `bg-${color}-500`
-		},
 		async changeNoteColor(color){
 			if(this.updatedNoteId) await this.$store.dispatch('note/Update', {color})
 			this.$store.commit('note/setNoteColor', color)
@@ -74,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 	.color-picker-button {
 		@apply relative w-6 h-6 shadow overflow-hidden cursor-pointer
 	}

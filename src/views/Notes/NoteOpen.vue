@@ -1,10 +1,7 @@
 <template>
 <section 
 	class="absolute md:static h-screen border-l-2 w-full md:w-8/12 dark:bg-gray-600 z-50 md:z-auto dark:border-gray-600"
-	:class="`
-		${noteOpened ? 'block' : 'hidden md:block'}
-		${colorMode('border', noteColor, editmode ? '400' : '300')}
-	`"
+	:class="noteOpened ? 'block' : 'hidden md:block'"
 >
 	<!-- Jika Tidak Ada Note Yang Dibuka -->
 	<div v-if="!noteOpened" class="flex h-screen justify-center items-center">
@@ -22,8 +19,14 @@
 			class="w-full h-title flex items-center justify-between text-xl"
 			:class="`
 				${noteOpened ? 'flex' : 'hidden'}
-				${colorMode('bg',noteColor, editmode ? '400' : '300')} 
-				${colorMode('dark:bg',noteColor, editmode ? '900' : '800')} 
+				${editmode 
+					? noteColor.headerBg.editmode 
+					: noteColor.headerBg.default
+				} 
+				${editmode 
+					? noteColor.headerDarkBg.editmode 
+					: noteColor.headerDarkBg.default
+				}
 				${noteColor === 'no-color' ? 'border-b bg-gray-100 dark:bg-gray-600 dark:border-0' : ''}
 			`">
 
@@ -31,7 +34,7 @@
 				<div 
 					class="ml-2 text-gray-700 dark:text-gray-100 cursor-pointer hover:bg-white hover:bg-opacity-20 p-1 rounded-full"
 					@click="closeNote"
-					>
+				>
 					<SVGIcon icon="arrow-left" size="w-6 h-6"></SVGIcon>
 				</div>
 
@@ -42,7 +45,7 @@
 					class="ml-2 border-none focus:outline-none px-3 py-1 disabled:bg-transparent dark:disabled:text-gray-100 font-semibold rounded w-2/3 text-gray-700"
 					:class="editmode 
 										? 'bg-white placeholder-gray-400 disabled:bg-white' 
-										: `text-gray-700 ${colorMode('bg',noteColor, 300)} placeholder-white`"
+										: `text-gray-700 placeholder-white`"
 					:disabled="!editmode"
 				/>
 			</div>
@@ -79,7 +82,7 @@
 		<!-- Note Open -->
 		<div 
 			class="relative h-note w-full p-2 pb-0 mb-5 dark:bg-gray-700" 
-			:class="colorMode('bg',noteColor, 100)">
+			:class="noteColor.noteBg.default">
 			<div class="absolute top-0 left-0 px-3 pt-px flex items-center justify-between w-full text-sm text-gray-400 py-0">
 				<p>{{ editmode ? 'sedang di sunting' : timePassed }}</p>
 				<p>{{ new Date().formatDate(noteOpened.date) }}</p>
@@ -114,11 +117,9 @@ export default {
 		...mapState('note', [
 			'noteOpened',
 			'editmode',
+			'noteColor',
 			'updatedNoteId'
 		]),
-		noteColor(){
-			return this.noteOpened?.color
-		},
 		timePassed(){
 			const selisih = new Date().getTime() - this.noteOpened.date
 			const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
@@ -127,11 +128,6 @@ export default {
 				? `${hari} hari yang lalu` 
 				: jam > 0 ? `${jam} jam yang lalu`
 				: 'baru saja'
-		}
-	},
-	watch: {
-		noteOpened(newval){
-			console.log(newval);
 		}
 	},
 	methods: {
@@ -154,17 +150,20 @@ export default {
 		},
 		closeNote(){
 			if(this.editmode){
-				const confirm = confirm('apakah anda ingin membatalkan pengeditan?')
-				if(confirm) this.setNoteOpened(null)
+				const confirm = window.confirm('apakah anda ingin membatalkan pengeditan?')
+				if(confirm) {
+					this.setNoteOpened(null)
+					this.setEditMode(false)
+				}
+			} else {
+				this.setNoteOpened(null)
+				this.setEditMode(false)
 			}
 		},
 		deleteNote(){
 			if(confirm('apakah anda ingin menghapus note ini ?')){
 				this.Delete(this.updatedNoteId)
 			}
-		},
-		colorMode(property, color, size){
-			return `${property}-${color}-${size}`
 		}
 	}
 }

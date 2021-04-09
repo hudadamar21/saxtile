@@ -9,6 +9,7 @@ export default {
       editmode: false,
       updatedNoteId: null,
       loading: false,
+      noteColor: null,
 
       colorList: [
         'red',
@@ -37,7 +38,35 @@ export default {
       state.loading = value
     },
     setNoteColor(state, value){
-      state.noteOpened.color = value
+      const noColor = {
+        base: value,
+        headerBg: {
+          default: `bg-white`,
+          editmode: `bg-gray-200`
+        },
+        noteBg: {
+          default: `bg-white`
+        },
+        headerDarkBg: {
+          default: `dark:bg-gray-600`,
+          editmode: `dark:bg-gray-700`
+        }
+      }
+      const colorMode = {
+        base: value,
+        headerBg: {
+          default: `bg-${value}-300`,
+          editmode: `bg-${value}-400`
+        },
+        noteBg: {
+          default: `bg-${value}-100`
+        },
+        headerDarkBg: {
+          default: `dark:bg-${value}-800`,
+          editmode: `dark:bg-${value}-900`
+        }
+      }
+      state.noteColor = value ==='no-color' ? noColor : colorMode
     }
   },
   actions: {
