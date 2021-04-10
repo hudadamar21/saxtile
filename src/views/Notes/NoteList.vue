@@ -19,18 +19,7 @@
       Tidak ada Note yang tersimpan.
       </li>
       <template v-else v-for="(list, index) of lists" >
-        <ListView :list="{
-          note: list,
-          color: {
-            bg: {
-              default: `bg-${list.color}-100`,
-              hover: `hover:bg-${list.color}-200`
-            },
-            border: {
-              default : `border-${list.color}-400`
-            }
-          }
-        }" :key="index"/>
+        <ListView :list="list" :key="index"/>
       </template>
     </ul>
   </div>
@@ -57,6 +46,22 @@ export default {
     },
     lists(){
       return this.$store.state.note.lists
+    },
+    listBackground(){
+      return this.noteOpened.color === 'red' ? 'bg-red-100'
+        : this.noteOpened.color === 'blue' ? 'bg-blue-100'
+        : this.noteOpened.color === 'green' ? 'bg-green-100'
+        : this.noteOpened.color === 'yellow' ? 'bg-yellow-100'
+        : this.noteOpened.color === 'gray' ? 'bg-gray-100'
+        : 'bg-white'
+    },
+    hoverListBackground(){
+      return this.noteOpened.color === 'red' ? 'bg-red-200'
+        : this.noteOpened.color === 'blue' ? 'bg-blue-200'
+        : this.noteOpened.color === 'green' ? 'bg-green-200'
+        : this.noteOpened.color === 'yellow' ? 'bg-yellow-200'
+        : this.noteOpened.color === 'gray' ? 'bg-gray-200'
+        : 'bg-white'
     }
   },
   methods: {

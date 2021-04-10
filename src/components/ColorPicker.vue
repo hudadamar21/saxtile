@@ -7,11 +7,11 @@
 		:class="isNoColor 
 			? 'border border-red-400 bg-white' 
 			: {
-					'bg-red-500': noteColor.base === 'red',
-					'bg-blue-500': noteColor.base === 'blue',
-					'bg-green-500': noteColor.base === 'green',
-					'bg-yellow-500': noteColor.base === 'yellow',
-					'bg-gray-500': noteColor.base === 'gray',
+					'bg-red-500': noteOpened.color === 'red',
+					'bg-blue-500': noteOpened.color === 'blue',
+					'bg-green-500': noteOpened.color === 'green',
+					'bg-yellow-500': noteOpened.color === 'yellow',
+					'bg-gray-500': noteOpened.color === 'gray',
 				}"
 	>
 		<div v-if="isNoColor" class="no-color w-px"></div>
@@ -61,11 +61,11 @@ export default {
 	computed: {
 		...mapState('note', [
 			'colorList',
-			'noteColor',
+			'noteOpened',
 			'updatedNoteId'
 		]),
 		isNoColor(){
-			return !this.noteColor.base || this.noteColor.base === 'no-color'
+			return !this.noteOpened.color || this.noteOpened.color === 'no-color'
 		}
 	},
 	methods: {

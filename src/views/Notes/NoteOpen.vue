@@ -20,12 +20,12 @@
 			:class="`
 				${noteOpened ? 'flex' : 'hidden'}
 				${editmode 
-					? noteColor.headerBg.editmode 
-					: noteColor.headerBg.default
+					? editmodeHeaderBackground 
+					: headerBackground 
 				} 
 				${editmode 
-					? noteColor.headerDarkBg.editmode 
-					: noteColor.headerDarkBg.default
+					? darkEditmodeHeaderBackground 
+					: darkHeaderBackground 
 				}
 				${noteColor === 'no-color' ? 'border-b bg-gray-100 dark:bg-gray-600 dark:border-0' : ''}
 			`">
@@ -82,7 +82,7 @@
 		<!-- Note Open -->
 		<div 
 			class="relative h-note w-full p-2 pb-0 mb-5 dark:bg-gray-700" 
-			:class="noteColor.noteBg.default">
+			:class="noteBackground">
 			<div class="absolute top-0 left-0 px-3 pt-px flex items-center justify-between w-full text-sm text-gray-400 py-0">
 				<p>{{ editmode ? 'sedang di sunting' : timePassed }}</p>
 				<p>{{ new Date().formatDate(noteOpened.date) }}</p>
@@ -120,6 +120,46 @@ export default {
 			'noteColor',
 			'updatedNoteId'
 		]),
+		headerBackground(){
+			return this.noteOpened.color === 'red' ? 'bg-red-300'
+				: this.noteOpened.color === 'blue' ? 'bg-blue-300'
+				: this.noteOpened.color === 'green' ? 'bg-green-300'
+				: this.noteOpened.color === 'yellow' ? 'bg-yellow-300'
+				: this.noteOpened.color === 'gray' ? 'bg-gray-300'
+				: 'bg-white'
+		},
+		editmodeHeaderBackground(){
+			return this.noteOpened.color === 'red' ? 'bg-red-400'
+				: this.noteOpened.color === 'blue' ? 'bg-blue-400'
+				: this.noteOpened.color === 'green' ? 'bg-green-400'
+				: this.noteOpened.color === 'yellow' ? 'bg-yellow-400'
+				: this.noteOpened.color === 'gray' ? 'bg-gray-400'
+				: 'bg-gray-100'
+		},
+		darkHeaderBackground(){
+			return this.noteOpened.color === 'red' ? 'dark:bg-red-800'
+				: this.noteOpened.color === 'blue' ? 'dark:bg-blue-800'
+				: this.noteOpened.color === 'green' ? 'dark:bg-green-800'
+				: this.noteOpened.color === 'yellow' ? 'dark:bg-yellow-800'
+				: this.noteOpened.color === 'gray' ? 'dark:bg-gray-800'
+				: 'bg-white'
+		},
+		darkEditmodeHeaderBackground(){
+			return this.noteOpened.color === 'red' ? 'dark:bg-red-900'
+				: this.noteOpened.color === 'blue' ? 'dark:bg-blue-900'
+				: this.noteOpened.color === 'green' ? 'dark:bg-green-900'
+				: this.noteOpened.color === 'yellow' ? 'dark:bg-yellow-900'
+				: this.noteOpened.color === 'gray' ? 'dark:bg-gray-900'
+				: 'bg-gray-100'
+		},
+		noteBackground(){
+			return this.noteOpened.color === 'red' ? 'bg-red-100'
+				: this.noteOpened.color === 'blue' ? 'bg-blue-100'
+				: this.noteOpened.color === 'green' ? 'bg-green-100'
+				: this.noteOpened.color === 'yellow' ? 'bg-yellow-100'
+				: this.noteOpened.color === 'gray' ? 'bg-gray-100'
+				: 'bg-white'
+		},
 		timePassed(){
 			const selisih = new Date().getTime() - this.noteOpened.date
 			const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));

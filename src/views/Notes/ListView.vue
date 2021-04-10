@@ -2,18 +2,18 @@
 <li 
 	@click="openNote()"
   :class="`
-    ${list.color.border.default} 
-    ${list.note.color === 'no-color' ? 'bg-white' : list.color.bg.default} 
-    ${list.note.color === 'no-color' ? 'hover:bg-gray-100' : list.color.bg.hover}
+    ${listBorder} 
+    ${listBackground} 
+    ${hoverListBackground}
   `"
   class="notelist"
   >
   <div>
     <h3 class="text-gray-600 dark:text-white text-xl font-semibold break-all">
-      {{ list.note.title }}
+      {{ list.title }}
     </h3>
     <p class="text-xs text-gray-400 dark:text-gray-200 mt-1">
-      {{ new Date().formatDate(list.note.date) }}
+      {{ new Date().formatDate(list.date) }}
     </p> 
   </div>
 </li>
@@ -34,6 +34,30 @@ export default {
   computed: {
     editmode(){
       return this.$store.state.note.editmode
+    },
+    listBackground(){
+      return this.list.color === 'red' ? 'bg-red-100'
+        : this.list.color === 'blue' ? 'bg-blue-100'
+        : this.list.color === 'green' ? 'bg-green-100'
+        : this.list.color === 'yellow' ? 'bg-yellow-100'
+        : this.list.color === 'gray' ? 'bg-gray-100'
+        : 'bg-white'
+    },
+    hoverListBackground(){
+      return this.list.color === 'red' ? 'bg-red-200'
+        : this.list.color === 'blue' ? 'bg-blue-200'
+        : this.list.color === 'green' ? 'bg-green-200'
+        : this.list.color === 'yellow' ? 'bg-yellow-200'
+        : this.list.color === 'gray' ? 'bg-gray-200'
+        : 'bg-white'
+    },
+    listBorder(){
+      return this.list.color === 'red' ? 'border-red-400'
+        : this.list.color === 'blue' ? 'border-blue-400'
+        : this.list.color === 'green' ? 'border-green-400'
+        : this.list.color === 'yellow' ? 'border-yellow-400'
+        : this.list.color === 'gray' ? 'border-gray-400'
+        : 'border-gray-200'
     }
   },  
   methods: {
@@ -44,9 +68,9 @@ export default {
       'setNoteColor'
     ]),
 		openNote(){
-      this.setNoteOpened({...this.list.note})
-      this.setUpdatedNoteId(this.list.note.id)
-      this.setNoteColor(this.list.note.color)
+      this.setNoteOpened({...this.list})
+      this.setUpdatedNoteId(this.list.id)
+      this.setNoteColor(this.list.color)
       this.setEditMode(false)
 		},
   }

@@ -1,10 +1,20 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [
-    './public/**/*.html',
-    './src/**/*.vue',
-  ],
+  purge: {
+    content: [
+      './public/**/*.html',
+      './src/**/*.vue',
+    ],
+    safelist: [
+    'bg-white', 'bg-gray-200','dark:bg-gray-600','dark:bg-gray-700',
+    'bg-red-300','bg-red-400','bg-red-100','dark:bg-red-800','dark:bg-red-900',
+    'bg-blue-300','bg-blue-400','bg-blue-100','dark:bg-blue-800','dark:bg-blue-900',
+    'bg-green-300','bg-green-400','bg-green-100','dark:bg-green-800','dark:bg-green-900',
+    'bg-yellow-300','bg-yellow-400','bg-yellow-100','dark:bg-yellow-800','dark:bg-yellow-900',
+    'bg-gray-300','bg-gray-400','bg-gray-100','dark:bg-gray-800','dark:bg-gray-900',
+    ],
+  },
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
