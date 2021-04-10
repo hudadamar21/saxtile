@@ -88,7 +88,7 @@ export default {
     },
 
     Update({ state, dispatch }, updatedNote) {
-      const updateDoc = {...updatedNote, date: new Date().getTime()}
+      const updateDoc = {...updatedNote}
       dispatch('firebase_actions/UpdateDocument', {
         collection_name: 'note',
         updateDoc,

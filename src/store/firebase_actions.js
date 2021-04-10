@@ -140,9 +140,18 @@ export default {
           })
           .catch(err => {
             dispatch('showAlert', {
-              message: err.message, 
+              message: err.code, 
               mode: 'danger'
             }, { root: true })
+            setTimeout(function () {
+              if(err.code === 'storage/object-not-found') {
+                dispatch('DeleteDocument', {
+                  collection_name: collection_name,
+                  id,
+                  messageOnComplete: 'Force Delete The Document Success'
+                })
+              }
+            }, 1000)
           })
       }, { root: true })
     }

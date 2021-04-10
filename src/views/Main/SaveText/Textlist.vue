@@ -82,7 +82,6 @@ import { mapState, mapMutations } from 'vuex'
 import action_text from '@/mixins/action_text'
 import check_darkmode from '@/mixins/check_darkmode'
 
-
 export default {
   props: {
     lists: {

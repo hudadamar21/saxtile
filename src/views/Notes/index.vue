@@ -14,6 +14,6 @@ export default {
 	},
 	mounted() {
     this.$store.dispatch('note/List')
-  },
+  }
 }
 </script>

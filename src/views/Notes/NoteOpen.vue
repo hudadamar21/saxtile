@@ -73,7 +73,7 @@
 					<SVGIcon icon="trash" size="w-6 h-6" color="dark:text-gray-100"/>
 				</ButtonCircle>
 
-				<ColorPicker :colorSelected="noteColor" />
+				<ColorPicker :colorSelected="noteColor" @changecolor="changeNoteColor"/>
 
 			</div>
 		</div>
@@ -134,19 +134,30 @@ export default {
 		...mapMutations('note', ['setEditMode','setNoteOpened']),
 		...mapActions('note', ['Save', 'Update','Delete']),
 		submitNote(){
-			if (!this.updatedNoteId) {
-				if(!this.noteOpened.title){
-					alert('input required')
-				} else {
-					this.Save(this.noteOpened)
-					this.setEditMode(false)
-				}
+			if(!this.noteOpened.title){
+				alert('title required')
 			} else {
-				const updatedNote = this.noteOpened
-				delete updatedNote['id']
-				this.Update(updatedNote)
-				this.setEditMode(false)
-			} 
+				if (!this.updatedNoteId) {
+					this.Save(this.noteOpened)
+						this.setEditMode(false)
+				} else {
+					const {title, note} = this.noteOpened
+
+					const updatedNote = {
+						title,
+						note,
+						date: new Date().getTime()
+					}
+					
+					this.Update(updatedNote)
+					this.setEditMode(false)
+				} 
+			}
+			
+		},
+		async changeNoteColor(color){
+			if(this.updatedNoteId) await this.$store.dispatch('note/Update', {color})
+			this.$store.commit('note/setNoteColor', color)
 		},
 		closeNote(){
 			if(this.editmode){

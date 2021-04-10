@@ -40,7 +40,7 @@ export default {
     },
   },
   actions: {
-    List({ commit, dispatch }) {
+    List({ rootState, commit, dispatch }) {
       commit('SET_LOADING', true)
       dispatch('firebase_actions/GetDocument', {
         collection_name: 'text', 
@@ -49,6 +49,7 @@ export default {
           commit('SET_LOADING', false)
         }
       }, {root: true})
+      console.log('order by', rootState.app_setting.orderBy.property, rootState.app_setting.orderBy.type);
     },
 
     Save({ dispatch }, newText) {

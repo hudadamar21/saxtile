@@ -63,7 +63,8 @@ export default {
     ...mapMutations('note', [
       'setNoteOpened',
       'setUpdatedNoteId',
-      'setEditMode'
+      'setEditMode',
+      'setNoteColor'
     ]),
   	createNote(){
   		const newNote = {
@@ -75,6 +76,7 @@ export default {
   		this.setNoteOpened(newNote)
       this.setUpdatedNoteId(null)
   		this.setEditMode(true)
+      this.setNoteColor('no-color')
   	}
   }
 }

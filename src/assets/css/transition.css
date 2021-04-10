@@ -17,7 +17,8 @@
 }
 
 .modal-enter-active, .modal-leave-active {
-  transition: transfrom opacity .3s ease;
+  transition-property: transfrom, opacity; 
+  transition: .3s ease;
 }
 
 .opacity-enter, .opacity-leave-to {
