@@ -24,4 +24,4 @@ yarn serve
 ```
 
 ### Application site
-[Open Saxtile Application](https://hudadamar.github.io/saxtile).
+[Open Saxtile Application](https://hudadamar21.github.io/saxtile).
